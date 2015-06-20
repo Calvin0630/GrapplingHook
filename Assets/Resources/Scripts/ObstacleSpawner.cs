@@ -5,12 +5,16 @@ public class ObstacleSpawner : MonoBehaviour {
     public GameObject wall;
     public float levelUpDelay;
     public float initialSpawnDelay;
+	public float minSpawnDelay;
+	float delay;
     public float deltaSpawnDelayPerLevel;
 	Vector3 TopRightEdgeOfCamera;
 	// Use this for initialization
 	void Start () {
 		TopRightEdgeOfCamera = -Camera.main.ScreenToWorldPoint (new Vector3 (0, 0, 0));
-		StartCoroutine(SpawnCube(2));
+		delay = initialSpawnDelay;
+		StartCoroutine(SpawnCube());
+		StartCoroutine(LevelUp());
 	}
 	
 	// Update is called once per frame
@@ -20,7 +24,16 @@ public class ObstacleSpawner : MonoBehaviour {
         }
 	}
 
-    IEnumerator SpawnCube(float delay) {
+	IEnumerator LevelUp() {
+		while (true) {
+			yield return new WaitForSeconds(levelUpDelay);
+			if (delay > minSpawnDelay) {
+				delay -= deltaSpawnDelayPerLevel;
+			}
+		}
+	}
+
+    IEnumerator SpawnCube() {
         while (true) {
 			CreateCube ();
             yield return new WaitForSeconds(delay);
@@ -36,7 +49,7 @@ public class ObstacleSpawner : MonoBehaviour {
         GameObject clone = (GameObject) Instantiate(wall, new Vector3(xPos, 2*TopRightEdgeOfCamera.y, 0) , Quaternion.identity);
 		clone.transform.localScale = new Vector3 (width, 2, 1);
 		clone.GetComponent<Rigidbody> ().velocity = new Vector3 (0, -5, 0);
-		Debug.Log ("Hello");
+		Debug.Log (delay);
 
     }
 }

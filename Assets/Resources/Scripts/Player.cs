@@ -59,9 +59,7 @@ public class Player : MonoBehaviour {
 	}
 
     void OnCollisionEnter(Collision col) {
-        if (col.gameObject.tag == "Wall") {
-            Debug.Log("Game Over!");
-        }
+        
     }
 
     public Vector3 GetUnitVector(Vector3 v) {

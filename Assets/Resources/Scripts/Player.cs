@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
     GameObject hookInstance;
     Rigidbody rBody;
     public float forceOfHookOnPlayer;
-    public bool hooked;
+    bool hooked;
     float initDistPlayerToHook;
 	// Use this for initialization
 	void Start () {

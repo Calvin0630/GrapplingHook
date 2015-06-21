@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ObstacleSpawner : MonoBehaviour {
     public GameObject wall;
+	public bool isActive;
     public float levelUpDelay;
     public float initialSpawnDelay;
 	public float minSpawnDelay;
@@ -13,8 +14,10 @@ public class ObstacleSpawner : MonoBehaviour {
 	void Start () {
 		TopRightEdgeOfCamera = -Camera.main.ScreenToWorldPoint (new Vector3 (0, 0, 0));
 		delay = initialSpawnDelay;
-		StartCoroutine(SpawnCube());
-		StartCoroutine(LevelUp());
+		if (isActive) {
+			StartCoroutine (SpawnCube ());
+			StartCoroutine (LevelUp ());
+		}
 	}
 	
 	// Update is called once per frame
@@ -49,7 +52,6 @@ public class ObstacleSpawner : MonoBehaviour {
         GameObject clone = (GameObject) Instantiate(wall, new Vector3(xPos, 2*TopRightEdgeOfCamera.y, 0) , Quaternion.identity);
 		clone.transform.localScale = new Vector3 (width, 2, 1);
 		clone.GetComponent<Rigidbody> ().velocity = new Vector3 (0, -5, 0);
-		Debug.Log (delay);
 
     }
 }

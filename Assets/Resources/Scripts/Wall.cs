@@ -16,7 +16,6 @@ public class Wall : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Hook") {
             other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            player.GetComponent<Player>().hooked = true;
         }
     }
 }

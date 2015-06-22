@@ -13,6 +13,11 @@ public class GameOverDetector : MonoBehaviour {
 	
 	}
 	void OnCollisionEnter(Collision col) { 
-
+		if (col.gameObject.tag == "Player1") {
+			Application.LoadLevel("P2Wins");
+		} 
+		else if (col.gameObject.tag == "Player2") {
+			Application.LoadLevel("P1Wins");
+		}
 	}
 }

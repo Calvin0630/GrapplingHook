@@ -20,7 +20,6 @@ public class Player2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		LStick = new Vector3 (Input.GetAxis ("LStickX"), -Input.GetAxis ("LStickY"), 0);
-		Debug.Log (LStick);
 		//hook shooting
 		if (Input.GetAxis("RT") > .7f && LStick.magnitude > .7f) {
 			if (hookInstance != null) Destroy(hookInstance);

@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnintyEngine.UI;
+using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MultiplayerGUI : MonoBehaviour {
 	public GameObject player1;
 	public GameObject player2;
 	public string score = "Score: 0";
-	public GUIText currentScore;
+	public Text timeField;
 	// Use this for initialization
 	void Start () {
 	
@@ -14,12 +14,10 @@ public class MultiplayerGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		score = Time.time.ToString();
+		timeField.text= "Time: " + Time.time.ToString("f1");
 	}
 
 
 
-	void OnGUI() {
-		score = GUI.TextField(new Rect(10, 10, 200, 20), score, 25);
-	}
+
 }

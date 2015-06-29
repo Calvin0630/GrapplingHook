@@ -10,8 +10,8 @@ public class ObstacleSpawner : MonoBehaviour {
 	float delay;
     public float deltaSpawnDelayPerLevel;
 	Vector3 TopRightEdgeOfCamera;
-	float widthOfValley = 11.8f;
-	float centerOfValleyX = -2;
+	float widthOfValley = 13.28f;
+	float centerOfValleyX = -1.25f;
 	// Use this for initialization
 	void Start () {
 		TopRightEdgeOfCamera = -Camera.main.ScreenToWorldPoint (new Vector3 (0, 0, 0));

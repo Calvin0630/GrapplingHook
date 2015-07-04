@@ -9,6 +9,8 @@ public class ObstacleSpawner : MonoBehaviour {
 	public float minSpawnDelay;
 	float delay;
     public float deltaSpawnDelayPerLevel;
+    public float ySpeed;
+    public float yScale;
 	Vector3 TopRightEdgeOfCamera;
 	float widthOfValley = 13.28f;
 	float centerOfValleyX = -1.25f;
@@ -47,14 +49,14 @@ public class ObstacleSpawner : MonoBehaviour {
 
     public void CreateCube() {
         float width = Random.Range(4, 8);
-		float leftOrRight = Random.Range (0, 10) % 2;
+		float leftOrRight = Random.Range (1, 10) % 2;
 		float xPos = widthOfValley/2 -width/2;
 		if (leftOrRight == 1)
 			xPos *= -1;
 		xPos += centerOfValleyX;
         GameObject clone = (GameObject) Instantiate(wall, new Vector3(xPos, 2*TopRightEdgeOfCamera.y, 0) , Quaternion.identity);
-		clone.transform.localScale = new Vector3 (width, 2, 1);
-		clone.GetComponent<Rigidbody> ().velocity = new Vector3 (0, -5, 0);
+		clone.transform.localScale = new Vector3 (width, yScale, 1);
+		clone.GetComponent<Rigidbody> ().velocity = new Vector3 (0, -ySpeed, 0);
 
     }
 }

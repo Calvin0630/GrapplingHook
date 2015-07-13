@@ -2,11 +2,14 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+    public string playerNum;
+    public float movementSpeed;
     public GameObject hook;
-    public float firePower = 1.0f;
+    public float firePower;
     LineRenderer playerToHook;
     GameObject hookInstance;
     Rigidbody rBody;
+    public bool isGrounded;
     public float forceOfHookOnPlayer;
     bool hooked;
     float initDistPlayerToHook;
@@ -18,19 +21,27 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+        //arBody.velocity = new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, rBody.velocity.y, 0);
+        
+
         //hook shooting
-	    if (Input.GetMouseButtonDown(0)) {
+	    if (Input.GetAxis("Fire" + playerNum) >.7f) {
             if (hookInstance != null) Destroy(hookInstance);
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 fireDir = (mousePosition - transform.position);
-            fireDir = SetZToZero(fireDir);
-            fireDir = fireDir.normalized;
+            Vector3 fireDir;
+            if (playerNum == "Player1") fireDir = FindFireDirMouse();
+
+            else if (playerNum == "Player2") fireDir = FindFireDirJoystick();
+            else {
+                fireDir = Vector3.zero;
+                Debug.Log("fireDir is zero, check player.cs");
+            }
             hookInstance = (GameObject)GameObject.Instantiate(hook, transform.position, Quaternion.identity);
             Rigidbody hookRigidBody = hookInstance.GetComponent<Rigidbody> ();
             hookRigidBody.velocity = firePower * fireDir;
         }
 
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetAxis("CancelShot" + playerNum) > .7f) {
             if (hookInstance != null) Destroy(hookInstance);
         }
         
@@ -47,9 +58,9 @@ public class Player : MonoBehaviour {
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
             if (hookInstance.GetComponent<Rigidbody>().velocity == Vector3.zero) {
-                float alpha = (hookInstance.transform.position - gameObject.transform.position).magnitude / initDistPlayerToHook;
-                forceOfHookOnPlayer = Mathf.SmoothStep(0, 50, alpha);
+                
                 rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
+                Debug.Log(playerNum + rBody.velocity);
             }
         }
         else  {
@@ -60,6 +71,14 @@ public class Player : MonoBehaviour {
 
     void OnCollisionEnter(Collision col) {
         
+    }
+
+    Vector3 FindFireDirJoystick() {
+        return new Vector3(Input.GetAxis("RStickX"), -Input.GetAxis("RStickY"), 0).normalized;
+    }
+
+    Vector3 FindFireDirMouse() {
+        return SetZToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition) - gameObject.transform.position).normalized;
     }
 
     public Vector3 GetUnitVector(Vector3 v) {

@@ -14,7 +14,7 @@ public class MultiplayerGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		timeField.text= "Time: " + Time.time.ToString("f1");
+
 	}
 
 

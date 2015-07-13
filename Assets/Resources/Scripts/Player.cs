@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
     public string playerNum;
     public float movementSpeed;
     public GameObject hook;
+    public float jumpForce;
     public float firePower;
     LineRenderer playerToHook;
     GameObject hookInstance;
@@ -17,13 +18,15 @@ public class Player : MonoBehaviour {
 	void Start () {
         playerToHook = gameObject.GetComponent<LineRenderer>();
         rBody = gameObject.GetComponent<Rigidbody>();
+        isGrounded = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
-
-        //arBody.velocity = new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, rBody.velocity.y, 0);
-        
+        //if (playerNum == "Player2") Debug.Log(isGrounded);
+        if (isGrounded) {
+            rBody.velocity = new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, rBody.velocity.y, 0);
+        }
 
         //hook shooting
 	    if (Input.GetAxis("Fire" + playerNum) >.7f) {
@@ -60,13 +63,15 @@ public class Player : MonoBehaviour {
             if (hookInstance.GetComponent<Rigidbody>().velocity == Vector3.zero) {
                 
                 rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
-                Debug.Log(playerNum + rBody.velocity);
             }
         }
         else  {
             playerToHook.SetVertexCount(0);
         }
-        
+
+        if (Input.GetAxis("Jump" + playerNum) > .7f) {
+            rBody.AddForce(new Vector3(0, jumpForce, 0));
+        }
 	}
 
     void OnCollisionEnter(Collision col) {
@@ -79,10 +84,6 @@ public class Player : MonoBehaviour {
 
     Vector3 FindFireDirMouse() {
         return SetZToZero(Camera.main.ScreenToWorldPoint(Input.mousePosition) - gameObject.transform.position).normalized;
-    }
-
-    public Vector3 GetUnitVector(Vector3 v) {
-        return v / v.magnitude;
     }
 
     public Vector3 SetZToZero(Vector3 v) {

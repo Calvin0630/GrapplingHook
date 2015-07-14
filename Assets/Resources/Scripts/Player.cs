@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     GameObject hookInstance;
     Rigidbody rBody;
     public bool isGrounded;
+	public bool isJumping;
     public float forceOfHookOnPlayer;
     bool hooked;
     float initDistPlayerToHook;
@@ -24,8 +25,14 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (playerNum == "Player2") Debug.Log(isGrounded);
+
+		//if the player is on the ground
         if (isGrounded) {
             rBody.velocity = new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, rBody.velocity.y, 0);
+			// jumping controls
+			if (Input.GetAxis("Jump" + playerNum) > .7f) {
+				rBody.AddForce(new Vector3(0, jumpForce, 0));
+			}
         }
 
         //hook shooting
@@ -69,9 +76,7 @@ public class Player : MonoBehaviour {
             playerToHook.SetVertexCount(0);
         }
 
-        if (Input.GetAxis("Jump" + playerNum) > .7f) {
-            rBody.AddForce(new Vector3(0, jumpForce, 0));
-        }
+        
 	}
 
     void OnCollisionEnter(Collision col) {

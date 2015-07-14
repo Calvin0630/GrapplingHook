@@ -14,13 +14,13 @@ public class GroundedCheck : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        if (other.tag == "Ground") {
+        if (other.tag == "Ground" || other.tag == "Player1" || other.tag == "Player2") {
 			player.isGrounded = true;
 		}
     }
 
     void OnTriggerExit(Collider other) {
-        if (other.tag == "Ground") {
+        if (other.tag == "Ground" || other.tag == "Player1" || other.tag == "Player2") {
 			player.isGrounded = false;
 		}
     }

@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        //if (playerNum == "Player2") Debug.Log(isGrounded);
+        if (playerNum == "Player1") Debug.Log("Velocity: " + rBody.velocity.x + " isGrounded: " + isGrounded);
 
 		//if the player is on the ground
         if (isGrounded) {

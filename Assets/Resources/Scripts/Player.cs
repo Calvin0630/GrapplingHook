@@ -13,8 +13,6 @@ public class Player : MonoBehaviour {
     public bool isGrounded;
 	public bool isJumping;
     public float forceOfHookOnPlayer;
-    bool hooked;
-    float initDistPlayerToHook;
 	// Use this for initialization
 	void Start () {
         playerToHook = gameObject.GetComponent<LineRenderer>();
@@ -58,16 +56,12 @@ public class Player : MonoBehaviour {
         
         if (hookInstance != null) {
             //updates line renderer
-            if (hooked) {
-                initDistPlayerToHook = (hookInstance.transform.position - gameObject.transform.position).magnitude;
-                hooked = false;
-            }
             playerToHook.SetVertexCount(2);
             playerToHook.SetPosition(0, transform.position);
             playerToHook.SetPosition(1, hookInstance.transform.position);
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
-            if (hookInstance.GetComponent<Rigidbody>().velocity == Vector3.zero) {
+            if (hookInstance.GetComponent<Hook>().hooked) {
                 
                 rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
             }

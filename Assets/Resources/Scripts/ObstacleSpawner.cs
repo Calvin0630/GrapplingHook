@@ -24,7 +24,7 @@ public class ObstacleSpawner : MonoBehaviour {
     // Use this for initialization
     void Start() {
         player1RigidBody = player1.GetComponent<Rigidbody>();
-        player2RigidBody = player1.GetComponent<Rigidbody>();
+        player2RigidBody = player2.GetComponent<Rigidbody>();
         cameraWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
         worldMovePointX = movingPointX * cameraWidth;
     }
@@ -33,6 +33,7 @@ public class ObstacleSpawner : MonoBehaviour {
     void Update() {
         if (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX) {
             farthestPlayer = FindFarthestPlayer();
+			Debug.Log (farthestPlayer.ToString());
             worldVelocityX = FindWorldVelocity(farthestPlayer.transform.position.x);
             worldVelocity = new Vector3(-worldVelocityX, 0, 0);
             //Debug.Log (worldObjects.Length);
@@ -54,13 +55,15 @@ public class ObstacleSpawner : MonoBehaviour {
                 }
             }
             //moves player1
-            player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity-prevWorldVelocity;
+			if (player1.transform.position.x > worldMovePointX) {
+            	player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
+			}
             //moves player2
-            player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
-            //Debug.Log(worldVelocity.x + " . " + prevWorldVelocity.x);
-            Debug.Log((worldVelocity - prevWorldVelocity).x);
+			if (player2.transform.position.x > worldMovePointX) {
+            	player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
+			}
             prevWorldVelocity = worldVelocity;
-            
+			Debug.Log(worldVelocity.x);
         }
         //makes roof objects
         if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {

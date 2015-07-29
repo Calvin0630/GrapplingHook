@@ -42,42 +42,17 @@ public class ObstacleSpawner : MonoBehaviour {
             worldVelocity = Vector3.zero;
         }  
         if (isActive) {
-            //moves obstacles
-            for (int i = 0; i < obstacleObjects.Count; i++) {
-                if (obstacleObjects[i] != null) {
-                    obstacleObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
-                }
-            }
-            //moves roofs
-            for (int i = 0; i < roofObjects.Count; i++) {
-                if (roofObjects[i] != null) {
-                    roofObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
-                }
-            }
+
+			MoveWorld ();
+
             //moves player1
-			if (player1.transform.position.x > worldMovePointX) {
-            	player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
-			}
+			if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
             //moves player2
-			if (player2.transform.position.x > worldMovePointX) {
-            	player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
-			}
+			if (player2.transform.position.x > worldMovePointX) player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
             prevWorldVelocity = worldVelocity;
-			Debug.Log(worldVelocity.x);
         }
-        //makes roof objects
-        if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {
-            //make new roof object w/ left edge @ right edge of camera 
-            GameObject clone = (GameObject)Instantiate(roof, new Vector3(18.89f, 5, 0), Quaternion.identity);
-            clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
-            clone.transform.localScale = new Vector3(20, 2, 1);
-            roofObjects.Add(clone);
-        }
-        //deletes roof Objects
-        if (roofObjects[0].transform.position.x < -40) {
-            Destroy(roofObjects[0]);
-            roofObjects.RemoveAt(0);
-        }
+		MakeRoofObjects ();
+		DeleteRoofObjects ();
 
     }
 
@@ -94,4 +69,36 @@ public class ObstacleSpawner : MonoBehaviour {
         //Debug.Log(position);
         //return position;
     }
+
+	void MakeRoofObjects() {
+		if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {
+			//make new roof object w/ left edge @ right edge of camera 
+			GameObject clone = (GameObject)Instantiate(roof, new Vector3(18.89f, 5, 0), Quaternion.identity);
+			clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
+			clone.transform.localScale = new Vector3(20, 2, 1);
+			roofObjects.Add(clone);
+		}
+	}
+
+	void DeleteRoofObjects() {
+		if (roofObjects[0].transform.position.x < -40) {
+			Destroy(roofObjects[0]);
+			roofObjects.RemoveAt(0);
+		}
+	}
+
+	void MoveWorld() {
+		//moves obstacles
+		for (int i = 0; i < obstacleObjects.Count; i++) {
+			if (obstacleObjects[i] != null) {
+				obstacleObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
+			}
+		}
+		//moves roofs
+		for (int i = 0; i < roofObjects.Count; i++) {
+			if (roofObjects[i] != null) {
+				roofObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
+			}
+		}
+	}
 }

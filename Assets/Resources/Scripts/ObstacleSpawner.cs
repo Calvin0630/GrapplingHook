@@ -6,8 +6,8 @@ public class ObstacleSpawner : MonoBehaviour {
     public bool isActive;
     public GameObject player1;
     public GameObject player2;
-    public GameObject obstacle;
-    public GameObject roof;
+    GameObject obstacle;
+    GameObject roof;
     public List<GameObject> roofObjects;
     public List<GameObject> obstacleObjects;
     // is in [-1, 1]
@@ -23,6 +23,8 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+		roof = (GameObject) Resources.Load ("Prefab/Wall");
+		obstacle = (GameObject) Resources.Load ("Prefab/Obstacle");
         player1RigidBody = player1.GetComponent<Rigidbody>();
         player2RigidBody = player2.GetComponent<Rigidbody>();
         cameraWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
@@ -31,20 +33,9 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX) {
-            farthestPlayer = FindFarthestPlayer();
-			Debug.Log (farthestPlayer.ToString());
-            worldVelocityX = FindWorldVelocity(farthestPlayer.transform.position.x);
-            worldVelocity = new Vector3(-worldVelocityX, 0, 0);
-            //Debug.Log (worldObjects.Length);
-        }
-        else {
-            worldVelocity = Vector3.zero;
-        }  
+		FindWorldVelocity ();
         if (isActive) {
-
 			MoveWorld ();
-
             //moves player1
 			if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
             //moves player2
@@ -63,7 +54,22 @@ public class ObstacleSpawner : MonoBehaviour {
         else return player2;
     }
 
-    float FindWorldVelocity(float position) {
+	//find world velocity
+	void FindWorldVelocity() {
+		if (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX) {
+			farthestPlayer = FindFarthestPlayer();
+			Debug.Log (farthestPlayer.ToString());
+			worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
+			worldVelocity = new Vector3(-worldVelocityX, 0, 0);
+			//Debug.Log (worldObjects.Length);
+		}
+		else {
+			worldVelocity = Vector3.zero;
+		}  
+	}
+
+	//calculates world velocity given the farthest players position
+    float CalculateWorldVelocity(float position) {
         //return .8f * Mathf.Pow((0.32193f * (position - 4.445f)), 5) + 6;
         return Mathf.Pow(2, .9f * (position - 1));
         //Debug.Log(position);

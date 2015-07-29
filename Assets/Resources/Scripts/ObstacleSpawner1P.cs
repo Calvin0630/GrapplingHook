@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class ObstacleSpawner1P : MonoBehaviour {
 	public bool isActive;
 	public GameObject player1;
-	public GameObject obstacle;
-	public GameObject roof;
+	GameObject obstacle;
+	GameObject roof;
 	public List<GameObject> roofObjects;
 	public List<GameObject> obstacleObjects;
 	// is in [-1, 1]
@@ -21,6 +21,8 @@ public class ObstacleSpawner1P : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start() {
+		roof = (GameObject) Resources.Load ("Prefab/Wall");
+		obstacle = (GameObject) Resources.Load ("Prefab/Obstacle");
 		player1RigidBody = player1.GetComponent<Rigidbody>();
 		cameraWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
 		worldMovePointX = movingPointX * cameraWidth;

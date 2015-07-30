@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     public bool isGrounded;
 	public bool isJumping;
     public float forceOfHookOnPlayer;
+	public bool hasJetpack;
 	// Use this for initialization
 	void Start () {
         playerToHook = gameObject.GetComponent<LineRenderer>();
@@ -70,7 +71,11 @@ public class Player : MonoBehaviour {
             playerToHook.SetVertexCount(0);
         }
 
-        
+        //Jetpack controls
+		if (hasJetpack && Input.GetAxis ("PowerUp" + playerNum) > .7f) {
+			Debug.Log("PowerUp!");
+			gameObject.GetComponent<Rigidbody>().AddForce();
+		}
 	}
 
     void OnCollisionEnter(Collision col) {

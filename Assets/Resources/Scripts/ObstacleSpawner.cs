@@ -58,7 +58,6 @@ public class ObstacleSpawner : MonoBehaviour {
 	void FindWorldVelocity() {
 		if (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX) {
 			farthestPlayer = FindFarthestPlayer();
-			Debug.Log (farthestPlayer.ToString());
 			worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
 			worldVelocity = new Vector3(-worldVelocityX, 0, 0);
 			//Debug.Log (worldObjects.Length);

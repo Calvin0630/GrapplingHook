@@ -4,14 +4,16 @@ using System.Collections.Generic;
 
 public class ObstacleSpawner : MonoBehaviour {
     public bool isActive;
-    public GameObject player1;
-    public GameObject player2;
+    GameObject player1;
+    GameObject player2;
     GameObject obstacle;
     GameObject roof;
-    public List<GameObject> roofObjects;
-    public List<GameObject> obstacleObjects;
+    List<GameObject> roofObjects;
+    List<GameObject> obstacleObjects;
     // is in [-1, 1]
     public float movingPointX;
+    //top left corner of world screen
+    Vector3 cameraSize;
     float cameraWidth;
     float worldMovePointX;
     GameObject farthestPlayer;
@@ -20,15 +22,30 @@ public class ObstacleSpawner : MonoBehaviour {
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
     Vector3 worldVelocity;
+    GameObject[] tmp;
+    GameObject FramePiece;
 
     // Use this for initialization
     void Start() {
-		roof = (GameObject) Resources.Load ("Prefab/Wall");
+        player1 = GameObject.Find("Player1");
+        player2 = GameObject.Find("Player2");
+		roof = (GameObject) Resources.Load ("Prefab/Roof");
 		obstacle = (GameObject) Resources.Load ("Prefab/Obstacle");
+        //initiates lists
+        roofObjects = new List<GameObject>();
+        obstacleObjects = new List<GameObject>();
+        //finds roof objects in scene, and adds them to the array
+        tmp = GameObject.FindGameObjectsWithTag("Roof");
+        for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
+        //finds obstacle objects in scene, and adds them to the obstacleList
+        tmp = GameObject.FindGameObjectsWithTag("Obstacle");
+        for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
         player1RigidBody = player1.GetComponent<Rigidbody>();
         player2RigidBody = player2.GetComponent<Rigidbody>();
-        cameraWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+        cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        cameraWidth = cameraSize.x;
         worldMovePointX = movingPointX * cameraWidth;
+        MakeFrame();
     }
 
     // Update is called once per frame
@@ -44,6 +61,11 @@ public class ObstacleSpawner : MonoBehaviour {
         }
 		MakeRoofObjects ();
 		DeleteRoofObjects ();
+
+    }
+
+    //makes the GameOver frame
+    void MakeFrame() {
 
     }
 
@@ -69,10 +91,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	//calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {
-        //return .8f * Mathf.Pow((0.32193f * (position - 4.445f)), 5) + 6;
         return Mathf.Pow(2, .9f * (position - 1));
-        //Debug.Log(position);
-        //return position;
     }
 
 	void MakeRoofObjects() {

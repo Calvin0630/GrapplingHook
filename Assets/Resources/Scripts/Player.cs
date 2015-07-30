@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
         //Jetpack controls
 		if (hasJetpack && Input.GetAxis ("PowerUp" + playerNum) > .7f) {
 			Debug.Log("PowerUp!");
-			gameObject.GetComponent<Rigidbody>().AddForce();
+			gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0,jumpForce/2, 0));
 		}
 	}
 

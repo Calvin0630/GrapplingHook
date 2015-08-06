@@ -20,8 +20,8 @@ public class GroundedCheck : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider other) {
-        if (other.tag == "Obstacle" || other.tag == "Player1" || other.tag == "Player2") {
-			player.isGrounded = false;
+        if (other.tag == "Obstacle" /*|| other.tag == "Player1" || other.tag == "Player2"*/) {
+			player.isGrounded = false; 
 		}
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ObstacleSpawner : MonoBehaviour {
+public class MultiPObstacleSpawner : MonoBehaviour {
     public bool isActive;
     GameObject player1;
     GameObject player2;
@@ -24,6 +24,7 @@ public class ObstacleSpawner : MonoBehaviour {
     Vector3 worldVelocity;
     GameObject[] tmp;
     GameObject FramePiece;
+	float distanceTraveled = 0;
 
     // Use this for initialization
     void Start() {
@@ -50,6 +51,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+		distanceTraveled += Time.fixedDeltaTime * worldVelocity.x;
 		FindWorldVelocity ();
         if (isActive) {
 			MoveWorld ();
@@ -61,6 +63,7 @@ public class ObstacleSpawner : MonoBehaviour {
         }
 		MakeRoofObjects ();
 		DeleteRoofObjects ();
+		DeleteObstacleObjects ();
 
     }
 
@@ -91,7 +94,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	//calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {
-        return Mathf.Pow(2, .9f * (position - 1));
+        return Mathf.Pow(2, .9f * (position + 5));
     }
 
 	void MakeRoofObjects() {
@@ -108,6 +111,15 @@ public class ObstacleSpawner : MonoBehaviour {
 		if (roofObjects[0].transform.position.x < -40) {
 			Destroy(roofObjects[0]);
 			roofObjects.RemoveAt(0);
+		}
+	}
+
+	void DeleteObstacleObjects() {
+		if (obstacleObjects.Count > 0) {
+			if (obstacleObjects [0].transform.position.x < -40) {
+				Destroy (obstacleObjects [0]);
+				obstacleObjects.RemoveAt (0);
+			}
 		}
 	}
 

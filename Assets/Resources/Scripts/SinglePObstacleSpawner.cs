@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ObstacleSpawner1P : MonoBehaviour {
+public class SinglePObstacleSpawner : MonoBehaviour {
 	public bool isActive;
 	GameObject player1;
 	GameObject obstacle;
@@ -34,9 +34,10 @@ public class ObstacleSpawner1P : MonoBehaviour {
         //finds roof objects in scene, and adds them to the array
         tmp = GameObject.FindGameObjectsWithTag("Roof");
         for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
-        //finds obstacle objects in scene, and adds them to the obstacleList
+        //finds obstacle objects in scene, and adds them to the obstacleList, and sorts them
         tmp = GameObject.FindGameObjectsWithTag("Obstacle");
-        for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
+		for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
+		obstacleObjects.Sort ((x,y) => x.transform.position.x.CompareTo(y.transform.position.x));
 	}
 	
 	// Update is called once per frame
@@ -50,7 +51,7 @@ public class ObstacleSpawner1P : MonoBehaviour {
 		}
 		MakeRoofObjects ();
 		DeleteRoofObjects ();
-		
+		DeleteObstacleObjects ();
 	}
 	
 
@@ -58,8 +59,7 @@ public class ObstacleSpawner1P : MonoBehaviour {
 	//find world velocity
 	void FindWorldVelocity() {
 		if (player1.transform.position.x > worldMovePointX) {
-			farthestPlayer = player1;;
-			Debug.Log (farthestPlayer.ToString());
+			farthestPlayer = player1;
 			worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
 			worldVelocity = new Vector3(-worldVelocityX, 0, 0);
 			//Debug.Log (worldObjects.Length);
@@ -71,10 +71,7 @@ public class ObstacleSpawner1P : MonoBehaviour {
 	
 	//calculates world velocity given the farthest players position
 	float CalculateWorldVelocity(float position) {
-		//return .8f * Mathf.Pow((0.32193f * (position - 4.445f)), 5) + 6;
-		return Mathf.Pow(2, .9f * (position - 1));
-		//Debug.Log(position);
-		//return position;
+		return Mathf.Pow(2, .9f * (position + 5));
 	}
 	
 	void MakeRoofObjects() {
@@ -88,9 +85,17 @@ public class ObstacleSpawner1P : MonoBehaviour {
 	}
 	
 	void DeleteRoofObjects() {
-		if (roofObjects[0].transform.position.x < -40) {
-			Destroy(roofObjects[0]);
-			roofObjects.RemoveAt(0);
+		if (roofObjects [0].transform.position.x < -40) {
+			Destroy (roofObjects [0]);
+			roofObjects.RemoveAt (0);
+		}
+	}
+	void DeleteObstacleObjects() {
+		if (obstacleObjects.Count > 0) {
+			if (obstacleObjects [0].transform.position.x < -40) {
+				Destroy (obstacleObjects [0]);
+				obstacleObjects.RemoveAt (0);
+			}
 		}
 	}
 	

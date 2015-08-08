@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-    public string playerNum;
+    string playerNum;
     public float movementSpeed;
-    public GameObject hook;
+    GameObject hook;
     public float jumpForce;
     public float firePower;
     LineRenderer playerToHook;
@@ -16,7 +16,9 @@ public class Player : MonoBehaviour {
 	public bool hasJetpack;
 	// Use this for initialization
 	void Start () {
+        playerNum = gameObject.name;
         playerToHook = gameObject.GetComponent<LineRenderer>();
+        hook = (GameObject) Resources.Load("Prefab/Hook");
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
 	}
@@ -35,22 +37,18 @@ public class Player : MonoBehaviour {
         }
 
         //hook shooting
-	    if (Input.GetAxis("Fire" + playerNum) >.7f) {
+	    if (Input.GetAxis("Fire" + playerNum) >.7f && hookInstance == null) {
             if (hookInstance != null) Destroy(hookInstance);
-            Vector3 fireDir;
+            Vector3 fireDir = Vector3.zero;
             if (playerNum == "Player1") fireDir = FindFireDirMouse();
-
             else if (playerNum == "Player2") fireDir = FindFireDirJoystick();
-            else {
-                fireDir = Vector3.zero;
-                Debug.Log("fireDir is zero, check player.cs");
-            }
+            
             hookInstance = (GameObject)GameObject.Instantiate(hook, transform.position, Quaternion.identity);
             Rigidbody hookRigidBody = hookInstance.GetComponent<Rigidbody> ();
             hookRigidBody.velocity = firePower * fireDir;
         }
 
-        if (Input.GetAxis("CancelShot" + playerNum) > .7f) {
+        if (Input.GetAxis("Fire" + playerNum) < .1f) {
             if (hookInstance != null) Destroy(hookInstance);
         }
         

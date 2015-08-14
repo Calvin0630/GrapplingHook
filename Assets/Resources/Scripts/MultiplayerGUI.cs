@@ -8,8 +8,6 @@ public class MultiplayerGUI : MonoBehaviour {
     ObstacleSpawner spawn;
 	// Use this for initialization
 	void Start () {
-        spawn = GameObject.Find("ObstacleSpawner").GetComponent<ObstacleSpawner>();
-        //distance = spawn.distanceTravelled;
 	}
 	
 	// Update is called once per frame

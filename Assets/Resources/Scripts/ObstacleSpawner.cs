@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ObstacleSpawner : MonoBehaviour {
     public bool isActive;
@@ -17,7 +18,7 @@ public class ObstacleSpawner : MonoBehaviour {
     float cameraWidth;
     float worldMovePointX;
     GameObject farthestPlayer;
-    float worldVelocityX;
+    public float worldVelocityX;
     Rigidbody player1RigidBody;
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
@@ -28,6 +29,11 @@ public class ObstacleSpawner : MonoBehaviour {
     GameObject frameTemp;
     public float distanceTravelled = 0;
     int numOfPlayers;
+    public Text distanceField;
+    int distance;
+    //the x position of the left-most obstacle
+    float lastObstacleX;
+    float spawnPointX;
 
     // Use this for initialization
     void Start() {
@@ -52,12 +58,15 @@ public class ObstacleSpawner : MonoBehaviour {
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         cameraWidth = cameraSize.x;
         worldMovePointX = movingPointX * cameraWidth;
+        spawnPointX = cameraSize.x + 5;
         MakeFrame(GameOverDetection);
     }
 
     // Update is called once per frame
     void Update() {
         distanceTravelled -= Time.fixedDeltaTime * worldVelocity.x;
+        distance = (int) distanceTravelled;
+        distanceField.text = distance + " Metres Travelled";
         if (numOfPlayers == 1) FindWorldVelocity1Player();
         else if (numOfPlayers == 2) FindWorldVelocity2Player();
         MoveWorld();
@@ -72,6 +81,8 @@ public class ObstacleSpawner : MonoBehaviour {
         DeleteRoofObjects();
         DeleteObstacleObjects();
 
+        lastObstacleX = obstacleObjects[obstacleObjects.Count - 1].transform.position.x;
+        MakeFloorObjects();
     }
 
     //makes the GameOver frame
@@ -124,7 +135,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     //calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {
-        return Mathf.Pow(2, .9f * (position + 5));
+        return Mathf.Pow(2, .9f * (position + 2));
     }
 
     void MakeRoofObjects() {
@@ -165,6 +176,14 @@ public class ObstacleSpawner : MonoBehaviour {
             if (roofObjects[i] != null) {
                 roofObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
             }
+        }
+    }
+    void MakeFloorObjects() {
+        if (lastObstacleX < cameraSize.x - 3) {
+            float yPos = Random.Range(-cameraSize.y + .5f, -.5f);
+            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yPos, 0), Quaternion.identity);
+            shitVarName.transform.localScale = new Vector3(Random.Range(5, 8), 2, 1);
+            obstacleObjects.Add(shitVarName);
         }
     }
 }

@@ -10,13 +10,13 @@ public class Wall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
-
+    /*
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Hook") {
             other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 			other.gameObject.transform.parent = gameObject.transform;
         }
-    }
+    }*/
 }

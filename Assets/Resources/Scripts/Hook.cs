@@ -20,4 +20,15 @@ public class Hook : MonoBehaviour {
             hooked = false;
         }
 	}
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "Wall" || other.gameObject.tag == "Obstacle") {
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            gameObject.transform.parent = other.gameObject.transform;
+        }
+        else if (other.gameObject.tag == "Enemy") {
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            gameObject.transform.parent = other.gameObject.transform;
+            other.gameObject.GetComponent<Enemy1>().isHooked = true;
+        }
+    }
 }

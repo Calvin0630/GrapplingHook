@@ -42,7 +42,7 @@ public class ObstacleSpawner : MonoBehaviour {
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
         //finds roof objects in scene, and adds them to the array
-        tmp = GameObject.FindGameObjectsWithTag("Roof");
+        tmp = GameObject.FindGameObjectsWithTag("Wall");
         for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
         //finds obstacle objects in scene, and adds them to the obstacleList
         tmp = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -60,8 +60,8 @@ public class ObstacleSpawner : MonoBehaviour {
         distanceTravelled -= Time.fixedDeltaTime * worldVelocity.x;
         if (numOfPlayers == 1) FindWorldVelocity1Player();
         else if (numOfPlayers == 2) FindWorldVelocity2Player();
+        MoveWorld();
         if (isActive) {
-            MoveWorld();
             //moves player1
             if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
             //moves player2 

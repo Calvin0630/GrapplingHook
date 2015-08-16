@@ -68,9 +68,10 @@ public class Enemy1 : MonoBehaviour {
         }
     }
     IEnumerator PlayerIsCaught(float delay) {
+        //this causes the delay
         yield return new WaitForSeconds(delay);
         scoreManager.GetComponent<ScoreManager>().AddScore(new Score((int) spawner.GetComponent<ObstacleSpawner>().distanceTravelled, 10, (int) Time.time));
         Debug.Log(scoreManager.GetComponent<ScoreManager>().ToString());
-        //Application.LoadLevel("SinglePlayerGameOver");
+        Application.LoadLevel("SinglePlayerGameOver");
     }
 }

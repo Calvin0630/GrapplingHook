@@ -69,11 +69,7 @@ public class Player : MonoBehaviour {
             playerToHook.SetVertexCount(0);
         }
 
-        //Jetpack controls
-		if (hasJetpack && Input.GetAxis ("PowerUp" + playerNum) > .7f) {
-			Debug.Log("PowerUp!");
-			gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0,jumpForce/2, 0));
-		}
+        
 	}
 
     void OnCollisionEnter(Collision col) {

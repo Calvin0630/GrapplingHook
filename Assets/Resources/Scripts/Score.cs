@@ -11,5 +11,8 @@ public class Score {
         enemysKilled = kills;
         timeSurvived = time;
     }
+    public override string ToString() {
+        return "distance: " + this.distanceTraveled + " , " + "time: " + this.timeSurvived + " , " + "kills: " + this.enemysKilled;
+    }
 
 }

@@ -21,7 +21,7 @@ public class GameOverDetector : MonoBehaviour {
             }
             //else there must be 1 player
             else {
-                if (other.gameObject.name == "Player1") Application.LoadLevel("MainScreen");
+                if (other.gameObject.name == "Player1") Application.LoadLevel("SinglePlayerGameOver");
             }
         }
     }

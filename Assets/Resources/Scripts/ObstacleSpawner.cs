@@ -187,7 +187,5 @@ public class ObstacleSpawner : MonoBehaviour {
         }
     }
 
-    public void GameOver() {
-
-    }
+    
 }

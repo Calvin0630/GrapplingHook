@@ -21,7 +21,7 @@ public class GameOverDetector : MonoBehaviour {
             }
             //else there must be 1 player
             else {
-                if (other.gameObject.name == "Player1") Application.LoadLevel("SinglePlayerGameOver");
+                if (other.gameObject.name == "Player1") GameObject.Find("ScoreManager(Clone)").GetComponent<ScoreManager>().GameOver();
             }
         }
     }

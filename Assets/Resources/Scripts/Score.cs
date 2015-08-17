@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Score {
     public int distanceTraveled;
-    public int enemysKilled;
     public int timeSurvived;
+    string name;
 
-    public Score(int distance, int kills, int time) {
+    public Score(int distance, int time, string name) {
         distanceTraveled = distance;
         timeSurvived = time;
     }
@@ -17,7 +17,7 @@ public class Score {
 
     }
     public override string ToString() {
-        return "                            " + this.distanceTraveled + "                       " + this.timeSurvived;
+        return "   " + this.name + "                  " + this.distanceTraveled + "                       " + this.timeSurvived;
     }
 
 }

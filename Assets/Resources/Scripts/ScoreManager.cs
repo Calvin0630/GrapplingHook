@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using System.Linq;
 
 public class ScoreManager : MonoBehaviour {
     List<Score> highScores;
+    GUIText scoreBox;
 	// Use this for initialization
 
 	void Start () {
         highScores = new List<Score>();
+        scoreBox = (GUIText)Resources.Load("Prefab/UIBehaviour/ScoreText");
         /*
         for (int i=0;i<10;i++) {
             highScores[i] = new Score(0, 0, 0);
@@ -33,5 +36,8 @@ public class ScoreManager : MonoBehaviour {
             }
         }
         return result;
+    }
+    public void PopulateList {
+        Debug.Log("Fuck you");
     }
 }

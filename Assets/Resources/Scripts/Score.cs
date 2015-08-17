@@ -8,11 +8,16 @@ public class Score {
 
     public Score(int distance, int kills, int time) {
         distanceTraveled = distance;
-        enemysKilled = kills;
         timeSurvived = time;
     }
+
+    public Score() {
+        distanceTraveled = 0;
+        timeSurvived = 0;
+
+    }
     public override string ToString() {
-        return "distance: " + this.distanceTraveled + " , " + "time: " + this.timeSurvived + " , " + "kills: " + this.enemysKilled;
+        return "                            " + this.distanceTraveled + "                       " + this.timeSurvived;
     }
 
 }

@@ -64,12 +64,13 @@ public class Enemy1 : MonoBehaviour {
 
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player1") {
-            StartCoroutine(PlayerIsCaught(.5f));
+            StartCoroutine(PlayerIsCaught(0));
         }
     }
     IEnumerator PlayerIsCaught(float delay) {
         //this causes the delay
         yield return new WaitForSeconds(delay);
+        spawner.GetComponent<ObstacleSpawner>().GameOver();
         scoreManager.GetComponent<ScoreManager>().AddScore(new Score((int) spawner.GetComponent<ObstacleSpawner>().distanceTravelled, 10, (int) Time.time));
         Debug.Log(scoreManager.GetComponent<ScoreManager>().ToString());
         Application.LoadLevel("SinglePlayerGameOver");

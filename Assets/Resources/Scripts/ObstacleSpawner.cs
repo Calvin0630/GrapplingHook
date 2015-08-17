@@ -186,4 +186,8 @@ public class ObstacleSpawner : MonoBehaviour {
             obstacleObjects.Add(shitVarName);
         }
     }
+
+    public void GameOver() {
+
+    }
 }

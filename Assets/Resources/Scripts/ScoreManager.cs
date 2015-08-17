@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
@@ -6,17 +7,19 @@ using System.Linq;
 
 public class ScoreManager : MonoBehaviour {
     List<Score> highScores;
-    GUIText scoreBox;
+    GameObject scoreBox;
+    GameObject highScorePanel;
 	// Use this for initialization
 
 	void Start () {
         highScores = new List<Score>();
-        scoreBox = (GUIText)Resources.Load("Prefab/UIBehaviour/ScoreText");
-        /*
-        for (int i=0;i<10;i++) {
-            highScores[i] = new Score(0, 0, 0);
-        }*/
+        scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreText");
         DontDestroyOnLoad(gameObject);
+        
+        for (int i=0;i<10;i++) {
+            highScores.Add(new Score());
+        }
+        
 	}
 	
 	// Update is called once per frame
@@ -28,6 +31,7 @@ public class ScoreManager : MonoBehaviour {
         highScores.Add(score);
         highScores.OrderBy(x => x.distanceTraveled).ToList();     
     }
+
     public string ToString() {
         string result = "";
         for (int i=0;i<highScores.Count;i++) {
@@ -37,7 +41,15 @@ public class ScoreManager : MonoBehaviour {
         }
         return result;
     }
-    public void PopulateList {
-        Debug.Log("Fuck you");
+    public void PopulateList() {
+        highScorePanel = GameObject.FindWithTag("HighScoreList");
+        for (int i = 0; i < highScores.Count; i++) {
+            if (highScores[i] != null) {
+                GameObject scoreText = Instantiate(scoreBox);
+                scoreText.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores[i].ToString();
+                scoreText.GetComponent<RectTransform>().SetParent(highScorePanel.transform);
+                scoreText.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            }
+        }
     }
 }

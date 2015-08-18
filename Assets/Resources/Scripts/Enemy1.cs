@@ -4,8 +4,7 @@ using System.Collections;
 public class Enemy1 : MonoBehaviour {
 
     Rigidbody rBody;
-    public Vector3 destination;
-    float moveSpeed;
+    public float moveSpeed;
     float relativeWorldSpeed;
     Vector3 enemyToDestination;
     public bool isHooked;
@@ -17,8 +16,7 @@ public class Enemy1 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        moveSpeed = 2;
-        relativeWorldSpeed = .1f;
+        relativeWorldSpeed = .2f;
         rBody = gameObject.GetComponent<Rigidbody>();
         isHooked = false;
         player = GameObject.FindWithTag("Player1");
@@ -29,6 +27,7 @@ public class Enemy1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
         worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
 

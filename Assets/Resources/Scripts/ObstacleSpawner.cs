@@ -34,6 +34,11 @@ public class ObstacleSpawner : MonoBehaviour {
     //the x position of the left-most obstacle
     GameObject lastObstacle;
     float spawnPointX;
+    GameObject enemy;
+    public float EnemySpawnDelay;
+    public float initialEnemySpeed;
+    public float deltaEnemySpeed;
+    float enemySpawnIndex;
 
     // Use this for initialization
     void Start() {
@@ -44,6 +49,7 @@ public class ObstacleSpawner : MonoBehaviour {
         roof = (GameObject)Resources.Load("Prefab/Roof");
         obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
+        enemy = (GameObject) Resources.Load("Prefab/Enemy");
         //initiates lists
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
@@ -60,6 +66,8 @@ public class ObstacleSpawner : MonoBehaviour {
         worldMovePointX = movingPointX * cameraWidth;
         spawnPointX = cameraSize.x + 5;
         MakeFrame(GameOverDetection);
+        enemySpawnIndex = 0;
+        StartCoroutine(SpawnEnemies(EnemySpawnDelay));
     }
 
     // Update is called once per frame
@@ -180,12 +188,20 @@ public class ObstacleSpawner : MonoBehaviour {
     }
     void MakeFloorObjects() {
         if (lastObstacle.transform.position.x + lastObstacle.transform.localScale.x/2 < cameraSize.x) {
-            float yPos = Random.Range(-cameraSize.y + .5f, -.5f);
-            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yPos, 0), Quaternion.identity);
-            shitVarName.transform.localScale = new Vector3(Random.Range(5, 8), 2, 1);
+            float yTop = Random.Range(-cameraSize.y + 1, 1);
+            float yScale = yTop + cameraSize.y;
+            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yTop - yScale/2, 0), Quaternion.identity);
+            shitVarName.transform.localScale = new Vector3(Random.Range(5, 8), yScale, 1);
             obstacleObjects.Add(shitVarName);
         }
     }
 
-    
+    IEnumerator SpawnEnemies(float delay) {
+        yield return new WaitForSeconds(delay);
+        GameObject clone = (GameObject) Instantiate(enemy, new Vector3(-1.5f * cameraSize.x, 0, 0), Quaternion.identity);
+        Debug.Log(initialEnemySpeed + deltaEnemySpeed * enemySpawnIndex);
+        clone.GetComponent<Enemy1>().moveSpeed = initialEnemySpeed + (deltaEnemySpeed * enemySpawnIndex);
+        enemySpawnIndex++;
+        StartCoroutine(SpawnEnemies(delay));
+    }
 }

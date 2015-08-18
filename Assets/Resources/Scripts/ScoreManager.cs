@@ -16,14 +16,11 @@ public class ScoreManager : MonoBehaviour {
 
 	void Start () {
         highScores = new List<Score>();
-        scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreText");
+        scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
-        /*
-        for (int i=0;i<10;i++) {
-            highScores.Add(new Score());
-        }
-        */
+        
+        
         gameOverPanel = (GameObject) Resources.Load("Prefab/UI/GameOverPanel");
 	}
 	
@@ -34,16 +31,15 @@ public class ScoreManager : MonoBehaviour {
 
     public void AddScore(Score score) {
         highScores.Add(score);
-        highScores.OrderBy(x => -x.distanceTraveled).ToList();     
+        highScores.Sort(); 
     }
-
+    /*
     public void AddScore(string name) {
         spawner = GameObject.Find("ObstacleSpawner");
         highScores.Add(new Score((int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int)Time.time, name));
-        Debug.Log("Hello");
-        highScores.OrderBy(x => -x.distanceTraveled).ToList();
+        highScores.OrderByDescending(x => x.distanceTraveled).ToList();
     }
-
+    */
     public string ToString() {
         string result = "";
         for (int i=0;i<highScores.Count;i++) {
@@ -57,22 +53,31 @@ public class ScoreManager : MonoBehaviour {
         highScorePanel = GameObject.FindWithTag("HighScoreList");
         for (int i = 0; i < highScores.Count; i++) {
             if (highScores[i] != null) {
-                GameObject scoreText = Instantiate(scoreBox);
-                scoreText.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores[i].ToString();
-                scoreText.GetComponent<RectTransform>().SetParent(highScorePanel.transform);
-                scoreText.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+                GameObject scoreItem = Instantiate(scoreBox);
+                //fils text fields in the highscore box
+                Text[] fields = scoreItem.GetComponentsInChildren<Text>();
+                foreach (Text text in fields) {
+                    if (text.name == "Place") text.text = (i+1) + ":";
+                    else if (text.name == "Name") text.text = highScores[i].name;
+                    else if (text.name == "Distance") text.text = highScores[i].distanceTraveled + " m";
+                    else if (text.name == "Time") text.text = "" + highScores[i].timeSurvived + " s";
+                }
+                //scoreItem.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores[i].ToString();
+                scoreItem.GetComponent<RectTransform>().SetParent(highScorePanel.transform, false);
+                //scoreItem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             }
         }
     }
-
-    
 
     public void GameOver() {
         Time.timeScale = 0;
         GameObject GG = Instantiate(gameOverPanel);
         GG.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
+        GameObject congratsText = GameObject.Find("CongradulationsText");
+        spawner = GameObject.Find("ObstacleSpawner");
+        congratsText.GetComponent<Text>().text = "You made it " + (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled + " metres!! GG";
         //GG.GetComponent<RectTransform>().
-        nameField = GameObject.FindWithTag("NameField");
+        //nameField = GameObject.FindWithTag("NameField");
     }
 
 }

@@ -5,12 +5,9 @@ public class Enemy1 : MonoBehaviour {
 
     Rigidbody rBody;
     public Vector3 destination;
-    public float moveSpeed;
-    public float waitMoveSpeed;
-    public float waitRadius;
-    bool isTravelling;
-    Vector3 enemyToDestination; 
-    Vector3 waitingVelocity;
+    float moveSpeed;
+    float relativeWorldSpeed;
+    Vector3 enemyToDestination;
     public bool isHooked;
     GameObject player;
     GameObject spawner;
@@ -20,44 +17,26 @@ public class Enemy1 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        moveSpeed = 2;
+        relativeWorldSpeed = .1f;
         rBody = gameObject.GetComponent<Rigidbody>();
-        isTravelling = true;
         isHooked = false;
-        waitingVelocity = Vector3.zero;
-        waitRadius = 1 / waitRadius;
         player = GameObject.FindWithTag("Player1");
         spawner = GameObject.FindWithTag("Spawn");
-        scoreManager = GameObject.FindWithTag("ScoreManager");
+        scoreManager = GameObject.Find("ScoreManager(Clone)");
         projectile = (GameObject)Resources.Load("Prefab/Projectile");
 	}
 	
 	// Update is called once per frame
 	void Update () {
         worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
-        //Debug.Log(gameObject.transform.position.x - player.transform.position.x);
-        if (isTravelling) {
-            if (transform.position.x < destination.x + .5f && transform.position.x > destination.x - .5f && transform.position.y < destination.y + .5f
-                && transform.position.y > destination.y - .5f) {
-
-                isTravelling = false;
-                enemyToDestination = Vector3.zero;
-            }
-            else {
-                enemyToDestination = (destination - transform.position).normalized * moveSpeed;
-            }
-        }
-        else if (!isHooked && !isTravelling) {
-            waitingVelocity = new Vector3(waitMoveSpeed * Mathf.Cos(waitRadius * Time.time), waitMoveSpeed * Mathf.Sin(waitRadius * Time.time), 0);
-            waitingVelocity += new Vector3((player.transform.position.x - gameObject.transform.position.x + 1) - .5f * worldVelocityX, 0, 0);
-        }
-
+        enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
+        Debug.Log(player.transform.position - transform.position);
         if (isHooked) {
-            waitingVelocity = Vector3.zero;
             rBody.useGravity = true;
         }
         else {
-
-            rBody.velocity = enemyToDestination + waitingVelocity;
+            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed ,0,0) ;
         }
         
     }
@@ -70,6 +49,7 @@ public class Enemy1 : MonoBehaviour {
     IEnumerator PlayerIsCaught(float delay) {
         //this causes the delay
         yield return new WaitForSeconds(delay);
+        if (scoreManager == null) scoreManager = GameObject.Find("ScoreManager(Clone)");
         scoreManager.GetComponent<ScoreManager>().GameOver();
         /*
         scoreManager.GetComponent<ScoreManager>().AddScore(new Score((int) spawner.GetComponent<ObstacleSpawner>().distanceTravelled, 10, (int) Time.time));

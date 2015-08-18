@@ -32,7 +32,7 @@ public class ObstacleSpawner : MonoBehaviour {
     public Text distanceField;
     int distance;
     //the x position of the left-most obstacle
-    float lastObstacleX;
+    GameObject lastObstacle;
     float spawnPointX;
 
     // Use this for initialization
@@ -81,7 +81,7 @@ public class ObstacleSpawner : MonoBehaviour {
         DeleteRoofObjects();
         DeleteObstacleObjects();
 
-        lastObstacleX = obstacleObjects[obstacleObjects.Count - 1].transform.position.x;
+        lastObstacle = obstacleObjects[obstacleObjects.Count - 1];
         MakeFloorObjects();
     }
 
@@ -179,7 +179,7 @@ public class ObstacleSpawner : MonoBehaviour {
         }
     }
     void MakeFloorObjects() {
-        if (lastObstacleX < cameraSize.x - 3) {
+        if (lastObstacle.transform.position.x + lastObstacle.transform.localScale.x/2 < cameraSize.x) {
             float yPos = Random.Range(-cameraSize.y + .5f, -.5f);
             GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yPos, 0), Quaternion.identity);
             shitVarName.transform.localScale = new Vector3(Random.Range(5, 8), 2, 1);

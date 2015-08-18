@@ -5,8 +5,10 @@ using System.Collections;
 public class Button : MonoBehaviour {
     GameObject scoreManager;
     GameObject inField;
+    GameObject spawner;
 
     void Start() {
+
     }
 	public void LoadMultiplayer() {
 		Application.LoadLevel ("FirstLevel");
@@ -18,9 +20,9 @@ public class Button : MonoBehaviour {
 
     public void SubmitName() {
         scoreManager = GameObject.Find("ScoreManager(Clone)");
-        Debug.Log(scoreManager == null);
-        inField = GameObject.Find("NameInputField");
-        scoreManager.GetComponent<ScoreManager>().AddScore(inField.GetComponentInChildren<Text>().text);
+        spawner = GameObject.Find("ObstacleSpawner");
+        inField = GameObject.Find("NameText");
+        scoreManager.GetComponent<ScoreManager>().AddScore(new Score((int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int) Time.timeSinceLevelLoad, inField.GetComponentInChildren<Text>().text));
         Application.LoadLevel("SinglePlayerGameOver");
     }
 

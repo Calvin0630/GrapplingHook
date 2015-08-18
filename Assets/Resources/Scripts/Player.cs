@@ -14,9 +14,11 @@ public class Player : MonoBehaviour {
 	public bool isJumping;
     public float forceOfHookOnPlayer;
 	public bool hasJetpack;
+    public bool useController;
 	// Use this for initialization
 	void Start () {
         playerNum = gameObject.name;
+        if (useController) playerNum = "Player2";
         playerToHook = gameObject.GetComponent<LineRenderer>();
         hook = (GameObject) Resources.Load("Prefab/Hook");
         rBody = gameObject.GetComponent<Rigidbody>();

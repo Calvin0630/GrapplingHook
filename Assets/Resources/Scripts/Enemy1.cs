@@ -31,7 +31,7 @@ public class Enemy1 : MonoBehaviour {
 	void Update () {
         worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
-        Debug.Log(player.transform.position - transform.position);
+
         if (isHooked) {
             rBody.useGravity = true;
         }
@@ -46,15 +46,11 @@ public class Enemy1 : MonoBehaviour {
             StartCoroutine(PlayerIsCaught(0));
         }
     }
+
     IEnumerator PlayerIsCaught(float delay) {
         //this causes the delay
         yield return new WaitForSeconds(delay);
         if (scoreManager == null) scoreManager = GameObject.Find("ScoreManager(Clone)");
         scoreManager.GetComponent<ScoreManager>().GameOver();
-        /*
-        scoreManager.GetComponent<ScoreManager>().AddScore(new Score((int) spawner.GetComponent<ObstacleSpawner>().distanceTravelled, 10, (int) Time.time));
-        Debug.Log(scoreManager.GetComponent<ScoreManager>().ToString());
-        Application.LoadLevel("SinglePlayerGameOver");
-        */
     }
 }

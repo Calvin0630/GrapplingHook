@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public float firePower;
     LineRenderer playerToHook;
     GameObject hookInstance;
+    GameObject projectile;
     Rigidbody rBody;
     public bool isGrounded;
 	public bool isJumping;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour {
         if (useController) playerNum = "Player2";
         playerToHook = gameObject.GetComponent<LineRenderer>();
         hook = (GameObject) Resources.Load("Prefab/Hook");
+        projectile = (GameObject) Resources.Load("Prefab/Projectile");
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
 	}
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour {
 
 		//if the player is on the ground
         if (isGrounded) {
-            rBody.velocity = new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, rBody.velocity.y, 0);
+            rBody.AddForce(new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, 0, 0));
 			// jumping controls
 			if (Input.GetAxis("Jump" + playerNum) > .7f) {
 				rBody.AddForce(new Vector3(0, jumpForce, 0));
@@ -39,7 +41,7 @@ public class Player : MonoBehaviour {
         }
 
         //hook shooting
-	    if (Input.GetAxis("Fire" + playerNum) >.7f && hookInstance == null) {
+	    if (Input.GetAxis("FireHook" + playerNum) >.7f && hookInstance == null) {
             if (hookInstance != null) Destroy(hookInstance);
             Vector3 fireDir = Vector3.zero;
             if (playerNum == "Player1") fireDir = FindFireDirMouse();
@@ -49,9 +51,15 @@ public class Player : MonoBehaviour {
             Rigidbody hookRigidBody = hookInstance.GetComponent<Rigidbody> ();
             hookRigidBody.velocity = firePower * fireDir;
         }
-
         if (Input.GetAxis("Fire" + playerNum) < .1f) {
             if (hookInstance != null) Destroy(hookInstance);
+        }
+        //controls for shooting
+        if (Input.GetAxis("FireShot" + playerNum) >.7f) {
+            Vector3 shotDir = Vector3.zero;
+            if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
+            else if (playerNum == "Player1") shotDir = FindFireDirMouse();
+            
         }
         
         

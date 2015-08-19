@@ -16,6 +16,8 @@ public class Player : MonoBehaviour {
     public float forceOfHookOnPlayer;
 	public bool hasJetpack;
     public bool useController;
+    public float projectileDelay;
+    float projectileTimer;
 	// Use this for initialization
 	void Start () {
         playerNum = gameObject.name;
@@ -25,12 +27,12 @@ public class Player : MonoBehaviour {
         projectile = (GameObject) Resources.Load("Prefab/Projectile");
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
+        projectileTimer = projectileDelay;
 	}
 
 	// Update is called once per frame
 	void Update () {
-        //if (playerNum == "Player1") Debug.Log("Velocity: " + rBody.velocity.x + " isGrounded: " + isGrounded);
-
+        projectileTimer += Time.deltaTime;
 		//if the player is on the ground
         if (isGrounded) {
             rBody.AddForce(new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, 0, 0));
@@ -55,11 +57,15 @@ public class Player : MonoBehaviour {
             if (hookInstance != null) Destroy(hookInstance);
         }
         //controls for shooting
-        if (Input.GetAxis("FireShot" + playerNum) >.7f) {
+        if (Input.GetAxis("FireShot" + playerNum) >.7f && projectileTimer > projectileDelay) {
+            projectileTimer = 0;
             Vector3 shotDir = Vector3.zero;
             if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
             else if (playerNum == "Player1") shotDir = FindFireDirMouse();
-            
+            GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
+            shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
+
+
         }
         
         

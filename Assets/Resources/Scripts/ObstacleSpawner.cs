@@ -22,7 +22,7 @@ public class ObstacleSpawner : MonoBehaviour {
     Rigidbody player1RigidBody;
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
-    Vector3 worldVelocity;
+    public Vector3 worldVelocity;
     GameObject[] tmp;
     public bool GameOverDetection;
     GameObject FramePiece;
@@ -72,7 +72,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        distanceTravelled -= Time.fixedDeltaTime * worldVelocity.x;
+        distanceTravelled -= Time.deltaTime * worldVelocity.x;
         distance = (int) distanceTravelled;
         distanceField.text = distance + " Metres Travelled";
         if (numOfPlayers == 1) FindWorldVelocity1Player();
@@ -199,8 +199,8 @@ public class ObstacleSpawner : MonoBehaviour {
     IEnumerator SpawnEnemies(float delay) {
         yield return new WaitForSeconds(delay);
         GameObject clone = (GameObject) Instantiate(enemy, new Vector3(-1.5f * cameraSize.x, 0, 0), Quaternion.identity);
-        Debug.Log(initialEnemySpeed + deltaEnemySpeed * enemySpawnIndex);
         clone.GetComponent<Enemy1>().moveSpeed = initialEnemySpeed + (deltaEnemySpeed * enemySpawnIndex);
+        clone.GetComponent<Enemy1>().health = 3;
         enemySpawnIndex++;
         StartCoroutine(SpawnEnemies(delay));
     }

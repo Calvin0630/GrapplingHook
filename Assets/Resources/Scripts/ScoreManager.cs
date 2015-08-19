@@ -76,6 +76,8 @@ public class ScoreManager : MonoBehaviour {
         GameObject congratsText = GameObject.Find("CongradulationsText");
         spawner = GameObject.Find("ObstacleSpawner");
         congratsText.GetComponent<Text>().text = "You made it " + (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled + " metres!! GG";
+
+        spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
         //GG.GetComponent<RectTransform>().
         //nameField = GameObject.FindWithTag("NameField");
     }

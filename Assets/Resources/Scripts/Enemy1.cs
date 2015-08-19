@@ -13,6 +13,7 @@ public class Enemy1 : MonoBehaviour {
     GameObject scoreManager;
     float worldVelocityX;
     GameObject projectile;
+    public int health;
 
 	// Use this for initialization
 	void Start () {
@@ -44,6 +45,10 @@ public class Enemy1 : MonoBehaviour {
         if (other.gameObject.tag == "Player1") {
             StartCoroutine(PlayerIsCaught(0));
         }
+        else if (other.gameObject.tag == "Projectile") {
+            TakeDamage(1);
+            Destroy(other.gameObject);
+        }
     }
 
     IEnumerator PlayerIsCaught(float delay) {
@@ -51,5 +56,11 @@ public class Enemy1 : MonoBehaviour {
         yield return new WaitForSeconds(delay);
         if (scoreManager == null) scoreManager = GameObject.Find("ScoreManager(Clone)");
         scoreManager.GetComponent<ScoreManager>().GameOver();
+    }
+    public void TakeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            Destroy(gameObject);
+        }
     }
 }

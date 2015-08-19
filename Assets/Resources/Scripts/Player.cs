@@ -51,7 +51,7 @@ public class Player : MonoBehaviour {
             Rigidbody hookRigidBody = hookInstance.GetComponent<Rigidbody> ();
             hookRigidBody.velocity = firePower * fireDir;
         }
-        if (Input.GetAxis("Fire" + playerNum) < .1f) {
+        if (Input.GetAxis("FireHook" + playerNum) < .1f) {
             if (hookInstance != null) Destroy(hookInstance);
         }
         //controls for shooting

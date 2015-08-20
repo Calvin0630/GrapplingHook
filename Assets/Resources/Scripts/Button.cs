@@ -8,7 +8,17 @@ public class Button : MonoBehaviour {
     GameObject spawner;
 
     void Start() {
+        Object[] test = GameObject.FindObjectsOfType(typeof(MonoBehaviour));
+        for(int i=0;i<test.Length;i++) {
+            Debug.Log(test[i].name);
+        }
+        Debug.Log(test.Length);
+    }
 
+    void Update() {
+        if (Input.GetKey(KeyCode.Escape)) {
+            Application.Quit();
+        }
     }
 	public void LoadMultiplayer() {
 		Application.LoadLevel ("FirstLevel");

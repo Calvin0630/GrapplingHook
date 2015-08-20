@@ -60,8 +60,9 @@ public class Player : MonoBehaviour {
         if (Input.GetAxis("FireShot" + playerNum) >.7f && projectileTimer > projectileDelay) {
             projectileTimer = 0;
             Vector3 shotDir = Vector3.zero;
-            if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
-            else if (playerNum == "Player1") shotDir = FindFireDirMouse();
+            //if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
+            //else if (playerNum == "Player1") shotDir = FindFireDirMouse();
+            shotDir = Vector3.left;
             GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
             shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
 

@@ -8,9 +8,10 @@ public class Button : MonoBehaviour {
     GameObject spawner;
 
     void Start() {
-        Object[] test = GameObject.FindObjectsOfType(typeof(MonoBehaviour));
-        for(int i=0;i<test.Length;i++) {
-            Debug.Log(test[i].name);
+        GameObject[] test = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in test) {
+            if (obj.name == "Canvas") Debug.Log(obj.name + " , " + obj.gameObject.transform.parent.name);
+            else Debug.Log(obj.name);
         }
         Debug.Log(test.Length);
     }

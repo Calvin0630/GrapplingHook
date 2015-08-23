@@ -14,21 +14,15 @@ public class ScoreManager : MonoBehaviour {
     GameObject nameField;
     GameObject spawner;
     string highScorePath;
-    StreamWriter fileWriter;
 	// Use this for initialization
 
 	void Start () {
         highScorePath = Application.dataPath.Remove(Application.dataPath.Length - 6) + "HighScores.txt";
-        fileWriter = new StreamWriter(@highScorePath);
-        fileWriter.WriteLine("oii");
-        fileWriter.WriteLine("oii");
-        fileWriter.Close();
-        Debug.Log(highScorePath);
         highScores = new List<Score>();
         scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
-        
+        //ReadScoresFromFile();
         
         gameOverPanel = (GameObject) Resources.Load("Prefab/UI/GameOverPanel");
 	}
@@ -93,8 +87,18 @@ public class ScoreManager : MonoBehaviour {
         //nameField = GameObject.FindWithTag("NameField");
     }
 
-    public void readScoresFromFile() {
+    public void ReadScoresFromFile() {
+        StreamWriter fileWriter;
+        fileWriter = new StreamWriter(@highScorePath);
+        fileWriter.WriteLine("oii");
+        fileWriter.WriteLine("oii");
+        fileWriter.Close();
         string scoreText = File.ReadAllText(@highScorePath);
+        Debug.Log(scoreText);
+    }
+
+    public void WriteScoresToFile() {
+
     }
 
 }

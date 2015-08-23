@@ -8,7 +8,10 @@ public class StartGame : MonoBehaviour {
 	void Start () { 
         scoreManager = (GameObject) Resources.Load("Prefab/ScoreManager");
         Time.timeScale = 1;
-	}
+        if (GameObject.FindWithTag("ScoreManager") == null) {
+            GameObject scoreMgrTmp = (GameObject)Instantiate(scoreManager);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {

@@ -27,6 +27,10 @@ public class Button : MonoBehaviour {
         Application.LoadLevel("MainScreen");
     }
 
+    public void LoadOptions() {
+        Application.LoadLevel("Options");
+    }
+
     public void SubmitName() {
         scoreManager = GameObject.FindWithTag("ScoreManager");
         spawner = GameObject.Find("ObstacleSpawner");

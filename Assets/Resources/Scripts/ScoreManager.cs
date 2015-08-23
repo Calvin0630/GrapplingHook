@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using System.Linq;
+using System.IO;
 
 public class ScoreManager : MonoBehaviour {
     List<Score> highScores;
@@ -12,9 +13,17 @@ public class ScoreManager : MonoBehaviour {
     GameObject gameOverPanel;
     GameObject nameField;
     GameObject spawner;
+    string highScorePath;
+    StreamWriter fileWriter;
 	// Use this for initialization
 
 	void Start () {
+        highScorePath = Application.dataPath.Remove(Application.dataPath.Length - 6) + "HighScores.txt";
+        fileWriter = new StreamWriter(@highScorePath);
+        fileWriter.WriteLine("oii");
+        fileWriter.WriteLine("oii");
+        fileWriter.Close();
+        Debug.Log(highScorePath);
         highScores = new List<Score>();
         scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
@@ -30,6 +39,7 @@ public class ScoreManager : MonoBehaviour {
 	}
 
     public void AddScore(Score score) {
+        //should get code to write to file
         highScores.Add(score);
         highScores.Sort(); 
     }
@@ -50,6 +60,7 @@ public class ScoreManager : MonoBehaviour {
         return result;
     }
     public void PopulateList() {
+        //should get code to read from file
         highScorePanel = GameObject.FindWithTag("HighScoreList");
         for (int i = 0; i < highScores.Count; i++) {
             if (highScores[i] != null) {
@@ -80,6 +91,10 @@ public class ScoreManager : MonoBehaviour {
         spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
         //GG.GetComponent<RectTransform>().
         //nameField = GameObject.FindWithTag("NameField");
+    }
+
+    public void readScoresFromFile() {
+        string scoreText = File.ReadAllText(@highScorePath);
     }
 
 }

@@ -70,6 +70,12 @@ public class Player : MonoBehaviour {
         }
         
         
+        
+
+        
+	}
+
+    void FixedUpdate() {
         if (hookInstance != null) {
             //updates line renderer
             playerToHook.SetVertexCount(2);
@@ -78,16 +84,14 @@ public class Player : MonoBehaviour {
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
             if (hookInstance.GetComponent<Hook>().hooked) {
-                
+
                 rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
             }
         }
-        else  {
+        else {
             playerToHook.SetVertexCount(0);
         }
-
-        
-	}
+    }
 
     void OnCollisionEnter(Collision col) {
         

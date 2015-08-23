@@ -54,7 +54,7 @@ public class Enemy1 : MonoBehaviour {
     IEnumerator PlayerIsCaught(float delay) {
         //this causes the delay
         yield return new WaitForSeconds(delay);
-        if (scoreManager == null) scoreManager = GameObject.Find("ScoreManager(Clone)");
+        if (scoreManager == null) scoreManager = GameObject.FindWithTag("ScoreManager");
         scoreManager.GetComponent<ScoreManager>().GameOver();
     }
     public void TakeDamage(int damage) {

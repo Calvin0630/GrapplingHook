@@ -18,6 +18,9 @@ public class Player : MonoBehaviour {
     public bool useController;
     public float projectileDelay;
     float projectileTimer;
+    GameObject shield;
+    GameObject shieldInstance;
+    float shieldPower;
 	// Use this for initialization
 	void Start () {
         playerNum = gameObject.name;
@@ -25,6 +28,7 @@ public class Player : MonoBehaviour {
         playerToHook = gameObject.GetComponent<LineRenderer>();
         hook = (GameObject) Resources.Load("Prefab/Hook");
         projectile = (GameObject) Resources.Load("Prefab/Projectile");
+        shield = (GameObject)Resources.Load("Prefab/Shield");
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         projectileTimer = projectileDelay;
@@ -56,6 +60,7 @@ public class Player : MonoBehaviour {
         if (Input.GetAxis("FireHook" + playerNum) < .1f) {
             if (hookInstance != null) Destroy(hookInstance);
         }
+
         //controls for shooting
         if (Input.GetAxis("FireShot" + playerNum) >.7f && projectileTimer > projectileDelay) {
             projectileTimer = 0;
@@ -65,12 +70,23 @@ public class Player : MonoBehaviour {
             shotDir = Vector3.left;
             GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
             shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
-
-
         }
         
-        
-        
+        //controls for shield
+        if (Input.GetButtonDown("Shield" + playerNum)) {
+            shieldInstance = (GameObject)Instantiate(shield);
+            shieldInstance.transform.position = gameObject.transform.position;
+            shieldInstance.transform.SetParent(gameObject.transform);
+            Debug.Log("Shield");
+        }
+        if(Input.GetButton("Shield" + playerNum)) {
+            Time.timeScale = .25f;
+        }
+        else {
+            Time.timeScale = 1;
+            Destroy(shieldInstance);
+
+        }
 
         
 	}

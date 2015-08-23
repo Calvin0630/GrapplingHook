@@ -32,6 +32,7 @@ public class Player : MonoBehaviour {
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         projectileTimer = projectileDelay;
+        shieldPower = 100;
 	}
 
 	// Update is called once per frame
@@ -71,27 +72,28 @@ public class Player : MonoBehaviour {
             GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
             shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
         }
-        
+
         //controls for shield
-        if (Input.GetButtonDown("Shield" + playerNum)) {
+        Debug.Log(shieldPower);
+        if (Input.GetButtonDown("Shield" + playerNum) && shieldPower > 0) {
             shieldInstance = (GameObject)Instantiate(shield);
             shieldInstance.transform.position = gameObject.transform.position;
             shieldInstance.transform.SetParent(gameObject.transform);
-            Debug.Log("Shield");
         }
-        if(Input.GetButton("Shield" + playerNum)) {
+        if(Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
             Time.timeScale = .25f;
+            shieldPower -= 1;
         }
         else {
             Time.timeScale = 1;
             Destroy(shieldInstance);
+            shieldPower += 1;
 
         }
 
-        
-	}
 
-    void FixedUpdate() {
+
+
         if (hookInstance != null) {
             //updates line renderer
             playerToHook.SetVertexCount(2);
@@ -107,6 +109,9 @@ public class Player : MonoBehaviour {
         else {
             playerToHook.SetVertexCount(0);
         }
+    }
+
+    void FixedUpdate() {
     }
 
     void OnCollisionEnter(Collision col) {

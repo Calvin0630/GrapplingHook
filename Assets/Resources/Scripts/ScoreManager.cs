@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour {
     GameObject nameField;
     GameObject spawner;
     string highScorePath;
+    bool gameIsOver;
 	// Use this for initialization
 
 	void Start () {
@@ -23,6 +24,7 @@ public class ScoreManager : MonoBehaviour {
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
         //ReadScoresFromFile();
+        gameIsOver = false;
         
         gameOverPanel = (GameObject) Resources.Load("Prefab/UI/GameOverPanel");
 	}
@@ -31,6 +33,12 @@ public class ScoreManager : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnLevelWasLoaded(int level) {
+        if (level == 2) {
+            gameIsOver = false;
+        }
+    }
 
     public void AddScore(Score score) {
         //should get code to write to file
@@ -75,14 +83,16 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public void GameOver() {
-        Time.timeScale = 0;
-        GameObject GG = Instantiate(gameOverPanel);
-        GG.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
-        GameObject congratsText = GameObject.Find("CongradulationsText");
-        spawner = GameObject.Find("ObstacleSpawner");
-        congratsText.GetComponent<Text>().text = "You made it " + (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled + " metres!! GG";
-
-        spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
+        if (!gameIsOver) { 
+            Time.timeScale = 0;
+            GameObject GG = Instantiate(gameOverPanel);
+            GG.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
+            GameObject congratsText = GameObject.Find("CongradulationsText");
+            spawner = GameObject.Find("ObstacleSpawner");
+            congratsText.GetComponent<Text>().text = "You made it " + (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled + " metres!! GG";
+            spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
+            gameIsOver = true;
+        }
         //GG.GetComponent<RectTransform>().
         //nameField = GameObject.FindWithTag("NameField");
     }

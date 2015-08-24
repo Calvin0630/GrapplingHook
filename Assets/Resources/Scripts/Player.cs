@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
             //controls for shield
             //Debug.Log(shieldPower);
             shieldBar.GetComponent<EnergyBar>().SetValue((int)shieldPower);
-            if (Input.GetButtonDown("Shield" + playerNum) && shieldPower >= 0 && shieldPower <= 100) {
+            if (Input.GetButtonDown("Shield" + playerNum) && shieldPower >= 0 && shieldPower <= 101) {
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour {
                 }
 
             }
-
+            Debug.Log(shieldPower);
 
             if (hookInstance != null) {
                 //updates line renderer

@@ -42,12 +42,15 @@ public class Enemy1 : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == "Player1") {
+        if (other.collider.gameObject.tag == "Player1") {
             StartCoroutine(PlayerIsCaught(0));
         }
-        else if (other.gameObject.tag == "Projectile") {
+        else if (other.gameObject.tag == "FriendlyProjectile") {
             TakeDamage(1);
             Destroy(other.gameObject);
+        }
+        else if (other.collider.gameObject.tag == "Shield") {
+            Destroy(gameObject);
         }
     }
 

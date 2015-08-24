@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour {
     GameObject nameField;
     GameObject spawner;
     string highScorePath;
-    bool gameIsOver;
+    public bool gameIsOver;
 	// Use this for initialization
 
 	void Start () {

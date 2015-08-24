@@ -90,7 +90,7 @@ public class Player : MonoBehaviour {
                 Time.timeScale = .25f;
                 shieldPower -= .75f;
             }
-            else if (!scoreManager.GetComponent<ScoreManager>().gameIsOver && shieldPower >= 0) {
+            else if (!scoreManager.GetComponent<ScoreManager>().gameIsOver && shieldPower >= -1) {
                 Time.timeScale = 1;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {

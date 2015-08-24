@@ -24,5 +24,8 @@ public class GameOverDetector : MonoBehaviour {
                 if (other.gameObject.name == "Player1") GameObject.FindWithTag("ScoreManager").GetComponent<ScoreManager>().GameOver();
             }
         }
+        if (other.gameObject.tag == "FriendlyProjectile" || other.gameObject.tag == "EnemyProjectile") {
+            Destroy(other.gameObject);
+        }
     }
 }

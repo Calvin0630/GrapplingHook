@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     public bool hasJetpack;
     public bool useController;
     public float projectileDelay;
+    bool projectileTriggerDown;
     float projectileTimer;
     GameObject shieldBar;
     GameObject shield;
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour {
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         projectileTimer = projectileDelay;
+        projectileTriggerDown = false;
         shieldPower = 100;
     }
 
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour {
             }
 
             //controls for shooting
-            if (Input.GetAxis("FireShot" + playerNum) > .7f && projectileTimer > projectileDelay) {
+            if (Input.GetAxis("FireShot" + playerNum) > .7f && !projectileTriggerDown) {
                 projectileTimer = 0;
                 Vector3 shotDir = Vector3.zero;
                 if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
@@ -76,6 +78,10 @@ public class Player : MonoBehaviour {
                 //shotDir = Vector3.left;
                 GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
                 shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
+                projectileTriggerDown = true;
+            }
+            else if (Input.GetAxis("FireShot" + playerNum) < .7f) {
+                projectileTriggerDown = false;
             }
 
             //controls for shield
@@ -98,7 +104,6 @@ public class Player : MonoBehaviour {
                 }
 
             }
-            Debug.Log(shieldPower);
 
             if (hookInstance != null) {
                 //updates line renderer

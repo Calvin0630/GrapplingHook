@@ -29,7 +29,7 @@ public class ObstacleSpawner : MonoBehaviour {
     GameObject frameTemp;
     public float distanceTravelled = 0;
     int numOfPlayers;
-    public Text distanceField;
+    public GameObject distanceField;
     int distance;
     //the x position of the left-most obstacle
     GameObject lastObstacle;
@@ -56,10 +56,12 @@ public class ObstacleSpawner : MonoBehaviour {
         //finds roof objects in scene, and adds them to the array
         tmp = GameObject.FindGameObjectsWithTag("Wall");
         for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
+        if (roofObjects.Count > 0) roofObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
         //finds obstacle objects in scene, and adds them to the obstacleList
         tmp = GameObject.FindGameObjectsWithTag("Obstacle");
         for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
-        player1RigidBody = player1.GetComponent<Rigidbody>();
+        if(obstacleObjects.Count > 0) obstacleObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
+        if (player1 != null) player1RigidBody = player1.GetComponent<Rigidbody>();
         if (player2 != null) player2RigidBody = player2.GetComponent<Rigidbody>();
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         cameraWidth = cameraSize.x;
@@ -68,13 +70,15 @@ public class ObstacleSpawner : MonoBehaviour {
         MakeFrame(GameOverDetection);
         enemySpawnIndex = 0;
         StartCoroutine(SpawnEnemies(EnemySpawnDelay));
+        distanceField = GameObject.FindWithTag("DistanceText");
     }
 
     // Update is called once per frame
     void Update() {
         distanceTravelled -= Time.deltaTime * worldVelocity.x;
         distance = (int) distanceTravelled;
-        distanceField.text = distance + " Metres Travelled";
+        //Debug.Log(distanceField == null);
+        distanceField.GetComponent<Text>().text = distance + " Metres Travelled";
         if (numOfPlayers == 1) FindWorldVelocity1Player();
         else if (numOfPlayers == 2) FindWorldVelocity2Player();
         MoveWorld();
@@ -88,8 +92,6 @@ public class ObstacleSpawner : MonoBehaviour {
         MakeRoofObjects();
         DeleteRoofObjects();
         DeleteObstacleObjects();
-
-        lastObstacle = obstacleObjects[obstacleObjects.Count - 1];
         MakeFloorObjects();
     }
 
@@ -147,7 +149,13 @@ public class ObstacleSpawner : MonoBehaviour {
     }
 
     void MakeRoofObjects() {
-        if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {
+        if (roofObjects.Count == 0) {
+            GameObject clone = (GameObject)Instantiate(roof, new Vector3(0, 5, 0), Quaternion.identity);
+            clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
+            clone.transform.localScale = new Vector3(20, 2, 1);
+            roofObjects.Add(clone);
+        }
+        else if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {
             //make new roof object w/ left edge @ right edge of camera 
             GameObject clone = (GameObject)Instantiate(roof, new Vector3(18.89f, 5, 0), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
@@ -165,7 +173,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     void DeleteObstacleObjects() {
         if (obstacleObjects.Count > 0) {
-            if (obstacleObjects[0].transform.position.x < -40) {
+            if (obstacleObjects[0].transform.position.x + obstacleObjects[0].transform.localScale.x/2 < -cameraSize.x) {
                 Destroy(obstacleObjects[0]);
                 obstacleObjects.RemoveAt(0);
             }
@@ -187,7 +195,10 @@ public class ObstacleSpawner : MonoBehaviour {
         }
     }
     void MakeFloorObjects() {
-        if (lastObstacle.transform.position.x + lastObstacle.transform.localScale.x/2 < cameraSize.x) {
+        if (obstacleObjects.Count == 0) {
+            //Debug.Log("no Obstacles in List. Wat do?");
+        }
+        else if (obstacleObjects[obstacleObjects.Count - 1].transform.position.x + obstacleObjects[obstacleObjects.Count - 1].transform.localScale.x/2 < cameraSize.x) {
             float yTop = Random.Range(-cameraSize.y + 1, 1);
             float yScale = yTop + cameraSize.y;
             GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yTop - yScale/2, 0), Quaternion.identity);

@@ -8,6 +8,7 @@ public class Button : MonoBehaviour {
     GameObject spawner;
 
     void Start() {
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update() {
@@ -29,6 +30,10 @@ public class Button : MonoBehaviour {
 
     public void LoadOptions() {
         Application.LoadLevel("Options");
+    }
+
+    public void Replay() {
+        Application.LoadLevel(Application.loadedLevel);
     }
 
     public void SubmitName() {

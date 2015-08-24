@@ -34,6 +34,11 @@ public class Button : MonoBehaviour {
 
     public void Replay() {
         Application.LoadLevel(Application.loadedLevel);
+        GameObject.FindWithTag("ScoreManager").GetComponent<ScoreManager>().gameIsOver = false;
+    }
+
+    public void LoadTutorial() {
+        Application.LoadLevel("SinglePlayerTutorial");
     }
 
     public void SubmitName() {

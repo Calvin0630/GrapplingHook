@@ -31,14 +31,9 @@ public class ObstacleSpawner : MonoBehaviour {
     int numOfPlayers;
     public GameObject distanceField;
     int distance;
-    //the x position of the left-most obstacle
-    GameObject lastObstacle;
-    float spawnPointX;
     GameObject enemy;
-    public float EnemySpawnDelay;
-    public float initialEnemySpeed;
-    public float deltaEnemySpeed;
-    float enemySpawnIndex;
+    public LevelParameter[] levels;
+    public int levelIndex;
 
     // Use this for initialization
     void Start() {
@@ -66,11 +61,19 @@ public class ObstacleSpawner : MonoBehaviour {
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         cameraWidth = cameraSize.x;
         worldMovePointX = movingPointX * cameraWidth;
-        spawnPointX = cameraSize.x + 5;
         MakeFrame(GameOverDetection);
-        enemySpawnIndex = 0;
-        StartCoroutine(SpawnEnemies(EnemySpawnDelay));
         distanceField = GameObject.FindWithTag("DistanceText");
+        levelIndex = 1;
+        levels = new LevelParameter[] {
+            //spawning, enemySpeed, enemySpawnDelay, enemyHealth
+            //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
+            new LevelParameter(false, 1, 1, 1, 3, -2, -4, 3),
+            new LevelParameter(true, 3, 3, 1, 3, -2, -4, 3),
+            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
+            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
+            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
+        };
+        StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
     }
 
     // Update is called once per frame
@@ -194,25 +197,27 @@ public class ObstacleSpawner : MonoBehaviour {
             }
         }
     }
+
     void MakeFloorObjects() {
         if (obstacleObjects.Count == 0) {
             //Debug.Log("no Obstacles in List. Wat do?");
         }
         else if (obstacleObjects[obstacleObjects.Count - 1].transform.position.x + obstacleObjects[obstacleObjects.Count - 1].transform.localScale.x/2 < cameraSize.x) {
-            float yTop = Random.Range(-cameraSize.y + 1, 1);
+            float yTop = Random.Range(/*-cameraSize.y + */levels[levelIndex].buildingMinHeight, levels[levelIndex].buildingMaxHeight);
             float yScale = yTop + cameraSize.y;
-            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(spawnPointX, yTop - yScale/2, 0), Quaternion.identity);
-            shitVarName.transform.localScale = new Vector3(Random.Range(5, 8), yScale, 1);
+            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(cameraSize.x + levels[levelIndex].buildingGap, yTop - yScale/2, 0), Quaternion.identity);
+            shitVarName.transform.localScale = new Vector3(levels[levelIndex].buildingWidth, yScale, 1);
             obstacleObjects.Add(shitVarName);
         }
     }
 
     IEnumerator SpawnEnemies(float delay) {
         yield return new WaitForSeconds(delay);
-        GameObject clone = (GameObject) Instantiate(enemy, new Vector3(-1.5f * cameraSize.x, 0, 0), Quaternion.identity);
-        clone.GetComponent<Enemy1>().moveSpeed = initialEnemySpeed + (deltaEnemySpeed * enemySpawnIndex);
-        clone.GetComponent<Enemy1>().health = 3;
-        enemySpawnIndex++;
-        StartCoroutine(SpawnEnemies(delay));
+        if (levels[levelIndex].enemySpawning) {
+            GameObject clone = (GameObject)Instantiate(enemy, new Vector3(-1.5f * cameraSize.x, 0, 0), Quaternion.identity);
+            clone.GetComponent<Enemy1>().moveSpeed = levels[levelIndex].enemySpeed;
+            clone.GetComponent<Enemy1>().health = levels[levelIndex].enemyHealth;
+        }
+        StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
     }
 }

@@ -43,7 +43,6 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (scoreManager == null) scoreManager = GameObject.FindWithTag("ScoreManager");
-        Debug.Log(scoreManager.GetComponent<ScoreManager>().gameIsOver);
         if (!scoreManager.GetComponent<ScoreManager>().gameIsOver) {
             projectileTimer += Time.deltaTime;
             //if the player is on the ground

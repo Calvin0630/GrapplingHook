@@ -29,11 +29,12 @@ public class ObstacleSpawner : MonoBehaviour {
     GameObject frameTemp;
     public float distanceTravelled = 0;
     int numOfPlayers;
-    public GameObject distanceField;
+    GameObject distanceField;
     int distance;
     GameObject enemy;
     public LevelParameter[] levels;
     public int levelIndex;
+    public bool enemySpawning;
 
     // Use this for initialization
     void Start() {
@@ -68,7 +69,7 @@ public class ObstacleSpawner : MonoBehaviour {
             //spawning, enemySpeed, enemySpawnDelay, enemyHealth
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
             new LevelParameter(false, 1, 1, 1, 3, -2, -4, 3),
-            new LevelParameter(true, 3, 3, 1, 3, -2, -4, 3),
+            new LevelParameter(true, 2, 4, 2, 3, -2, -4, 3),
             new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
             new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
             new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
@@ -213,8 +214,8 @@ public class ObstacleSpawner : MonoBehaviour {
 
     IEnumerator SpawnEnemies(float delay) {
         yield return new WaitForSeconds(delay);
-        if (levels[levelIndex].enemySpawning) {
-            GameObject clone = (GameObject)Instantiate(enemy, new Vector3(-1.5f * cameraSize.x, 0, 0), Quaternion.identity);
+        if (levels[levelIndex].enemySpawning && enemySpawning) {
+            GameObject clone = (GameObject)Instantiate(enemy, new Vector3(-1.1f * cameraSize.x, 0, 0), Quaternion.identity);
             clone.GetComponent<Enemy1>().moveSpeed = levels[levelIndex].enemySpeed;
             clone.GetComponent<Enemy1>().health = levels[levelIndex].enemyHealth;
         }

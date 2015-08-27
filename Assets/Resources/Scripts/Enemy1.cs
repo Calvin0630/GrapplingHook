@@ -16,10 +16,13 @@ public class Enemy1 : MonoBehaviour {
     GameObject projectile;
     public int health;
     int initialHealth;
+    GameObject healthBarPrefab;
+    GameObject healthBar;
+    float randomnessScalar;
 
 	// Use this for initialization
 	void Start () {
-        relativeWorldSpeed = .075f;
+        relativeWorldSpeed = .04f;
         rBody = gameObject.GetComponent<Rigidbody>();
         isHooked = false;
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
@@ -29,13 +32,19 @@ public class Enemy1 : MonoBehaviour {
         projectile = (GameObject)Resources.Load("Prefab/Projectile");
         if (health == 0) health = 1;
         initialHealth = health;
+        healthBarPrefab = (GameObject) Resources.Load("Prefab/UI/EnemyHealth/EnemyHealthBar");
+        healthBar = (GameObject)Instantiate(healthBarPrefab, 40 * Vector3.left, Quaternion.identity);
+        healthBar.GetComponent<EnemyHealthBar>().enemy = gameObject;
+        healthBar.transform.parent = GameObject.Find("Canvas").transform;
+        randomnessScalar = .5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
+        //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
         worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
+        Vector3 randomness = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0) * randomnessScalar;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;
         float enemyToPlayer = player.transform.position.x - transform.position.x;
@@ -47,7 +56,7 @@ public class Enemy1 : MonoBehaviour {
             rBody.useGravity = true;
         }
         else {
-            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed ,0,0) ;
+            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed ,0,0) + randomness ;
         }
         
     }
@@ -65,6 +74,10 @@ public class Enemy1 : MonoBehaviour {
         }
     }
 
+    void OnDestroy() {
+        Destroy(healthBar);
+    }
+
     IEnumerator PlayerIsCaught(float delay) {
         //this causes the delay
         yield return new WaitForSeconds(delay);
@@ -73,6 +86,9 @@ public class Enemy1 : MonoBehaviour {
     }
     public void TakeDamage(int damage) {
         health -= damage;
+        float fhealth = (float)health;
+        float fInitialHealth = (float)initialHealth;
+        healthBar.GetComponent<EnemyHealthBar>().SetValue((int) (fhealth/fInitialHealth * 100));
         if (health <= 0) {
             Destroy(gameObject);
         }

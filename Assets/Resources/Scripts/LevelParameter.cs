@@ -10,8 +10,9 @@ public class LevelParameter {
     public float buildingMaxHeight;
     public float buildingMinHeight;
     public float buildingGap;
+    public float distanceTravelledForNextLevel;
 
-    public LevelParameter(bool spawning, float speed, float delay, int health, float bWidth, float bMaxHeight, float bMinHeight, float bGap) {
+    public LevelParameter(bool spawning, float speed, float delay, int health, float bWidth, float bMaxHeight, float bMinHeight, float bGap, float distanceForNextLevel) {
         enemySpawning = spawning;
         enemySpeed = speed;
         enemyDelay = delay;
@@ -20,6 +21,7 @@ public class LevelParameter {
         buildingMaxHeight = bMaxHeight;
         buildingMinHeight = bMinHeight;
         buildingGap = bGap;
+        distanceTravelledForNextLevel = distanceForNextLevel;
     }
 
 	// Use this for initialization

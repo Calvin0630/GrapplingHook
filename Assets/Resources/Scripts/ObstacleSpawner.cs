@@ -64,21 +64,23 @@ public class ObstacleSpawner : MonoBehaviour {
         worldMovePointX = movingPointX * cameraWidth;
         MakeFrame(GameOverDetection);
         distanceField = GameObject.FindWithTag("DistanceText");
-        levelIndex = 1;
+        levelIndex = 4;
         levels = new LevelParameter[] {
             //spawning, enemySpeed, enemySpawnDelay, enemyHealth
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
             new LevelParameter(false, 1, 1, 1, 3, -2, -4, 3),
-            new LevelParameter(true, 2, 4, 2, 3, -2, -4, 3),
-            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
-            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
-            new LevelParameter(false, 1, 1, 1, 1, 1, 1, 1),
+            new LevelParameter(true, 3, 4, 2, 3, -2, -4, 3),
+            new LevelParameter(true, 3, 3, 3, 4, 0, -4, 3),
+            new LevelParameter(true, 4, 3, 3, 3, 0, -4, 4),
+            new LevelParameter(true, 4, 2, 2, 4, 1, -3, 5),
         };
         StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
     }
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(levelIndex);
+        levelIndex = ((int) distanceTravelled / 1000);
         distanceTravelled -= Time.deltaTime * worldVelocity.x;
         distance = (int) distanceTravelled;
         //Debug.Log(distanceField == null);

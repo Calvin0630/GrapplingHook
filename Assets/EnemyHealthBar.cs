@@ -6,6 +6,7 @@ public class EnemyHealthBar : MonoBehaviour {
     RectTransform healthBar;
     RectTransform healthPrefab;
     RectTransform health;
+    RectTransform thisRectTransform;
     int YPos;
     int maxX;
     int minX;
@@ -14,10 +15,16 @@ public class EnemyHealthBar : MonoBehaviour {
     void Start () {
         if (enemy == null) Debug.Log("enemy object isn't set in the enemy healthbar class");
         GameObject fuckUnity = (GameObject)(Resources.Load("Prefab/UI/EnemyHealth/Health"));
+        //GetComponent<RectTransform>().localScale = Camera.main.WorldToViewportPoint(new Vector3(2, 2, 2));
         healthPrefab = fuckUnity.GetComponent<RectTransform>();
         health = Instantiate(healthPrefab);
         health.transform.parent = gameObject.transform;
         health.anchoredPosition = Vector2.zero;
+        thisRectTransform = gameObject.GetComponent<RectTransform>();
+        //sets the red part relative to player
+        thisRectTransform.localScale = new Vector3(enemy.transform.localScale.x, enemy.transform.localScale.x, enemy.transform.localScale.x) * 1;
+        //sets the green part to == red part
+        health.localScale = new Vector2(thisRectTransform.rect.width, thisRectTransform.rect.height);
         healthBar = gameObject.GetComponent<RectTransform>();
         YPos = 0;
         maxX = 0;
@@ -26,14 +33,14 @@ public class EnemyHealthBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        //Debug.Log(thisRectTransform.localScale);
         if (enemy != null) healthBar.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, new Vector2 (enemy.transform.position.x, enemy.transform.position.y + .5f));
 	}
     
     //x is between 0, and 100. 100 is full health
     public void SetValue(int x) {
         int newXPos = x * minX / 100 - minX;
-        Debug.Log(health.gameObject.name);
         health.anchoredPosition = new Vector2(newXPos, YPos);
-        Debug.Log(health.anchoredPosition.x);
     }
 }

@@ -44,7 +44,6 @@ public class Enemy1 : MonoBehaviour {
         //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
         worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
-        Vector3 randomness = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0) * randomnessScalar;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;
         float enemyToPlayer = player.transform.position.x - transform.position.x;
@@ -55,8 +54,8 @@ public class Enemy1 : MonoBehaviour {
         if (isHooked) {
             rBody.useGravity = true;
         }
-        else {
-            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed ,0,0) + randomness ;
+        else if (moveSpeed > 0) {
+            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed ,0,0) ;
         }
         
     }

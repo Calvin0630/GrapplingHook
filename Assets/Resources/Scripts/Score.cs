@@ -1,10 +1,17 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
 
-public class Score :IComparable{
+public class Score : IComparable{
+    [XmlAttribute("distanceTraveled")]
     public int distanceTraveled;
+    [XmlAttribute("timeSurvived")]
     public int timeSurvived;
+    [XmlAttribute("highSpeed")]
+    public int highSpeed;
+    [XmlAttribute("name")]
     public string name;
 
     public Score(int distance, int time, string name) {

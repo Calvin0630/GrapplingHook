@@ -5,23 +5,43 @@ public class StartGame : MonoBehaviour {
     GameObject scoreManager;
     GameObject buttonManager;
     GameObject obstacleSpawner;
+    GameObject scoreMgrTmp;
+    GameObject buttonMgrTmp;
+    GameObject spawnerTmp;
+    XMLManager xmlManager;
 
-	// Use this for initialization
-	void Start () { 
-        scoreManager = (GameObject) Resources.Load("Prefab/ScoreManager");
+
+    // Use this for initialization
+    //called before start
+    void Awake() {
+
+        scoreManager = (GameObject)Resources.Load("Prefab/ScoreManager");
         buttonManager = (GameObject)Resources.Load("Prefab/ButtonManager");
         obstacleSpawner = (GameObject)Resources.Load("Prefab/ObstacleSpawner");
         Time.timeScale = 1;
 
         if (GameObject.FindWithTag("ScoreManager") == null) {
-            GameObject scoreMgrTmp = (GameObject)Instantiate(scoreManager);
+            scoreMgrTmp = (GameObject)Instantiate(scoreManager);
+        }
+        else {
+            scoreMgrTmp = GameObject.FindWithTag("ScoreManager");
         }
         if (GameObject.FindWithTag("ButtonManager") == null) {
-            GameObject buttonMgrTmp = (GameObject)Instantiate(buttonManager);
+            buttonMgrTmp = (GameObject)Instantiate(buttonManager);
+        }
+        else {
+            buttonMgrTmp = GameObject.FindWithTag("ButtonManager");
         }
         if (GameObject.FindWithTag("Spawn") == null) {
-            GameObject spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
+            spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
         }
+        else {
+            spawnerTmp = GameObject.FindWithTag("Spawn");
+        }
+    }
+
+    void Start () {
+        scoreMgrTmp.GetComponent<ScoreManager>().highScores.list = XMLManager.Load().scores;
     }
 	
 	// Update is called once per frame

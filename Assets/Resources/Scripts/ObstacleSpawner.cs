@@ -20,6 +20,7 @@ public class ObstacleSpawner : MonoBehaviour {
     float worldMovePointX;
     GameObject farthestPlayer;
     public float worldVelocityX;
+    public float maxSpeed = 0;
     Rigidbody player1RigidBody;
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
@@ -80,12 +81,12 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log("levelIndex :" + levelIndex + "  Distance" + distance);
         if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel) {
             levelIndex++;
         }
         distanceTravelled -= Time.deltaTime * worldVelocity.x;
         distance = (int) distanceTravelled;
+        if (worldVelocityX > maxSpeed) maxSpeed = worldVelocityX;
         //Debug.Log(distanceField == null);
         distanceField.GetComponent<Text>().text = distance + " Metres Travelled";
         if (numOfPlayers == 1) FindWorldVelocity1Player();

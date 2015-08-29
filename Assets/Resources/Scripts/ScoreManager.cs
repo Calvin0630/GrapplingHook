@@ -7,7 +7,7 @@ using System.Linq;
 using System.IO;
 
 public class ScoreManager : MonoBehaviour {
-    List<Score> highScores;
+    public HighScores highScores;
     GameObject scoreBox;
     GameObject highScorePanel;
     GameObject gameOverPanel;
@@ -17,17 +17,20 @@ public class ScoreManager : MonoBehaviour {
     public bool gameIsOver;
 	// Use this for initialization
 
-	void Start () {
-        highScorePath = Application.dataPath.Remove(Application.dataPath.Length - 6) + "HighScores.txt";
-        highScores = new List<Score>();
-        scoreBox = (GameObject) Resources.Load("Prefab/UI/ScoreBox");
+    //called before start
+    void Awake() {
+        highScores = new HighScores();
+        scoreBox = (GameObject)Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
         //ReadScoresFromFile();
         gameIsOver = false;
-        
-        gameOverPanel = (GameObject) Resources.Load("Prefab/UI/GameOverPanel");
-	}
+        gameOverPanel = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
+    }
+
+	void Start () {
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,24 +42,12 @@ public class ScoreManager : MonoBehaviour {
             gameIsOver = false;
         }
     }
-
-    public void AddScore(Score score) {
-        //should get code to write to file
-        highScores.Add(score);
-        highScores.Sort(); 
-    }
-    /*
-    public void AddScore(string name) {
-        spawner = GameObject.Find("ObstacleSpawner");
-        highScores.Add(new Score((int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int)Time.time, name));
-        highScores.OrderByDescending(x => x.distanceTraveled).ToList();
-    }
-    */
+    
     public string ToString() {
         string result = "";
-        for (int i=0;i<highScores.Count;i++) {
-            if (highScores[i] != null) {
-                result += "distance: " + highScores[i].distanceTraveled + " , " + "time: " + highScores[i].timeSurvived + " \n ";
+        for (int i=0;i<highScores.list.Count;i++) {
+            if (highScores.list[i] != null) {
+                result += "distance: " + highScores.list[i].distanceTraveled + " , " + "time: " + highScores.list[i].timeSurvived + " \n ";
             }
         }
         return result;
@@ -64,18 +55,18 @@ public class ScoreManager : MonoBehaviour {
     public void PopulateList() {
         //should get code to read from file
         highScorePanel = GameObject.FindWithTag("HighScoreList");
-        for (int i = 0; i < highScores.Count; i++) {
-            if (highScores[i] != null) {
+        for (int i = 0; i < highScores.list.Count; i++) {
+            if (highScores.list[i] != null) {
                 GameObject scoreItem = Instantiate(scoreBox);
                 //fils text fields in the highscore box
                 Text[] fields = scoreItem.GetComponentsInChildren<Text>();
                 foreach (Text text in fields) {
                     if (text.name == "Place") text.text = (i+1) + ":";
-                    else if (text.name == "Name") text.text = highScores[i].name;
-                    else if (text.name == "Distance") text.text = highScores[i].distanceTraveled + " m";
-                    else if (text.name == "Time") text.text = "" + highScores[i].timeSurvived + " s";
+                    else if (text.name == "Name") text.text = highScores.list[i].name;
+                    else if (text.name == "Distance") text.text = highScores.list[i].distanceTraveled + " m";
+                    else if (text.name == "Time") text.text = "" + highScores.list[i].timeSurvived + " s";
                 }
-                //scoreItem.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores[i].ToString();
+                //scoreItem.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores.list[i].ToString();
                 scoreItem.GetComponent<RectTransform>().SetParent(highScorePanel.transform, false);
                 //scoreItem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             }

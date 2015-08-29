@@ -8,7 +8,6 @@ public class StartGame : MonoBehaviour {
     GameObject scoreMgrTmp;
     GameObject buttonMgrTmp;
     GameObject spawnerTmp;
-    XMLManager xmlManager;
 
 
     // Use this for initialization
@@ -21,7 +20,7 @@ public class StartGame : MonoBehaviour {
         Time.timeScale = 1;
 
         if (GameObject.FindWithTag("ScoreManager") == null) {
-            scoreMgrTmp = (GameObject)Instantiate(scoreManager);
+            scoreMgrTmp = Instantiate(scoreManager);
         }
         else {
             scoreMgrTmp = GameObject.FindWithTag("ScoreManager");
@@ -41,7 +40,7 @@ public class StartGame : MonoBehaviour {
     }
 
     void Start () {
-        scoreMgrTmp.GetComponent<ScoreManager>().highScores.list = XMLManager.Load().scores;
+
     }
 	
 	// Update is called once per frame

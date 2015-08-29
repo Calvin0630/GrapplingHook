@@ -4,27 +4,31 @@ using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
 
-public class Score : IComparable{
-    [XmlAttribute("distanceTraveled")]
+[Serializable]
+[XmlRoot("Score")]
+public class Score : IComparable {
+    [XmlAttribute("name")]
+    public string name;
+    [XmlAttribute("distanceTravelled")]
     public int distanceTraveled;
     [XmlAttribute("timeSurvived")]
     public int timeSurvived;
     [XmlAttribute("highSpeed")]
     public int highSpeed;
-    [XmlAttribute("name")]
-    public string name;
 
-    public Score(int distance, int time, string name) {
+    public Score(int distance, int time, int highSpeed, string name) {
         distanceTraveled = distance;
         timeSurvived = time;
         this.name = name;
+        this.highSpeed = highSpeed;
     }
-
+    public Score() { }
+    /*
     public Score() {
         distanceTraveled = 0;
         timeSurvived = 0;
 
-    }
+    }*/
     public override string ToString() {
         return " " + this.name + "   " + this.distanceTraveled + "  " + this.timeSurvived;
     }

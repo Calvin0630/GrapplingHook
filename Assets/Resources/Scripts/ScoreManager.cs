@@ -7,25 +7,27 @@ using System.Linq;
 using System.IO;
 
 public class ScoreManager : MonoBehaviour {
-    public HighScores highScores;
+    public static HighScores highScores;
     GameObject scoreBox;
     GameObject highScorePanel;
     GameObject gameOverPanel;
     GameObject nameField;
     GameObject spawner;
-    string highScorePath;
+    static string highScorePath;
     public bool gameIsOver;
 	// Use this for initialization
 
     //called before start
     void Awake() {
+        highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
         highScores = new HighScores();
+        Read();
         scoreBox = (GameObject)Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
-        //ReadScoresFromFile();
         gameIsOver = false;
         gameOverPanel = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
+        Write();
     }
 
 	void Start () {
@@ -88,18 +90,27 @@ public class ScoreManager : MonoBehaviour {
         //nameField = GameObject.FindWithTag("NameField");
     }
 
-    public void ReadScoresFromFile() {
-        StreamWriter fileWriter;
-        fileWriter = new StreamWriter(@highScorePath);
-        fileWriter.WriteLine("oii");
-        fileWriter.WriteLine("oii");
-        fileWriter.Close();
-        string scoreText = File.ReadAllText(@highScorePath);
-        Debug.Log(scoreText);
+    public static void Write() {
+        using (FileStream fs = new FileStream(highScorePath, FileMode.Create)) {
+            System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(typeof(HighScores));
+            x.Serialize(fs, highScores);
+            fs.Close();
+        }
     }
+    //public void AddScore(Score score)
 
-    public void WriteScoresToFile() {
-
+    public void Read() {
+        try {
+            using (StreamReader reader = new StreamReader(highScorePath)) {
+                System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(typeof(HighScores));
+                highScores = (HighScores)x.Deserialize(reader);
+            }
+        }
+        catch(System.Xml.XmlException e) {
+            Debug.Log("error");
+            //highScores.list = new List<Score>();
+            //Write();
+        }
     }
 
 }

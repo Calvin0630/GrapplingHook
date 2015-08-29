@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <scores />
+  <HighScores>
+    <ScoreElement name="kghc" distanceTravelled="61" timeSurvived="6" highSpeed="0" />
+    <ScoreElement name="khgc" distanceTravelled="61" timeSurvived="5" highSpeed="0" />
+    <ScoreElement name="wtf" distanceTravelled="51" timeSurvived="4" highSpeed="0" />
+    <ScoreElement name="ayyy" distanceTravelled="45" timeSurvived="4" highSpeed="0" />
+    <ScoreElement name="kgc" distanceTravelled="45" timeSurvived="5" highSpeed="0" />
+  </HighScores>
 </HighScores>

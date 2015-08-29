@@ -21,7 +21,6 @@ public class HighScores {
     public void AddScore(Score score) {
         list.Add(score);
         list.Sort();
-        Debug.Log(list.Count);
         ScoreManager.Write();
     }
 

@@ -13,13 +13,12 @@ public class ScoreManager : MonoBehaviour {
     GameObject gameOverPanel;
     GameObject nameField;
     GameObject spawner;
-    static string highScorePath;
+    public static string highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
     public bool gameIsOver;
 	// Use this for initialization
 
     //called before start
     void Awake() {
-        highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
         highScores = new HighScores();
         Read();
         scoreBox = (GameObject)Resources.Load("Prefab/UI/ScoreBox");
@@ -107,9 +106,8 @@ public class ScoreManager : MonoBehaviour {
             }
         }
         catch(System.Xml.XmlException e) {
-            Debug.Log("error");
-            //highScores.list = new List<Score>();
-            //Write();
+            highScores.list = new List<Score>();
+            Write();
         }
     }
 

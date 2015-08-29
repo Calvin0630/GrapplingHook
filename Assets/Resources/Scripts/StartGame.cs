@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class StartGame : MonoBehaviour {
     GameObject scoreManager;
@@ -13,6 +14,9 @@ public class StartGame : MonoBehaviour {
     // Use this for initialization
     //called before start
     void Awake() {
+        if (!File.Exists(ScoreManager.highScorePath)) {
+            using (StreamWriter file = new StreamWriter(File.Create(ScoreManager.highScorePath))) ;
+        }
 
         scoreManager = (GameObject)Resources.Load("Prefab/ScoreManager");
         buttonManager = (GameObject)Resources.Load("Prefab/ButtonManager");

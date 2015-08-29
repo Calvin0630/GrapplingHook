@@ -24,4 +24,12 @@ public class HighScores {
         ScoreManager.Write();
     }
 
+    public override string ToString() {
+        string result = "";
+        for (int i=0;i<list.Count;i++) {
+            result += list[i].ToString() + "\n";
+        }
+        return result;
+    }
+
 }

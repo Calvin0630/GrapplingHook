@@ -30,7 +30,7 @@ public class Score : IComparable {
 
     }*/
     public override string ToString() {
-        return " " + this.name + "   " + this.distanceTraveled + "  " + this.timeSurvived;
+        return " " + "name: " + this.name + " distance:  " + this.distanceTraveled + " time " + this.timeSurvived + " MaxSpeed: " + highSpeed;
     }
 
     int IComparable.CompareTo(object obj) {

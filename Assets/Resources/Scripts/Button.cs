@@ -45,8 +45,8 @@ public class Button : MonoBehaviour {
         scoreManager = GameObject.FindWithTag("ScoreManager");
         spawner = GameObject.Find("ObstacleSpawner");
         inField = GameObject.Find("NameText");
-
-        ScoreManager.highScores.AddScore(new Score((int)spawner.GetComponent<ObstacleSpawner>().maxSpeed, (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int) Time.timeSinceLevelLoad, inField.GetComponentInChildren<Text>().text));
+        print(ScoreManager.highScores.ToString());
+        ScoreManager.highScores.AddScore(new Score( (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int) Time.timeSinceLevelLoad, (int)spawner.GetComponent<ObstacleSpawner>().maxSpeed, inField.GetComponentInChildren<Text>().text));
         Application.LoadLevel("SinglePlayerGameOver");
     }
 

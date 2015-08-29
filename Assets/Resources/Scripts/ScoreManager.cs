@@ -62,10 +62,11 @@ public class ScoreManager : MonoBehaviour {
                 //fils text fields in the highscore box
                 Text[] fields = scoreItem.GetComponentsInChildren<Text>();
                 foreach (Text text in fields) {
-                    if (text.name == "Place") text.text = (i+1) + ":";
+                    if (text.name == "Place") text.text = (i + 1) + ":";
                     else if (text.name == "Name") text.text = highScores.list[i].name;
                     else if (text.name == "Distance") text.text = highScores.list[i].distanceTraveled + " m";
                     else if (text.name == "Time") text.text = "" + highScores.list[i].timeSurvived + " s";
+                    else if (text.name == "Speed") text.text = highScores.list[i].highSpeed + " m/s";
                 }
                 //scoreItem.GetComponent<Text>().text = " " + (i + 1) + ": " + highScores.list[i].ToString();
                 scoreItem.GetComponent<RectTransform>().SetParent(highScorePanel.transform, false);
@@ -88,7 +89,7 @@ public class ScoreManager : MonoBehaviour {
         //GG.GetComponent<RectTransform>().
         //nameField = GameObject.FindWithTag("NameField");
     }
-
+    //xml shit
     public static void Write() {
         using (FileStream fs = new FileStream(highScorePath, FileMode.Create)) {
             System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(typeof(HighScores));
@@ -97,7 +98,7 @@ public class ScoreManager : MonoBehaviour {
         }
     }
     //public void AddScore(Score score)
-
+    //xml shit
     public void Read() {
         try {
             using (StreamReader reader = new StreamReader(highScorePath)) {

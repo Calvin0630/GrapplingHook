@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
-    <ScoreElement name="Calvin" distanceTravelled="1876" timeSurvived="58" highSpeed="53" />
-    <ScoreElement name="ayyyy" distanceTravelled="569" timeSurvived="17" highSpeed="52" />
-    <ScoreElement name="Calvin" distanceTravelled="55" timeSurvived="5" highSpeed="32" />
+    <ScoreElement name="Calvin" distanceTravelled="1337" timeSurvived="58" highSpeed="53" />
+    <ScoreElement name="" distanceTravelled="55" timeSurvived="4" highSpeed="25" />
   </HighScores>
 </HighScores>

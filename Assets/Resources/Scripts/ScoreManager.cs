@@ -13,12 +13,16 @@ public class ScoreManager : MonoBehaviour {
     GameObject gameOverPanel;
     GameObject nameField;
     GameObject spawner;
-    public static string highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
+    public static string highScorePath;
     public bool gameIsOver;
 	// Use this for initialization
 
     //called before start
     void Awake() {
+        highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
+        if (!File.Exists(ScoreManager.highScorePath)) {
+            using (StreamWriter file = new StreamWriter(File.Create(ScoreManager.highScorePath))) ;
+        }
         highScores = new HighScores();
         Read();
         scoreBox = (GameObject)Resources.Load("Prefab/UI/ScoreBox");

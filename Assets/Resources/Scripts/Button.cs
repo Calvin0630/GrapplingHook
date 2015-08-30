@@ -40,12 +40,14 @@ public class Button : MonoBehaviour {
     public void LoadTutorial() {
         Application.LoadLevel("SinglePlayerTutorial");
     }
+    public void ExitGame() {
+        Application.Quit();
+    }
 
     public void SubmitName() {
         scoreManager = GameObject.FindWithTag("ScoreManager");
         spawner = GameObject.Find("ObstacleSpawner");
         inField = GameObject.Find("NameText");
-        print(ScoreManager.highScores.ToString());
         ScoreManager.highScores.AddScore(new Score( (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int) Time.timeSinceLevelLoad, (int)spawner.GetComponent<ObstacleSpawner>().maxSpeed, inField.GetComponentInChildren<Text>().text));
         Application.LoadLevel("SinglePlayerGameOver");
     }

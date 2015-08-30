@@ -14,10 +14,6 @@ public class StartGame : MonoBehaviour {
     // Use this for initialization
     //called before start
     void Awake() {
-        if (!File.Exists(ScoreManager.highScorePath)) {
-            using (StreamWriter file = new StreamWriter(File.Create(ScoreManager.highScorePath))) ;
-        }
-
         scoreManager = (GameObject)Resources.Load("Prefab/ScoreManager");
         buttonManager = (GameObject)Resources.Load("Prefab/ButtonManager");
         obstacleSpawner = (GameObject)Resources.Load("Prefab/ObstacleSpawner");
@@ -35,7 +31,7 @@ public class StartGame : MonoBehaviour {
         else {
             buttonMgrTmp = GameObject.FindWithTag("ButtonManager");
         }
-        if (GameObject.FindWithTag("Spawn") == null) {
+        if (GameObject.FindWithTag("Spawn") == null && Application.loadedLevelName != "MainScreen") {
             spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
         }
         else {

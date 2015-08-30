@@ -42,7 +42,7 @@ public class Enemy1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
-        worldVelocityX = spawner.GetComponent<ObstacleSpawner>().worldVelocityX;
+        worldVelocityX = ObstacleSpawner.worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;

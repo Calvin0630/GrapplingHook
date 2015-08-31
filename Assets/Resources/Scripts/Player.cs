@@ -42,11 +42,30 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (hookInstance != null) {
+            //updates line renderer
+            playerToHook.SetVertexCount(2);
+            playerToHook.SetPosition(0, transform.position);
+            playerToHook.SetPosition(1, hookInstance.transform.position);
+            // moves player towards hook if hook is attatched to wall
+            Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
+        }
+        else {
+            playerToHook.SetVertexCount(0);
+        }
+        if (shieldPower <= 0) {
+            Destroy(shieldInstance);
+            Time.timeScale = 1;
+        }
+    }
+
+    void FixedUpdate() {
         if (scoreManager == null) scoreManager = GameObject.FindWithTag("ScoreManager");
-        if (!scoreManager.GetComponent<ScoreManager>().gameIsOver) {
+        if (!ScoreManager.gameIsOver) {
             projectileTimer += Time.deltaTime;
             //if the player is on the ground
             if (isGrounded) {
+                //moving controls
                 rBody.AddForce(new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, 0, 0));
                 // jumping controls
                 if (Input.GetAxis("Jump" + playerNum) > .7f) {
@@ -87,7 +106,7 @@ public class Player : MonoBehaviour {
             //controls for shield
             //Debug.Log(shieldPower);
             shieldBar.GetComponent<EnergyBar>().SetValue((int)shieldPower);
-            if (Input.GetButtonDown("Shield" + playerNum) && shieldPower >= 0 && shieldPower <= 101) {
+            if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);
@@ -96,34 +115,20 @@ public class Player : MonoBehaviour {
                 Time.timeScale = .25f;
                 shieldPower -= .75f;
             }
-            else if (!scoreManager.GetComponent<ScoreManager>().gameIsOver && shieldPower >= -1) {
+            if (!ScoreManager.gameIsOver && (shieldPower <=0 || !Input.GetButton("Shield" + playerNum))) {
                 Time.timeScale = 1;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
-
             }
-
-            if (hookInstance != null) {
-                //updates line renderer
-                playerToHook.SetVertexCount(2);
-                playerToHook.SetPosition(0, transform.position);
-                playerToHook.SetPosition(1, hookInstance.transform.position);
+            
+            if (hookInstance != null && hookInstance.GetComponent<Hook>().hooked) {
                 // moves player towards hook if hook is attatched to wall
                 Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
-                if (hookInstance.GetComponent<Hook>().hooked) {
-
-                    rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
-                }
-            }
-            else {
-                playerToHook.SetVertexCount(0);
+                rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
             }
         }
-    }
-
-    void FixedUpdate() {
     }
 
     void OnCollisionEnter(Collision col) {

@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour {
     GameObject nameField;
     GameObject spawner;
     public static string highScorePath;
-    public bool gameIsOver;
+    public static bool gameIsOver;
 	// Use this for initialization
 
     //called before start
@@ -86,7 +86,7 @@ public class ScoreManager : MonoBehaviour {
             GG.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
             spawner = GameObject.Find("ObstacleSpawner");
-            congratsText.GetComponent<Text>().text = "You made it " + (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled + " metres!! GG";
+            congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
             spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
             gameIsOver = true;
         }

@@ -29,7 +29,7 @@ public class ObstacleSpawner : MonoBehaviour {
     public bool GameOverDetection;
     GameObject FramePiece;
     GameObject frameTemp;
-    public float distanceTravelled = 0;
+    public static float distanceTravelled = 0;
     int numOfPlayers;
     GameObject distanceField;
     int distance;
@@ -81,11 +81,15 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        
+    }
+
+    void FixedUpdate() {
         if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel) {
             levelIndex++;
         }
         distanceTravelled -= Time.deltaTime * worldVelocity.x;
-        distance = (int) distanceTravelled;
+        distance = (int)distanceTravelled;
         if (worldVelocityX > maxSpeed) maxSpeed = worldVelocityX;
         //Debug.Log(distanceField == null);
         distanceField.GetComponent<Text>().text = distance + " Metres Travelled";

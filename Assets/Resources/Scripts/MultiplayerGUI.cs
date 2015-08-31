@@ -12,7 +12,7 @@ public class MultiplayerGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        distance = (int) spawn.distanceTravelled;
+        distance = (int) ObstacleSpawner.distanceTravelled;
         distanceField.text = distance + " Metres Travelled";
 	}
 }

@@ -2,6 +2,14 @@
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
     <ScoreElement name="Calvin" distanceTravelled="1337" timeSurvived="58" highSpeed="53" />
-    <ScoreElement name="" distanceTravelled="55" timeSurvived="4" highSpeed="25" />
+    <ScoreElement name="" distanceTravelled="958" timeSurvived="29" highSpeed="52" />
+    <ScoreElement name="" distanceTravelled="866" timeSurvived="33" highSpeed="58" />
+    <ScoreElement name="Calvin" distanceTravelled="532" timeSurvived="13" highSpeed="63" />
+    <ScoreElement name="" distanceTravelled="483" timeSurvived="0" highSpeed="48" />
+    <ScoreElement name="" distanceTravelled="47" timeSurvived="4" highSpeed="26" />
+    <ScoreElement name="Your Name" distanceTravelled="1" timeSurvived="16" highSpeed="0" />
+    <ScoreElement name="Your Name" distanceTravelled="0" timeSurvived="4" highSpeed="0" />
+    <ScoreElement name="ayyy" distanceTravelled="0" timeSurvived="5" highSpeed="0" />
+    <ScoreElement name="Your Name" distanceTravelled="0" timeSurvived="3" highSpeed="0" />
   </HighScores>
 </HighScores>

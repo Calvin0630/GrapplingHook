@@ -34,7 +34,7 @@ public class Button : MonoBehaviour {
 
     public void Replay() {
         Application.LoadLevel(Application.loadedLevel);
-        GameObject.FindWithTag("ScoreManager").GetComponent<ScoreManager>().gameIsOver = false;
+        ScoreManager.gameIsOver = false;
     }
 
     public void LoadTutorial() {
@@ -45,10 +45,9 @@ public class Button : MonoBehaviour {
     }
 
     public void SubmitName() {
-        scoreManager = GameObject.FindWithTag("ScoreManager");
         spawner = GameObject.Find("ObstacleSpawner");
-        inField = GameObject.Find("NameText");
-        ScoreManager.highScores.AddScore(new Score( (int)spawner.GetComponent<ObstacleSpawner>().distanceTravelled, (int) Time.timeSinceLevelLoad, (int)spawner.GetComponent<ObstacleSpawner>().maxSpeed, inField.GetComponentInChildren<Text>().text));
+        inField = GameObject.FindWithTag("NameText");
+        ScoreManager.highScores.AddScore(new Score( (int)ObstacleSpawner.distanceTravelled, (int) Time.timeSinceLevelLoad, (int)spawner.GetComponent<ObstacleSpawner>().maxSpeed, inField.GetComponentInChildren<Text>().text));
         Application.LoadLevel("SinglePlayerGameOver");
     }
 

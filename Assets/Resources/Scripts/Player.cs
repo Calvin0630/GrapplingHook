@@ -105,7 +105,7 @@ public class Player : MonoBehaviour {
 
             //controls for shield
             //Debug.Log(shieldPower);
-            shieldBar.GetComponent<EnergyBar>().SetValue((int)shieldPower);
+            ShieldBar.SetValue(shieldPower/100);
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;

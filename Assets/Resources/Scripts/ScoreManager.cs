@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour {
     public static HighScores highScores;
     GameObject scoreBox;
     GameObject highScorePanel;
-    GameObject gameOverPanel;
+    GameObject gameOverPanelPrefab;
     GameObject nameField;
     GameObject spawner;
     public static string highScorePath;
@@ -29,7 +29,7 @@ public class ScoreManager : MonoBehaviour {
         spawner = GameObject.FindWithTag("Spawn");
         DontDestroyOnLoad(gameObject);
         gameIsOver = false;
-        gameOverPanel = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
+        gameOverPanelPrefab = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
         Write();
     }
 
@@ -82,12 +82,14 @@ public class ScoreManager : MonoBehaviour {
     public void GameOver() {
         if (!gameIsOver) { 
             Time.timeScale = 0;
-            GameObject GG = Instantiate(gameOverPanel);
-            GG.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
+            GameObject gameOverPanel = Instantiate(gameOverPanelPrefab);
+            gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
-            spawner = GameObject.Find("ObstacleSpawner");
+            foreach (Text text in gameOverPanel.GetComponentsInChildren<Text>()) {
+                print(text.gameObject.name);
+            }
             congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
-            spawner.GetComponent<ObstacleSpawner>().worldVelocity = Vector3.zero;
+            ObstacleSpawner.worldVelocity = Vector3.zero;
             gameIsOver = true;
         }
         //GG.GetComponent<RectTransform>().

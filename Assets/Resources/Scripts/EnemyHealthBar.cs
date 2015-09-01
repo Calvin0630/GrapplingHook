@@ -22,20 +22,19 @@ public class EnemyHealthBar : MonoBehaviour {
         health.anchoredPosition = Vector2.zero;
         thisRectTransform = gameObject.GetComponent<RectTransform>();
         //sets the red part relative to player
-        thisRectTransform.localScale = new Vector3(enemy.transform.localScale.x, enemy.transform.localScale.x, enemy.transform.localScale.x) * 1;
+        thisRectTransform.localScale = new Vector3(enemy.transform.lossyScale.x, enemy.transform.lossyScale.x, enemy.transform.lossyScale.x) * 1;
         //sets the green part to == red part
         health.localScale = new Vector2(thisRectTransform.rect.width, thisRectTransform.rect.height);
-        healthBar = gameObject.GetComponent<RectTransform>();
         YPos = 0;
         maxX = 0;
-        minX = (int)Mathf.Round(healthBar.rect.width);
+        minX = (int)Mathf.Round(thisRectTransform.rect.width);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         //Debug.Log(thisRectTransform.localScale);
-        if (enemy != null) healthBar.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, new Vector2 (enemy.transform.position.x, enemy.transform.position.y + .5f));
+        if (enemy != null) thisRectTransform.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, new Vector2 (enemy.transform.position.x, enemy.transform.position.y + .5f));
 	}
     
     //x is between 0, and 100. 100 is full health

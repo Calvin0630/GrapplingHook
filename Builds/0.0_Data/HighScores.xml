@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
-    <ScoreElement name="Calvin" distanceTravelled="1096" timeSurvived="46" highSpeed="41" />
-    <ScoreElement name="FACK U" distanceTravelled="928" timeSurvived="44" highSpeed="43" />
-    <ScoreElement name="AAAAAAAAAAA" distanceTravelled="914" timeSurvived="64" highSpeed="27" />
-    <ScoreElement name="john madden" distanceTravelled="843" timeSurvived="41" highSpeed="33" />
-    <ScoreElement name="hahaha 808" distanceTravelled="808" timeSurvived="64" highSpeed="30" />
-    <ScoreElement name="u all get cansuh" distanceTravelled="717" timeSurvived="50" highSpeed="26" />
-    <ScoreElement name="pregnant goku" distanceTravelled="512" timeSurvived="24" highSpeed="37" />
-    <ScoreElement name="elan musk" distanceTravelled="496" timeSurvived="35" highSpeed="29" />
-    <ScoreElement name="ongs mega dong" distanceTravelled="213" timeSurvived="12" highSpeed="29" />
-    <ScoreElement name="" distanceTravelled="207" timeSurvived="11" highSpeed="40" />
-    <ScoreElement name="Donald Trump" distanceTravelled="36" timeSurvived="4" highSpeed="20" />
+    <ScoreElement name="Calvin" distanceTravelled="1973" timeSurvived="61" highSpeed="60" />
   </HighScores>
 </HighScores>

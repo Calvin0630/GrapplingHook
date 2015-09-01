@@ -13,14 +13,11 @@ public class Spedometer : MonoBehaviour {
         if (ScoreManager.highScores.list.Count > 0 && ScoreManager.highScores.list[0].highSpeed > 25) {
             maxSpeed = ScoreManager.highScores.list[0].highSpeed;
         }
-        else maxSpeed = 25;
-        print(maxSpeed);
+        else maxSpeed = 40;
         image = gameObject.GetComponent<Image>();
         image.type = Image.Type.Filled;
         image.fillMethod = Image.FillMethod.Vertical;
         image.fillOrigin = (int) Image.OriginVertical.Bottom;
-
-        image.fillAmount = .5f;
     }
 	
 	// Update is called once per frame

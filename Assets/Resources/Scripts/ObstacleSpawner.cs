@@ -20,11 +20,11 @@ public class ObstacleSpawner : MonoBehaviour {
     float worldMovePointX;
     GameObject farthestPlayer;
     public static float worldVelocityX;
-    public float maxSpeed = 0;
+    public static float maxSpeed = 0;
     Rigidbody player1RigidBody;
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
-    public Vector3 worldVelocity;
+    public static Vector3 worldVelocity;
     GameObject[] tmp;
     public bool GameOverDetection;
     GameObject FramePiece;

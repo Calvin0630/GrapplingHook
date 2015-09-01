@@ -85,8 +85,11 @@ public class ScoreManager : MonoBehaviour {
             GameObject gameOverPanel = Instantiate(gameOverPanelPrefab);
             gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
-            foreach (Text text in gameOverPanel.GetComponentsInChildren<Text>()) {
-                print(text.gameObject.name);
+            GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
+            foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
+                if (text.gameObject.name == "Distance") text.text = (int) ObstacleSpawner.distanceTravelled + " m";
+                else if (text.gameObject.name == "Time") text.text = (int) Time.timeSinceLevelLoad + " s";
+                else if (text.gameObject.name == "MaxSpeed") text.text = (int) ObstacleSpawner.maxSpeed + " m/s";
             }
             congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
             ObstacleSpawner.worldVelocity = Vector3.zero;

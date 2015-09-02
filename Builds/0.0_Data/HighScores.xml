@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
-    <ScoreElement name="Calvin" distanceTravelled="1973" timeSurvived="61" highSpeed="60" />
+    <ScoreElement name="etgsargdf" distanceTravelled="706" timeSurvived="23" highSpeed="30" />
+    <ScoreElement name="datgf" distanceTravelled="333" timeSurvived="29" highSpeed="30" />
   </HighScores>
 </HighScores>

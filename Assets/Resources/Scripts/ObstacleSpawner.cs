@@ -37,6 +37,7 @@ public class ObstacleSpawner : MonoBehaviour {
     public LevelParameter[] levels;
     public int levelIndex;
     public bool enemySpawning;
+    public float turretFrequency;
 
     // Use this for initialization
     void Start() {
@@ -70,11 +71,11 @@ public class ObstacleSpawner : MonoBehaviour {
         levels = new LevelParameter[] {
             //spawning, enemySpeed, enemySpawnDelay, enemyHealth
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
-            new LevelParameter(false, 1, 1, 1, 3, -2, -4, 3, 100),
-            new LevelParameter(true, 3, 4, 2, 3, -2, -4, 3, 500),
-            new LevelParameter(true, 3, 3, 3, 4, 0, -4, 3, 1000),
-            new LevelParameter(true, 4, 3, 3, 3, 0, -4, 4, 2000),
-            new LevelParameter(true, 4, 2, 2, 4, 1, -3, 5, 3000),
+            new LevelParameter(false, false, 1, 1, 1, 3, -2, -4, 3, 100),
+            new LevelParameter(true, true, 3, 4, 2, 3, -2, -4, 3, 500),
+            new LevelParameter(true, true, 3, 3, 3, 4, 0, -4, 3, 1000),
+            new LevelParameter(true, true, 4, 3, 3, 3, 0, -4, 4, 2000),
+            new LevelParameter(true, true, 4, 2, 2, 4, 1, -3, 5, 3000),
         };
         StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
     }

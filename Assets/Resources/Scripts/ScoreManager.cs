@@ -48,7 +48,7 @@ public class ScoreManager : MonoBehaviour {
         }
     }
     
-    public string ToString() {
+    public override string ToString() {
         string result = "";
         for (int i=0;i<highScores.list.Count;i++) {
             if (highScores.list[i] != null) {

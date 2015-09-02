@@ -2,6 +2,7 @@
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
     <ScoreElement name="rsfd" distanceTravelled="2180" timeSurvived="64" highSpeed="70" />
+    <ScoreElement name="Calvin" distanceTravelled="2060" timeSurvived="52" highSpeed="63" />
     <ScoreElement name="sssssssss" distanceTravelled="772" timeSurvived="0" highSpeed="56" />
     <ScoreElement name="" distanceTravelled="242" timeSurvived="24" highSpeed="34" />
     <ScoreElement name="" distanceTravelled="242" timeSurvived="24" highSpeed="34" />

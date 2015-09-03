@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-    string playerNum;
+    static string playerNum;
     public float movementSpeed;
     GameObject hook;
     public float jumpForce;
@@ -24,6 +24,8 @@ public class Player : MonoBehaviour {
     GameObject shield;
     GameObject shieldInstance;
     float shieldPower;
+    public static int initialHealth;
+    static int health;
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour {
         projectileTimer = projectileDelay;
         projectileTriggerDown = false;
         shieldPower = 100;
+        health = initialHealth;
     }
 
     // Update is called once per frame
@@ -127,6 +130,15 @@ public class Player : MonoBehaviour {
                 // moves player towards hook if hook is attatched to wall
                 Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
                 rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
+            }
+        }
+    }
+
+    public void TakeDamage(string target, int damage) {
+        if (target == playerNum) {
+            health -= damage;
+            if (health <= 0) {
+                Destroy(gameObject);
             }
         }
     }

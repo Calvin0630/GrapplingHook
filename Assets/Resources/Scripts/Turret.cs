@@ -26,9 +26,9 @@ public class Turret : MonoBehaviour {
 	void Update () {
 	
 	}
+
     public IEnumerator ShootAtPlayer() {
         yield return new WaitForSeconds(shotDelay);
-        print(transform.position);
         GameObject projectile = (GameObject)Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         projectile.GetComponent<Rigidbody>().velocity = (player.transform.position - gameObject.transform.position).normalized * shotSpeed;
         StartCoroutine(ShootAtPlayer());

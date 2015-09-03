@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour {
     public static HighScores highScores;
     GameObject scoreBox;
     GameObject highScorePanel;
-    GameObject gameOverPanelPrefab;
+    static GameObject gameOverPanelPrefab;
     GameObject nameField;
     GameObject spawner;
     public static string highScorePath;
@@ -79,7 +79,7 @@ public class ScoreManager : MonoBehaviour {
         }
     }
 
-    public void GameOver() {
+    public static void GameOver() {
         if (!gameIsOver) { 
             Time.timeScale = 0;
             GameObject gameOverPanel = Instantiate(gameOverPanelPrefab);

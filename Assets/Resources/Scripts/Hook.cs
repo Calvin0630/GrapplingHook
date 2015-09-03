@@ -28,7 +28,7 @@ public class Hook : MonoBehaviour {
         else if (other.gameObject.tag == "Enemy") {
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             gameObject.transform.parent = other.gameObject.transform;
-            other.gameObject.GetComponent<Enemy1>().isHooked = true;
+            other.gameObject.GetComponent<Enemy>().isHooked = true;
         }
     }
 }

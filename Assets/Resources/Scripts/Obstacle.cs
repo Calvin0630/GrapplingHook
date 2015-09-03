@@ -9,8 +9,8 @@ public class Obstacle : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {/*
 		if (gameObject.transform.position.y < -15)
-			Destroy (gameObject);
+			Destroy (gameObject);*/
 	}
 }

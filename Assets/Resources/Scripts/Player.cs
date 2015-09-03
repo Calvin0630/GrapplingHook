@@ -20,12 +20,12 @@ public class Player : MonoBehaviour {
     public float projectileDelay;
     bool projectileTriggerDown;
     float projectileTimer;
-    GameObject shieldBar;
+    GameObject healthBar;
     GameObject shield;
     GameObject shieldInstance;
     float shieldPower;
-    public static int initialHealth;
-    static int health;
+    public int initialHealth;
+    int health;
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
         hook = (GameObject)Resources.Load("Prefab/Hook");
         projectile = (GameObject)Resources.Load("Prefab/FriendlyProjectile");
         shield = (GameObject)Resources.Load("Prefab/Shield");
-        shieldBar = GameObject.FindGameObjectWithTag("ShieldBar" + playerNum);
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar" + playerNum);
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         projectileTimer = projectileDelay;
@@ -137,8 +137,10 @@ public class Player : MonoBehaviour {
     public void TakeDamage(string target, int damage) {
         if (target == playerNum) {
             health -= damage;
+            healthBar.GetComponent<EnergyBar>().SetValue(100 * health/initialHealth);
             if (health <= 0) {
-                Destroy(gameObject);
+                //just for debugging
+                //ScoreManager.GameOver();
             }
         }
     }

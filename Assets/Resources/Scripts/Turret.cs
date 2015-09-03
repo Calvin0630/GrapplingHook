@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Turret : MonoBehaviour {
-
-    GameObject healthBarPrefab;
+public class Turret : Enemy {
+    
     public float shotDelay;
     public float shotSpeed;
     GameObject projectilePrefab;
@@ -11,21 +10,22 @@ public class Turret : MonoBehaviour {
     GameObject player;
 
 	void Start () {
+        base.Start();
         shotSpeed = 10;
         shotDelay = .5f;
-        healthBarPrefab = (GameObject) Resources.Load("Prefab/UI/EnemyHealth/EnemyHealthBar");
-        GameObject healthBar = (GameObject)Instantiate(healthBarPrefab, 40 * Vector3.left, Quaternion.identity);
-        healthBar.GetComponent<EnemyHealthBar>().enemy = gameObject;
-        healthBar.transform.parent = GameObject.Find("Canvas").transform;
         projectilePrefab = (GameObject)Resources.Load("Prefab/EnemyProjectile");
         player = GameObject.FindWithTag("Player1");
-        StartCoroutine(ShootAtPlayer());
+        //StartCoroutine(ShootAtPlayer());
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
+
+    void OnCollisionEnter(Collision other) {
+        base.OnCollisionEnter(other);
+    }
 
     public IEnumerator ShootAtPlayer() {
         yield return new WaitForSeconds(shotDelay);
@@ -33,4 +33,5 @@ public class Turret : MonoBehaviour {
         projectile.GetComponent<Rigidbody>().velocity = (player.transform.position - gameObject.transform.position).normalized * shotSpeed;
         StartCoroutine(ShootAtPlayer());
     }
+    
 }

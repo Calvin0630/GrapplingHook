@@ -33,7 +33,7 @@ public class ObstacleSpawner : MonoBehaviour {
     int numOfPlayers;
     GameObject distanceField;
     int distance;
-    GameObject enemy;
+    GameObject chaserPrefab;
     public LevelParameter[] levels;
     public int levelIndex;
     public bool enemySpawning;
@@ -48,7 +48,7 @@ public class ObstacleSpawner : MonoBehaviour {
         roof = (GameObject)Resources.Load("Prefab/Roof");
         obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
-        enemy = (GameObject) Resources.Load("Prefab/Enemy");
+        chaserPrefab = (GameObject) Resources.Load("Prefab/Chaser");
         //initiates lists
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
@@ -86,7 +86,7 @@ public class ObstacleSpawner : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel) {
+        if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel && levelIndex < levels.Length-1) {
             levelIndex++;
         }
         distanceTravelled -= Time.deltaTime * worldVelocity.x;
@@ -226,9 +226,9 @@ public class ObstacleSpawner : MonoBehaviour {
     IEnumerator SpawnEnemies(float delay) {
         yield return new WaitForSeconds(delay);
         if (levels[levelIndex].enemySpawning && enemySpawning) {
-            GameObject clone = (GameObject)Instantiate(enemy, new Vector3(-1.1f * cameraSize.x, 0, 0), Quaternion.identity);
-            clone.GetComponent<Enemy1>().moveSpeed = levels[levelIndex].enemySpeed;
-            clone.GetComponent<Enemy1>().health = levels[levelIndex].enemyHealth;
+            GameObject clone = (GameObject)Instantiate(chaserPrefab, new Vector3(-1.1f * cameraSize.x, 0, 0), Quaternion.identity);
+            clone.GetComponent<Chaser>().moveSpeed = levels[levelIndex].enemySpeed;
+            clone.GetComponent<Chaser>().health = levels[levelIndex].enemyHealth;
         }
         StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
     }

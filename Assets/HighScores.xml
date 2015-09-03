@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
+    <ScoreElement name="anMadness" distanceTravelled="3000" timeSurvived="101" highSpeed="57" />
     <ScoreElement name="rsfd" distanceTravelled="2180" timeSurvived="64" highSpeed="70" />
     <ScoreElement name="Calvin" distanceTravelled="2060" timeSurvived="52" highSpeed="63" />
+    <ScoreElement name="tfd" distanceTravelled="1396" timeSurvived="56" highSpeed="52" />
     <ScoreElement name="sssssssss" distanceTravelled="772" timeSurvived="0" highSpeed="56" />
+    <ScoreElement name="assface" distanceTravelled="520" timeSurvived="26" highSpeed="41" />
     <ScoreElement name="" distanceTravelled="242" timeSurvived="24" highSpeed="34" />
     <ScoreElement name="" distanceTravelled="242" timeSurvived="24" highSpeed="34" />
     <ScoreElement name="wdas" distanceTravelled="70" timeSurvived="0" highSpeed="27" />

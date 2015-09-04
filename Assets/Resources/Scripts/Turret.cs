@@ -23,7 +23,7 @@ public class Turret : Enemy {
 
 	}
 
-    void OnCollisionEnter(Collision other) {
+    public void OnCollisionEnter(Collision other) {
         base.OnCollisionEnter(other);
     }
 

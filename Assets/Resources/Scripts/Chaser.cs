@@ -47,11 +47,13 @@ public class Chaser : Enemy {
 
     void OnCollisionEnter(Collision other) {
         base.OnCollisionEnter(other);
-        if (other.collider.gameObject.tag == "Player1") {
-            StartCoroutine(PlayerIsCaught(0));
-        }
-        else if (other.collider.gameObject.tag == "Shield") {
-            Destroy(gameObject);
+        print(other.gameObject.name);
+        //convoluted code because unity doesnt know how children colliders work
+        //P.S. Unity is fucking garbage
+        //P.P.S. it checks shield stuff and player stuff
+        if (other.gameObject.tag == "Player1") {
+            if (other.gameObject.GetComponent<Player>().HasShield()) Destroy(gameObject);
+            else StartCoroutine(PlayerIsCaught(0));
         }
     }
 

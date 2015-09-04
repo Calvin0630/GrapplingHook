@@ -2,23 +2,25 @@
 using System.Collections;
 
 public class LevelParameter {
-    public bool enemySpawning;
+    public bool chaserSpawning;
     public bool turretSpawning;
-    public float enemySpeed;
-    public float enemyDelay;
-    public int enemyHealth;
+    public float turretSpawnProbability;
+    public float chaserSpeed;
+    public float chaserDelay;
+    public int chaserHealth;
     public float buildingWidth;
     public float buildingMaxHeight;
     public float buildingMinHeight;
     public float buildingGap;
     public float distanceTravelledForNextLevel;
 
-    public LevelParameter(bool enemySpawning, bool turretSpawning, float enemySpeed, float enemyDelay, int enemyHealth, float buildingWidth, float buildingMaxHeight, float buildingMinHeight, float buildingGap, float distanceTravelledForNextLevel) {
-        this.enemySpawning = enemySpawning;
+    public LevelParameter(bool turretSpawning, float turretSpawnProbability, bool chaserSpawning, float chaserSpeed, float chaserDelay, int chaserHealth, float buildingWidth, float buildingMaxHeight, float buildingMinHeight, float buildingGap, float distanceTravelledForNextLevel) {
+        this.chaserSpawning = chaserSpawning;
         this.turretSpawning = turretSpawning;
-        this.enemySpeed = enemySpeed;
-        this.enemyDelay = enemyDelay;
-        this.enemyHealth = enemyHealth;
+        this.turretSpawnProbability = turretSpawnProbability;
+        this.chaserSpeed = chaserSpeed;
+        this.chaserDelay = chaserDelay;
+        this.chaserHealth = chaserHealth;
         this.buildingWidth = buildingWidth;
         this.buildingMaxHeight = buildingMaxHeight;
         this.buildingMinHeight = buildingMinHeight;

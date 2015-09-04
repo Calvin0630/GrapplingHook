@@ -14,9 +14,10 @@ public class Shield : MonoBehaviour {
 	void Update () {
 	
 	}
-    void OnTriggerEnter(Collider other) {
+    void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "EnemyProjectile") {
             Destroy(other.gameObject);
         }
+        print(other.gameObject.tag);
     }
 }

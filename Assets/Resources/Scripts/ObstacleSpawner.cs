@@ -67,17 +67,20 @@ public class ObstacleSpawner : MonoBehaviour {
         worldMovePointX = movingPointX * cameraWidth;
         MakeFrame(GameOverDetection);
         distanceField = GameObject.FindWithTag("DistanceText");
-        levelIndex = 0;
+        //for debugging
+        levelIndex = 5;
         levels = new LevelParameter[] {
-            //spawning, enemySpeed, enemySpawnDelay, enemyHealth
+            //turretSpawning, turretSpawnProbability, chaserSpawning, chaserSpeed, chaserSpawnDelay, chaserHealth
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
-            new LevelParameter(false, false, 1, 1, 1, 3, -2, -4, 3, 100),
-            new LevelParameter(true, true, 3, 4, 2, 3, -2, -4, 3, 500),
-            new LevelParameter(true, true, 3, 3, 3, 4, 0, -4, 3, 1000),
-            new LevelParameter(true, true, 4, 3, 3, 3, 0, -4, 4, 2000),
-            new LevelParameter(true, true, 4, 2, 2, 4, 1, -3, 5, 3000),
+            new LevelParameter(false, 2, false, 1, 1, 1, 3, -2, -4, 3, 100),
+            new LevelParameter(false, 2, true, 3, 4, 2, 3, -2, -4, 3, 500),
+            new LevelParameter(false, 2, true, 3, 3, 3, 4, 0, -4, 3, 1000),
+            new LevelParameter(false, 2, true, 4, 3, 3, 3, 0, -4, 4, 2000),
+            new LevelParameter(false, 2, true, 4, 2, 2, 4, 1, -3, 5, 3000),
+            //for debugging purposes
+            new LevelParameter(true, 2, false, 1, 1, 1, 3, -2, -4, 3, 10000), 
         };
-        StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
+        StartCoroutine(SpawnChasers(levels[levelIndex].chaserDelay));
     }
 
     // Update is called once per frame
@@ -131,6 +134,13 @@ public class ObstacleSpawner : MonoBehaviour {
             return player1;
         }
         else return player2;
+    }
+
+    void OnLevelWasLoaded(int level) {
+        if (level == 2) {
+            levelIndex = 0;
+            distanceTravelled = 0;
+        }
     }
 
     //find world velocity
@@ -223,13 +233,14 @@ public class ObstacleSpawner : MonoBehaviour {
         }
     }
 
-    IEnumerator SpawnEnemies(float delay) {
+    IEnumerator SpawnChasers(float delay) {
         yield return new WaitForSeconds(delay);
-        if (levels[levelIndex].enemySpawning && enemySpawning) {
+        print(levels[levelIndex].chaserHealth);
+        if (levels[levelIndex].chaserSpawning && enemySpawning) {
             GameObject clone = (GameObject)Instantiate(chaserPrefab, new Vector3(-1.1f * cameraSize.x, 0, 0), Quaternion.identity);
-            clone.GetComponent<Chaser>().moveSpeed = levels[levelIndex].enemySpeed;
-            clone.GetComponent<Chaser>().health = levels[levelIndex].enemyHealth;
+            clone.GetComponent<Chaser>().moveSpeed = levels[levelIndex].chaserSpeed;
+            clone.GetComponent<Chaser>().initialHealth = levels[levelIndex].chaserHealth;
         }
-        StartCoroutine(SpawnEnemies(levels[levelIndex].enemyDelay));
+        StartCoroutine(SpawnChasers(levels[levelIndex].chaserDelay));
     }
 }

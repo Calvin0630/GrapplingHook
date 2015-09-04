@@ -20,8 +20,8 @@ public class Enemy : MonoBehaviour {
     }
 
     public void InstantiateHealthBar() {
-        if (health == 0) health = 1;
-        initialHealth = health;
+        //if (health == 0) health = 1;
+        health = initialHealth;
         healthBarPrefab = (GameObject)Resources.Load("Prefab/UI/EnemyHealth/EnemyHealthBar");
         healthBar = (GameObject)Instantiate(healthBarPrefab, 40 * Vector3.left, Quaternion.identity);
         healthBar.GetComponent<EnemyHealthBar>().enemy = gameObject;
@@ -46,7 +46,6 @@ public class Enemy : MonoBehaviour {
 
     public void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "FriendlyProjectile") {
-            print("BaseHit");
             TakeDamage(1);
             Destroy(other.gameObject);
         }

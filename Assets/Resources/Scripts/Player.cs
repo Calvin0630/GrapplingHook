@@ -110,6 +110,7 @@ public class Player : MonoBehaviour {
             //Debug.Log(shieldPower);
             ShieldBar.SetValue(shieldPower/100);
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
+                //creates the shield
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);
@@ -160,6 +161,12 @@ public class Player : MonoBehaviour {
     public Vector3 SetZToZero(Vector3 v) {
         return new Vector3(v.x, v.y, 0);
     }
-
-
+        
+    public bool HasShield() {
+        bool hasShield = false;
+        foreach(Component c in gameObject.GetComponentsInChildren<Component>()) {
+            if (c.gameObject.tag == "Shield") hasShield = true;
+        }
+        return hasShield;
+    }
 }

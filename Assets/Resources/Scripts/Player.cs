@@ -146,8 +146,8 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter(Collision col) {
-
+    void OnCollisionEnter(Collision other) {
+        if (other.gameObject.tag)
     }
 
     Vector3 FindFireDirJoystick() {

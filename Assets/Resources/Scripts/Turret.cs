@@ -15,7 +15,7 @@ public class Turret : Enemy {
         shotDelay = .5f;
         projectilePrefab = (GameObject)Resources.Load("Prefab/EnemyProjectile");
         player = GameObject.FindWithTag("Player1");
-        //StartCoroutine(ShootAtPlayer());
+        StartCoroutine(ShootAtPlayer());
     }
 	
 	// Update is called once per frame

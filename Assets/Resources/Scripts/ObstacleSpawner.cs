@@ -34,6 +34,7 @@ public class ObstacleSpawner : MonoBehaviour {
     GameObject distanceField;
     int distance;
     GameObject chaserPrefab;
+    GameObject turretPrefab;
     public LevelParameter[] levels;
     public int levelIndex;
     public bool enemySpawning;
@@ -49,6 +50,7 @@ public class ObstacleSpawner : MonoBehaviour {
         obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
         chaserPrefab = (GameObject) Resources.Load("Prefab/Chaser");
+        turretPrefab = (GameObject)Resources.Load("Prefab/Turret");
         //initiates lists
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
@@ -225,17 +227,23 @@ public class ObstacleSpawner : MonoBehaviour {
             //Debug.Log("no Obstacles in List. Wat do?");
         }
         else if (obstacleObjects[obstacleObjects.Count - 1].transform.position.x + obstacleObjects[obstacleObjects.Count - 1].transform.localScale.x/2 < cameraSize.x) {
-            float yTop = Random.Range(/*-cameraSize.y + */levels[levelIndex].buildingMinHeight, levels[levelIndex].buildingMaxHeight);
-            float yScale = yTop + cameraSize.y;
+            //spawns obstacle
+            float yTop = Random.Range(levels[levelIndex].buildingMinHeight, levels[levelIndex].buildingMaxHeight);
+            float yScale = yTop + 2 * cameraSize.y;
             GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(cameraSize.x + levels[levelIndex].buildingGap, yTop - yScale/2, 0), Quaternion.identity);
             shitVarName.transform.localScale = new Vector3(levels[levelIndex].buildingWidth, yScale, 1);
             obstacleObjects.Add(shitVarName);
+            //spawns turret
+            if (Random.Range(0, 1000) % levels[levelIndex].turretSpawnProbability == 0) {
+                GameObject turretClone = (GameObject)Instantiate(turretPrefab, new Vector3(shitVarName.transform.position.x, yTop + turretPrefab.transform.lossyScale.y / 2, 0), Quaternion.identity);
+                turretClone.GetComponent<Turret>().initialHealth = 3;
+                turretClone.transform.parent = shitVarName.transform;
+            }
         }
     }
 
     IEnumerator SpawnChasers(float delay) {
         yield return new WaitForSeconds(delay);
-        print(levels[levelIndex].chaserHealth);
         if (levels[levelIndex].chaserSpawning && enemySpawning) {
             GameObject clone = (GameObject)Instantiate(chaserPrefab, new Vector3(-1.1f * cameraSize.x, 0, 0), Quaternion.identity);
             clone.GetComponent<Chaser>().moveSpeed = levels[levelIndex].chaserSpeed;

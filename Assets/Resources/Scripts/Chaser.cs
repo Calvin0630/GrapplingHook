@@ -47,7 +47,6 @@ public class Chaser : Enemy {
 
     void OnCollisionEnter(Collision other) {
         base.OnCollisionEnter(other);
-        print(other.gameObject.name);
         //convoluted code because unity doesnt know how children colliders work
         //P.S. Unity is fucking garbage
         //P.P.S. it checks shield stuff and player stuff

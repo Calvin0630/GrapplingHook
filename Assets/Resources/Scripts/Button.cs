@@ -46,7 +46,6 @@ public class Button : MonoBehaviour {
 
     public void SubmitName() {
         inField = GameObject.FindWithTag("NameText");
-        print(inField.GetComponent<Text>().text);
         ScoreManager.highScores.AddScore(new Score( (int)ObstacleSpawner.distanceTravelled, (int) Time.timeSinceLevelLoad, (int)ObstacleSpawner.maxSpeed, inField.GetComponent<Text>().text));
         Application.LoadLevel("SinglePlayerGameOver");
     }

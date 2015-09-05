@@ -19,7 +19,7 @@ public class Chaser : Enemy {
     void Start() {
         base.Start();
         player = GameObject.FindWithTag("Player1");
-        relativeWorldSpeed = .04f;
+        relativeWorldSpeed = .06f;
         rBody = gameObject.GetComponent<Rigidbody>();
         randomnessScalar = .5f;
     }

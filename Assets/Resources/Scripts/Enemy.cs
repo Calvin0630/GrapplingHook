@@ -49,5 +49,8 @@ public class Enemy : MonoBehaviour {
             TakeDamage(1);
             Destroy(other.gameObject);
         }
+        else if (other.gameObject.tag == "Player1") {
+            if (other.gameObject.GetComponent<Player>().HasShield()) Destroy(gameObject);
+        }
     }
 }

@@ -117,7 +117,7 @@ public class Player : MonoBehaviour {
             }
             if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
                 Time.timeScale = .25f;
-                shieldPower -= .75f;
+                shieldPower -= 1.5f;
             }
             if (!ScoreManager.gameIsOver && (shieldPower <=0 || !Input.GetButton("Shield" + playerNum))) {
                 Time.timeScale = 1;
@@ -140,14 +140,13 @@ public class Player : MonoBehaviour {
             health -= damage;
             healthBar.GetComponent<EnergyBar>().SetValue(100 * health/initialHealth);
             if (health <= 0) {
-                //just for debugging
-                //ScoreManager.GameOver();
+                ScoreManager.GameOver();
             }
         }
     }
 
     void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag)
+
     }
 
     Vector3 FindFireDirJoystick() {

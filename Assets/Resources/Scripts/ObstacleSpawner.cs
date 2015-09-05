@@ -75,7 +75,7 @@ public class ObstacleSpawner : MonoBehaviour {
             //turretSpawning, turretSpawnProbability, chaserSpawning, chaserSpeed, chaserSpawnDelay, chaserHealth
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
             new LevelParameter(false, 2, false, 1, 1, 1, 3, -2, -4, 3, 100),
-            new LevelParameter(false, 2, true, 3, 4, 2, 3, -2, -4, 3, 500),
+            new LevelParameter(false, 6, true, 3, 4, 2, 3, -2, -4, 3, 500),
             new LevelParameter(true, 4, true, 3, 3, 3, 4, 0, -4, 3, 1000),
             new LevelParameter(true, 2, true, 4, 3, 3, 3, 0, -4, 4, 2000),
             new LevelParameter(true, 1, true, 4, 2, 2, 4, 1, -3, 5, 3000),
@@ -91,7 +91,6 @@ public class ObstacleSpawner : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        print(levelIndex);
         if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel && levelIndex < levels.Length-1) {
             levelIndex++;
         }

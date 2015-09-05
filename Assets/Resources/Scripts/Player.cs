@@ -108,7 +108,9 @@ public class Player : MonoBehaviour {
 
             //controls for shield
             //Debug.Log(shieldPower);
-            ShieldBar.SetValue(shieldPower/100);
+            //ShieldBar.SetValue(shieldPower/100);
+            Debug.Log(shieldPower);
+            if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower * 4 / 100));
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
                 shieldInstance = (GameObject)Instantiate(shield);

@@ -56,10 +56,7 @@ public class Player : MonoBehaviour {
         else {
             playerToHook.SetVertexCount(0);
         }
-        if (shieldPower <= 0) {
-            Destroy(shieldInstance);
-            Time.timeScale = 1;
-        }
+        
     }
 
     void FixedUpdate() {
@@ -107,10 +104,8 @@ public class Player : MonoBehaviour {
             }
 
             //controls for shield
-            //Debug.Log(shieldPower);
-            //ShieldBar.SetValue(shieldPower/100);
             Debug.Log(shieldPower);
-            if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower * 4 / 100));
+            //ShieldBar.SetValue(shieldPower/100);
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
                 shieldInstance = (GameObject)Instantiate(shield);
@@ -119,7 +114,8 @@ public class Player : MonoBehaviour {
             }
             if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
                 Time.timeScale = .25f;
-                shieldPower -= 1.5f;
+                shieldPower -= 1f;
+                if (shieldInstance != null); shieldInstance.transform.localScale = Vector3.one ;
             }
             if (!ScoreManager.gameIsOver && (shieldPower <=0 || !Input.GetButton("Shield" + playerNum))) {
                 Time.timeScale = 1;
@@ -127,8 +123,12 @@ public class Player : MonoBehaviour {
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
-            }
-            
+            }/*
+            if (shieldPower <= 0) {
+                Destroy(shieldInstance);
+                Time.timeScale = 1;
+            }*/
+
             if (hookInstance != null && hookInstance.GetComponent<Hook>().hooked) {
                 // moves player towards hook if hook is attatched to wall
                 Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;

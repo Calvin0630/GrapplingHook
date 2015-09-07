@@ -115,7 +115,7 @@ public class Player : MonoBehaviour {
             if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
                 Time.timeScale = .25f;
                 shieldPower -= 1f;
-                if (shieldInstance != null); shieldInstance.transform.localScale = Vector3.one ;
+                if (shieldInstance != null); shieldInstance.transform.localScale = Vector3.one * 4*shieldPower/1000;
             }
             if (!ScoreManager.gameIsOver && (shieldPower <=0 || !Input.GetButton("Shield" + playerNum))) {
                 Time.timeScale = 1;

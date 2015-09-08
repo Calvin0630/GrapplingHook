@@ -16,7 +16,7 @@ public class Spedometer : MonoBehaviour {
         else maxSpeed = 40;
         image = gameObject.GetComponent<Image>();
         image.type = Image.Type.Filled;
-        image.fillMethod = Image.FillMethod.Vertical;
+        image.fillMethod = Image.FillMethod.Radial180;
         image.fillOrigin = (int) Image.OriginVertical.Bottom;
     }
 	
@@ -24,6 +24,7 @@ public class Spedometer : MonoBehaviour {
 	void Update () {
         if (ObstacleSpawner.worldVelocityX > maxSpeed) playerSpeed = 75;
         else playerSpeed = ObstacleSpawner.worldVelocityX;
-        image.fillAmount = playerSpeed / maxSpeed;
+        print(playerSpeed / maxSpeed * 180);
+        image.fillAmount = playerSpeed / maxSpeed ;
 	}
 }

@@ -4,12 +4,14 @@ using UnityEngine.UI;
 
 public class ShieldBar : MonoBehaviour {
     static Image image;
+    Text speedText;
 	// Use this for initialization
 	void Start () {
+        speedText = GameObject.FindWithTag("SpedometerTag").GetComponent<Text>();
         image = gameObject.GetComponent<Image>();
         image.type = Image.Type.Filled;
         image.fillMethod = Image.FillMethod.Vertical;
-        image.fillOrigin = (int)Image.OriginVertical.Top;
+        image.fillOrigin = (int)Image.OriginVertical.Bottom;
     }
 	
 	// Update is called once per frame

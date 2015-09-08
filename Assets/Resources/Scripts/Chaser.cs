@@ -14,33 +14,36 @@ public class Chaser : Enemy {
     float worldVelocityX;
     GameObject projectile;
     float randomnessScalar;
+    public bool isCollidingWithChaser;
 
     // Use this for initialization
     void Start() {
+        isCollidingWithChaser = false;
         base.Start();
         player = GameObject.FindWithTag("Player1");
         relativeWorldSpeed = .06f;
         rBody = gameObject.GetComponent<Rigidbody>();
         randomnessScalar = .5f;
+        cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
     }
 
     // Update is called once per frame
     void Update() {
+        print(isCollidingWithChaser);
         //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
         worldVelocityX = ObstacleSpawner.worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;
         float enemyToPlayer = player.transform.position.x - transform.position.x;
-        //enemyToDestination *= 1 + enemyToPlayer/edgeOfCameraToPlayer;
-        //Debug.Log(enemyToDestination);
-        //Debug.Log("edgeOfCameraToPlayer " + edgeOfCameraToPlayer);
-        //Debug.Log("enemyToPlayer " + enemyToPlayer);
+        //print((5.3f + 1/8)/cameraSize.y);
+        print(1 / (8 * cameraSize.y));
+        float relativeSpeed = (enemyToPlayer + 1 / 8) / (cameraSize.y) + 1  ;
         if (isHooked) {
             rBody.useGravity = true;
         }
         else if (moveSpeed > 0) {
-            rBody.velocity = enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed, 0, 0);
+            rBody.velocity = relativeSpeed * enemyToDestination + new Vector3(-worldVelocityX * relativeWorldSpeed, 0, 0);
         }
 
     }
@@ -53,6 +56,14 @@ public class Chaser : Enemy {
         if (other.gameObject.tag == "Player1") {
             if (other.gameObject.GetComponent<Player>().HasShield()) Destroy(gameObject);
             else StartCoroutine(PlayerIsCaught(0));
+        }
+        if (other.gameObject.name == "Chaser(Clone)" && !isCollidingWithChaser) {
+            other.gameObject.GetComponent<Chaser>().isCollidingWithChaser = true;
+            initialHealth += other.gameObject.GetComponent<Chaser>().initialHealth;
+            health += other.gameObject.GetComponent<Chaser>().health;
+            transform.localScale += .25f * other.gameObject.transform.localScale;
+            gameObject.GetComponent<Chaser>().healthBar.GetComponent<EnemyHealthBar>().SetScale();
+            Destroy(other.gameObject);
         }
     }
 

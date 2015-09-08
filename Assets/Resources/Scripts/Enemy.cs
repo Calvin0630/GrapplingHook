@@ -8,9 +8,11 @@ public class Enemy : MonoBehaviour {
     GameObject healthBarPrefab;
     public GameObject healthBar;
     public bool isHooked = false;
+    Vector3 cameraSize;
 
     // Use this for initialization
     public void Start () {
+        cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         InstantiateHealthBar();
 	}
 

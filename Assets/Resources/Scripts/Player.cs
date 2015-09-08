@@ -105,7 +105,6 @@ public class Player : MonoBehaviour {
 
             //controls for shield
             //print(0.019f);
-            Debug.Log(1.1f + (shieldPower/100) * 1.9f);
             ShieldBar.SetValue(shieldPower/100);
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
@@ -125,7 +124,6 @@ public class Player : MonoBehaviour {
             if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
                 Time.timeScale = .25f;
                 shieldPower -= 1f;
-                print(shieldInstance != null);
                 if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f) ;
             }
             /*

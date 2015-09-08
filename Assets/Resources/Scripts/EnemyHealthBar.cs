@@ -22,9 +22,7 @@ public class EnemyHealthBar : MonoBehaviour {
         health.anchoredPosition = Vector2.zero;
         thisRectTransform = gameObject.GetComponent<RectTransform>();
         //sets the red part relative to player
-        thisRectTransform.localScale = new Vector3(enemy.transform.lossyScale.x, enemy.transform.lossyScale.x, enemy.transform.lossyScale.x) * 1;
-        //sets the green part to == red part
-        health.localScale = new Vector2(thisRectTransform.rect.width, thisRectTransform.rect.height);
+        SetScale();
         YPos = 0;
         maxX = 0;
         minX = (int)Mathf.Round(thisRectTransform.rect.width);
@@ -41,5 +39,12 @@ public class EnemyHealthBar : MonoBehaviour {
     public void SetValue(int x) {
         int newXPos = x * minX / 100 - minX;
         health.anchoredPosition = new Vector2(newXPos, YPos);
+    }
+
+    public void SetScale() {
+        thisRectTransform.localScale = new Vector3(enemy.transform.lossyScale.x, enemy.transform.lossyScale.x, enemy.transform.lossyScale.x) * 1;
+        //sets the green part to == red part
+        health.localScale = new Vector2(thisRectTransform.rect.width, thisRectTransform.rect.height);
+
     }
 }

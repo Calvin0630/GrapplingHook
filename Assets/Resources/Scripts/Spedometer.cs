@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Spedometer : MonoBehaviour {
+    Text speedText;
     Image image;
     float maxSpeed = 75;
     float playerSpeed;
@@ -10,6 +11,7 @@ public class Spedometer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        speedText = GameObject.FindWithTag("SpedometerText").GetComponent<Text>();
         if (ScoreManager.highScores.list.Count > 0 && ScoreManager.highScores.list[0].highSpeed > 25) {
             maxSpeed = ScoreManager.highScores.list[0].highSpeed;
         }
@@ -24,7 +26,8 @@ public class Spedometer : MonoBehaviour {
 	void Update () {
         if (ObstacleSpawner.worldVelocityX > maxSpeed) playerSpeed = 75;
         else playerSpeed = ObstacleSpawner.worldVelocityX;
-        print(playerSpeed / maxSpeed * 180);
         image.fillAmount = playerSpeed / maxSpeed ;
+        speedText.text = ((int) ObstacleSpawner.worldVelocityX) + " m/s";
+        
 	}
 }

@@ -4,10 +4,8 @@ using UnityEngine.UI;
 
 public class ShieldBar : MonoBehaviour {
     static Image image;
-    Text speedText;
 	// Use this for initialization
 	void Start () {
-        speedText = GameObject.FindWithTag("SpedometerTag").GetComponent<Text>();
         image = gameObject.GetComponent<Image>();
         image.type = Image.Type.Filled;
         image.fillMethod = Image.FillMethod.Vertical;
@@ -16,7 +14,6 @@ public class ShieldBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
     //takes a float between 0 and 1 and sets the energy accordingly

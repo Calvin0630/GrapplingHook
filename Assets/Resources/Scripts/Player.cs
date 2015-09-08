@@ -104,26 +104,31 @@ public class Player : MonoBehaviour {
             }
 
             //controls for shield
-            Debug.Log(shieldPower);
-            //ShieldBar.SetValue(shieldPower/100);
+            //print(0.019f);
+            Debug.Log(1.1f + (shieldPower/100) * 1.9f);
+            ShieldBar.SetValue(shieldPower/100);
             if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
+                Time.timeScale = .2f;   
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);
+                shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f);
             }
-            if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
-                Time.timeScale = .25f;
-                shieldPower -= 1f;
-                if (shieldInstance != null); shieldInstance.transform.localScale = Vector3.one * 4*shieldPower/1000;
-            }
-            if (!ScoreManager.gameIsOver && (shieldPower <=0 || !Input.GetButton("Shield" + playerNum))) {
+            if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !Input.GetButton("Shield" + playerNum))) {
                 Time.timeScale = 1;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
-            }/*
+            }
+            if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
+                Time.timeScale = .25f;
+                shieldPower -= 1f;
+                print(shieldInstance != null);
+                if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f) ;
+            }
+            /*
             if (shieldPower <= 0) {
                 Destroy(shieldInstance);
                 Time.timeScale = 1;

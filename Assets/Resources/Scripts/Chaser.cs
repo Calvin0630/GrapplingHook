@@ -29,7 +29,6 @@ public class Chaser : Enemy {
 
     // Update is called once per frame
     void Update() {
-        print(isCollidingWithChaser);
         //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
         worldVelocityX = ObstacleSpawner.worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
@@ -37,7 +36,6 @@ public class Chaser : Enemy {
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;
         float enemyToPlayer = player.transform.position.x - transform.position.x;
         //print((5.3f + 1/8)/cameraSize.y);
-        print(1 / (8 * cameraSize.y));
         float relativeSpeed = (enemyToPlayer + 1 / 8) / (cameraSize.y) + 1  ;
         if (isHooked) {
             rBody.useGravity = true;

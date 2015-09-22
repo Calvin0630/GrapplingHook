@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
     static string playerNum;
     public float movementSpeed;
     GameObject hook;
+    Material material;
     public float jumpForce;
     public float firePower;
     LineRenderer playerToHook;
@@ -24,13 +25,17 @@ public class Player : MonoBehaviour {
     GameObject shield;
     GameObject shieldInstance;
     float shieldPower;
+    //needed because controller toggles shield whereas keyboard button triggers it
+    bool playerIsUsingShield = false;
     public int initialHealth;
     int health;
-    ParticleSystem particles;
+    ParticleSystem particleSystem;
+    ParticleSystem.Particle[] particles;
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
         if (useController) playerNum = "Player2";
+        material = gameObject.GetComponent<MeshRenderer>().material;
         playerToHook = gameObject.GetComponent<LineRenderer>();
         hook = (GameObject)Resources.Load("Prefab/Hook");
         projectile = (GameObject)Resources.Load("Prefab/FriendlyProjectile");
@@ -42,11 +47,23 @@ public class Player : MonoBehaviour {
         projectileTriggerDown = false;
         shieldPower = 100;
         health = initialHealth;
-        particles = GetComponent<ParticleSystem>();
+        particleSystem = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update() {
+        //particle trail and shit
+        if ((-rBody.velocity + ObstacleSpawner.worldVelocity).magnitude < 5) particleSystem.enableEmission = false;
+        else particleSystem.enableEmission = true;
+        InitializeParticleSystem();
+        particles[0].velocity = new Vector3(100, 100, 100);
+        int numParticlesAlive = particleSystem.GetParticles(particles);
+        for(int i=0;i<numParticlesAlive;i++) {
+            particles[i].velocity = -rBody.velocity + ObstacleSpawner.worldVelocity;
+            particles[i].color = material.color;
+        }
+        particleSystem.SetParticles(particles, numParticlesAlive);
+        //hook stuff n shit
         if (hookInstance != null) {
             //updates line renderer
             playerToHook.SetVertexCount(2);
@@ -60,7 +77,7 @@ public class Player : MonoBehaviour {
         }
         
     }
-
+    //called every physics iteration
     void FixedUpdate() {
         if (scoreManager == null) scoreManager = GameObject.FindWithTag("ScoreManager");
         if (!ScoreManager.gameIsOver) {
@@ -107,8 +124,17 @@ public class Player : MonoBehaviour {
 
             //controls for shield
             //print(0.019f);
+            if (Input.GetButtonDown("Shield" + playerNum)) print("X");
             ShieldBar.SetValue(shieldPower/100);
-            if (Input.GetButton("Shield" + playerNum) && shieldPower >= 10 && shieldInstance == null) {
+            if (playerNum == "Player 1") {
+                playerIsUsingShield = Input.GetButton("Shield" + playerNum);
+            }
+            else if (playerNum == "Player2") {
+                if (Input.GetButtonDown("Shield" + playerNum)) playerIsUsingShield = !playerIsUsingShield;
+            }
+            //print(playerIsUsingShield);
+
+            if (playerIsUsingShield && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
                 Time.timeScale = .2f;   
                 shieldInstance = (GameObject)Instantiate(shield);
@@ -116,14 +142,14 @@ public class Player : MonoBehaviour {
                 shieldInstance.transform.SetParent(gameObject.transform);
                 shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f);
             }
-            if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !Input.GetButton("Shield" + playerNum))) {
+            if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !playerIsUsingShield)) {
                 Time.timeScale = 1;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
             }
-            if (Input.GetButton("Shield" + playerNum) && shieldPower > 0) {
+            if (playerIsUsingShield && shieldPower > 0) {
                 Time.timeScale = .25f;
                 shieldPower -= 1f;
                 if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f) ;
@@ -174,5 +200,11 @@ public class Player : MonoBehaviour {
             if (c.gameObject.tag == "Shield") hasShield = true;
         }
         return hasShield;
+    }
+
+    public void InitializeParticleSystem() {
+        if (particles == null || particles.Length < particleSystem.maxParticles) {
+            particles = new ParticleSystem.Particle[particleSystem.maxParticles];
+        }
     }
 }

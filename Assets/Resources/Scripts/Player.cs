@@ -130,7 +130,9 @@ public class Player : MonoBehaviour {
                 playerIsUsingShield = Input.GetButton("Shield" + playerNum);
             }
             else if (playerNum == "Player2") {
-                if (Input.GetButtonDown("Shield" + playerNum)) playerIsUsingShield = !playerIsUsingShield;
+                if (Input.GetButtonDown("Shield" + playerNum)) {
+                    playerIsUsingShield = !playerIsUsingShield;
+                }
             }
             //print(playerIsUsingShield);
 

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-    static string playerNum;
+    string playerNum;
     public float movementSpeed;
     GameObject hook;
     Material material;
@@ -52,6 +52,18 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        print(playerNum + "   " + gameObject.name);
+        //controls whether shield is active based on player input
+        ShieldBar.SetValue(shieldPower / 100);
+        if (playerNum == "Player 1") {
+            playerIsUsingShield = Input.GetButton("Shield" + playerNum);
+        }
+        else if (playerNum == "Player2") {
+            if (Input.GetButtonDown("Shield" + playerNum)) {
+                playerIsUsingShield = !playerIsUsingShield;
+            }
+        }
+
         //particle trail and shit
         if ((-rBody.velocity + ObstacleSpawner.worldVelocity).magnitude < 5) particleSystem.enableEmission = false;
         else particleSystem.enableEmission = true;
@@ -124,16 +136,6 @@ public class Player : MonoBehaviour {
 
             //controls for shield
             //print(0.019f);
-            if (Input.GetButtonDown("Shield" + playerNum)) print("X");
-            ShieldBar.SetValue(shieldPower/100);
-            if (playerNum == "Player 1") {
-                playerIsUsingShield = Input.GetButton("Shield" + playerNum);
-            }
-            else if (playerNum == "Player2") {
-                if (Input.GetButtonDown("Shield" + playerNum)) {
-                    playerIsUsingShield = !playerIsUsingShield;
-                }
-            }
             //print(playerIsUsingShield);
 
             if (playerIsUsingShield && shieldPower >= 10 && shieldInstance == null) {

@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
     float shieldPower;
     public int initialHealth;
     int health;
+    ParticleSystem particles;
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour {
         projectileTriggerDown = false;
         shieldPower = 100;
         health = initialHealth;
+        particles = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame

@@ -29,8 +29,6 @@ public class Player : MonoBehaviour {
     bool playerIsUsingShield = false;
     public int initialHealth;
     int health;
-    ParticleSystem particleSystem;
-    ParticleSystem.Particle[] particles;
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
@@ -47,12 +45,10 @@ public class Player : MonoBehaviour {
         projectileTriggerDown = false;
         shieldPower = 100;
         health = initialHealth;
-        particleSystem = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update() {
-        print(playerNum + "   " + gameObject.name);
         //controls whether shield is active based on player input
         ShieldBar.SetValue(shieldPower / 100);
         if (playerNum == "Player 1") {
@@ -63,18 +59,7 @@ public class Player : MonoBehaviour {
                 playerIsUsingShield = !playerIsUsingShield;
             }
         }
-
-        //particle trail and shit
-        if ((-rBody.velocity + ObstacleSpawner.worldVelocity).magnitude < 5) particleSystem.enableEmission = false;
-        else particleSystem.enableEmission = true;
-        InitializeParticleSystem();
-        particles[0].velocity = new Vector3(100, 100, 100);
-        int numParticlesAlive = particleSystem.GetParticles(particles);
-        for(int i=0;i<numParticlesAlive;i++) {
-            particles[i].velocity = -rBody.velocity + ObstacleSpawner.worldVelocity;
-            particles[i].color = material.color;
-        }
-        particleSystem.SetParticles(particles, numParticlesAlive);
+        
         //hook stuff n shit
         if (hookInstance != null) {
             //updates line renderer
@@ -204,11 +189,5 @@ public class Player : MonoBehaviour {
             if (c.gameObject.tag == "Shield") hasShield = true;
         }
         return hasShield;
-    }
-
-    public void InitializeParticleSystem() {
-        if (particles == null || particles.Length < particleSystem.maxParticles) {
-            particles = new ParticleSystem.Particle[particleSystem.maxParticles];
-        }
     }
 }

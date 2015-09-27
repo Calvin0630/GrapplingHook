@@ -26,7 +26,7 @@ public class Player : MonoBehaviour {
     GameObject shieldInstance;
     float shieldPower;
     //needed because controller toggles shield whereas keyboard button triggers it
-    bool playerIsUsingShield = false;
+    bool playerShieldInput = false;
     public int initialHealth;
     int health;
     // Use this for initialization
@@ -51,12 +51,12 @@ public class Player : MonoBehaviour {
     void Update() {
         //controls whether shield is active based on player input
         ShieldBar.SetValue(shieldPower / 100);
-        if (playerNum == "Player 1") {
-            playerIsUsingShield = Input.GetButton("Shield" + playerNum);
+        if (playerNum == "Player1") {
+            playerShieldInput = Input.GetButton("Shield" + playerNum);
         }
         else if (playerNum == "Player2") {
             if (Input.GetButtonDown("Shield" + playerNum)) {
-                playerIsUsingShield = !playerIsUsingShield;
+                playerShieldInput = !playerShieldInput;
             }
         }
         
@@ -122,23 +122,24 @@ public class Player : MonoBehaviour {
             //controls for shield
             //print(0.019f);
             //print(playerIsUsingShield);
-
-            if (playerIsUsingShield && shieldPower >= 10 && shieldInstance == null) {
+            print(playerShieldInput);
+            if (playerShieldInput && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
-                Time.timeScale = .2f;   
+                Time.timeScale = .2f;
+                print("instantiating");
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);
                 shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f);
             }
-            if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !playerIsUsingShield)) {
+            if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !playerShieldInput)) {
                 Time.timeScale = 1;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
             }
-            if (playerIsUsingShield && shieldPower > 0) {
+            if (playerShieldInput && shieldPower > 0) {
                 Time.timeScale = .25f;
                 shieldPower -= 1f;
                 if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f) ;

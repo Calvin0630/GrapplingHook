@@ -122,7 +122,6 @@ public class Player : MonoBehaviour {
             //controls for shield
             //print(0.019f);
             //print(playerIsUsingShield);
-            print(playerShieldInput);
             if (playerShieldInput && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
                 Time.timeScale = .2f;

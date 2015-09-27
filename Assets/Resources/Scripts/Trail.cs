@@ -29,7 +29,7 @@ public class Trail : MonoBehaviour {
         trailPoints.Add(new Vector3(-1, 1, 0));
         trailPoints.Add(new Vector3(0, -1, 0));
         CreateMesh();
-        print("Vertices: " + meshVertices.Length + "  meshTris: " + meshTriangles.Length);
+        print(transform.parent.gameObject.name);
     }
 
     // Update is called once per frame
@@ -38,10 +38,9 @@ public class Trail : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        
         trailPoints.Add(Vector3.zero);
         for (int i=0;i<trailPoints.Count;i++) {
-            trailPoints[i] = trailPoints[i] + ObstacleSpawner.worldVelocity * Time.deltaTime;
+            trailPoints[i] = trailPoints[i] + (ObstacleSpawner.worldVelocity - transform.parent.gameObject.GetComponent<Rigidbody>().velocity) * Time.deltaTime;
         }
         while (trailPoints.Count > 50) {
             trailPoints.RemoveAt(0);
@@ -66,17 +65,18 @@ public class Trail : MonoBehaviour {
         //iterates through trailpoints, and finds vertices
         for (int i = 0; i < trailPoints.Count; i++) {
             Vector3 trailNormal;
+            trailNormal = Vector3.up;
             // if it's at the start of the trailpoints
             if (i == 0) {
-                trailNormal = (trailPoints[i] - trailPoints[i + 1]).normalized;
+                //trailNormal = (trailPoints[i] - trailPoints[i + 1]).normalized;
             }
             //if its at the end of the trail points
             else if (i == trailPoints.Count - 1) {
-                trailNormal = (trailPoints[i - 1] - trailPoints[i]).normalized;
+                //trailNormal = (trailPoints[i - 1] - trailPoints[i]).normalized;
             }
             //otherwise it's somewhere in the middle
             else {
-                trailNormal = ((trailPoints[i - 1] - trailPoints[i]) + (trailPoints[i + 1] - trailPoints[i])).normalized;
+                //trailNormal = ((trailPoints[i - 1] - trailPoints[i]) + (trailPoints[i + 1] - trailPoints[i])).normalized;
             }
             meshVertices[i * 2] = trailPoints[i] + width / 2 * trailNormal;
             meshVertices[i * 2 + 1] = trailPoints[i] - width / 2 * trailNormal;
@@ -92,11 +92,11 @@ public class Trail : MonoBehaviour {
         meshTriangles = new int[(meshVertices.Length - 2) * 3];
         for (int i = 0; i < meshTriangles.Length/6; i ++) {
             meshTriangles[i * 6]     = i * 2 + 1;
-            meshTriangles[i * 6 + 1] = i * 2 + 2;
-            meshTriangles[i * 6 + 2] = i * 2 + 0;
+            meshTriangles[i * 6 + 1] = i * 2 + 0;
+            meshTriangles[i * 6 + 2] = i * 2 + 2;
             meshTriangles[i * 6 + 3] = i * 2 + 1;
-            meshTriangles[i * 6 + 4] = i * 2 + 3;
-            meshTriangles[i * 6 + 5] = i * 2 + 2;
+            meshTriangles[i * 6 + 4] = i * 2 + 2;
+            meshTriangles[i * 6 + 5] = i * 2 + 3;
 
         }
     }

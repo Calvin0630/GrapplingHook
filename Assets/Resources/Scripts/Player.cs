@@ -125,7 +125,6 @@ public class Player : MonoBehaviour {
             if (playerShieldInput && shieldPower >= 10 && shieldInstance == null) {
                 //creates the shield
                 Time.timeScale = .2f;
-                print("instantiating");
                 shieldInstance = (GameObject)Instantiate(shield);
                 shieldInstance.transform.position = gameObject.transform.position;
                 shieldInstance.transform.SetParent(gameObject.transform);

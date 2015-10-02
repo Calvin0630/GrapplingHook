@@ -25,6 +25,10 @@ public class Player : MonoBehaviour {
     GameObject shield;
     GameObject shieldInstance;
     float shieldPower;
+    //should be 1
+    public float normalTimeScale;
+    //should be ~.25
+    public float slowedTimeScale;
     //needed because controller toggles shield whereas keyboard button triggers it
     bool playerShieldInput = false;
     public int initialHealth;
@@ -131,14 +135,14 @@ public class Player : MonoBehaviour {
                 shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f);
             }
             if (!ScoreManager.gameIsOver && (shieldPower <= 0 || !playerShieldInput)) {
-                Time.timeScale = 1;
+                Time.timeScale = normalTimeScale;
                 Destroy(shieldInstance);
                 if (shieldPower < 100) {
                     shieldPower += 1;
                 }
             }
             if (playerShieldInput && shieldPower > 0) {
-                Time.timeScale = .25f;
+                Time.timeScale = slowedTimeScale;
                 shieldPower -= 1f;
                 if (shieldInstance != null) shieldInstance.transform.localScale = Vector3.one * (1.1f + (shieldPower / 100) * 1.9f) ;
             }

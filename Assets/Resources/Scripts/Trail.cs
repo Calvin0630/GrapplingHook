@@ -23,15 +23,15 @@ public class Trail : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+    }
+
+    void FixedUpdate() {
         for (int i = 0; i < trailPoints.Count; i++) {
             trailPoints[i] = trailPoints[i] + (ObstacleSpawner.worldVelocity - transform.parent.gameObject.GetComponent<Rigidbody>().velocity) * Time.deltaTime;
         }
         while (trailPoints.Count > length) {
             trailPoints.RemoveAt(0);
         }
-    }
-
-    void FixedUpdate() {
         trailPoints.Add(Vector3.zero);
         CreateMesh();
 
@@ -54,23 +54,15 @@ public class Trail : MonoBehaviour {
         //iterates through trailpoints, and finds vertices
         for (int i = 0; i < trailPoints.Count; i++) {
             Vector3 trailNormal;
-            trailNormal = Vector3.up;
             // if it's at the start of the trailpoints
             if (i == 0) {
-                trailNormal = Get2DNormal(trailPoints[i] - trailPoints[i + 1]).normalized;
-            }
-            //if its at the end of the trail points
-            else if (i == trailPoints.Count - 1) {
-                trailNormal = Get2DNormal(trailPoints[i - 1] - trailPoints[i]).normalized;
+                trailNormal = (trailPoints[i] - trailPoints[i + 1]);
             }
             //otherwise it's somewhere in the middle
             else {
-                trailNormal = ((trailPoints[i - 1] - trailPoints[i]) + (trailPoints[i + 1] - trailPoints[i]));
-                if (trailNormal.magnitude < .1f) {
-                    trailNormal = Get2DNormal((trailPoints[i - 1] - trailPoints[i]));
-                }
-                trailNormal = trailNormal.normalized;
+                trailNormal = (trailPoints[i-1] - trailPoints[i]);
             }
+            trailNormal = Get2DNormal(trailNormal).normalized;
             meshVertices[i * 2] = trailPoints[i] + width / 2 * trailNormal;
             meshVertices[i * 2 + 1] = trailPoints[i] - width / 2 * trailNormal;
         }
@@ -83,11 +75,11 @@ public class Trail : MonoBehaviour {
     void GetTris() {
         //there should be an error here
         meshTriangles = new int[(meshVertices.Length - 2) * 3 * 2];
-        for (int i = 0; i < meshTriangles.Length/12; i ++) {
-            meshTriangles[i * 12]     = i * 2 + 1;
+        for (int i = 0; i < meshTriangles.Length / 12; i++) {
+            meshTriangles[i * 12] = i * 2 + 1;
             meshTriangles[i * 12 + 1] = i * 2 + 0;
             meshTriangles[i * 12 + 2] = i * 2 + 2;
-            meshTriangles[i * 12 + 3] =     i * 2 + 1;
+            meshTriangles[i * 12 + 3] = i * 2 + 1;
             meshTriangles[i * 12 + 4] = i * 2 + 2;
             meshTriangles[i * 12 + 5] = i * 2 + 0;
 

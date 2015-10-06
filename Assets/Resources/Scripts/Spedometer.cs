@@ -20,6 +20,7 @@ public class Spedometer : MonoBehaviour {
         image.type = Image.Type.Filled;
         image.fillMethod = Image.FillMethod.Radial180;
         image.fillOrigin = (int) Image.OriginVertical.Bottom;
+        print("hello");
     }
 	
 	// Update is called once per frame
@@ -27,6 +28,7 @@ public class Spedometer : MonoBehaviour {
         if (ObstacleSpawner.worldVelocityX > maxSpeed) playerSpeed = 75;
         else playerSpeed = ObstacleSpawner.worldVelocityX;
         image.fillAmount = playerSpeed / maxSpeed ;
+        print(playerSpeed / maxSpeed);
         speedText.text = ((int) ObstacleSpawner.worldVelocityX) + " m/s";
         
 	}

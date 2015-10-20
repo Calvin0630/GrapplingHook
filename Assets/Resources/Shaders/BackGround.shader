@@ -59,8 +59,10 @@ SubShader {
 	fixed4 FS_MAIN(FS_INPUT input) : COLOR{
 		float4 screenPos = input.pos / input.pos.w;
 		screenPos.xy = -0.5*(screenPos.xy + 1.0);
+		screenPos.x /= _ScreenWidth;
+		screenPos.y /= _ScreenHeight;
 
-		if (screenPos.y < -100) return fixed4(0,0,0,1);
+		if (screenPos.y < 1) return fixed4(0,0,0,1);
 		else if (screenPos.y < 0.4 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color0;
 		else if (screenPos.y < 0.6 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color1;
 		else if (screenPos.y < 0.8 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color2;

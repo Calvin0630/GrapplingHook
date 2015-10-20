@@ -29,14 +29,16 @@ public class Chaser : Enemy {
 
     // Update is called once per frame
     void Update() {
-        //if (moveSpeed == 0) Debug.Log("Enemy's moveSpeed is 0");
+        Vector3 enemyToPlayer = player.transform.position - transform.position;
+        float enemyToPlayerAngle = Vector3.Angle(player.transform.position - transform.position, new Vector3(10, 0, 0));
+        if (enemyToPlayer.y < 0) enemyToPlayerAngle *= -1;
+        transform.localEulerAngles = new Vector3(0, 0, enemyToPlayerAngle);
         worldVelocityX = ObstacleSpawner.worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;
-        float enemyToPlayer = player.transform.position.x - transform.position.x;
         //print((5.3f + 1/8)/cameraSize.y);
-        float relativeSpeed = (enemyToPlayer + 1 / 8) / (cameraSize.y) + 1  ;
+        float relativeSpeed = (enemyToPlayer.x + 1 / 8) / (cameraSize.y) + 1  ;
         if (isHooked) {
             rBody.useGravity = true;
         }

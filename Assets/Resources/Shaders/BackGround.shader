@@ -10,6 +10,8 @@
 		_Color2("Color2", Color) = (0.9, 0, 0.2, 1)
 		_Color3("Color3", Color) = (0.6, 0.2, 0.8, 1)
 		_Color4("Color4", Color) = (0.6, 0.2, 0.8, 1)
+		_Color5("Color5", Color) = (0.6, 0.2, 0.8, 1)
+
 }
 SubShader {
 		Pass{
@@ -36,43 +38,63 @@ SubShader {
 		uniform fixed4 _Color2;
 		uniform fixed4 _Color3;
 		uniform fixed4 _Color4;
+		uniform fixed4 _Color5;
 
 
 	// Input Structs
 	struct FS_INPUT {
 		float4 pos		: SV_POSITION;
-		half2 uv		: TEXCOORD0;
+		//half2 uv		: TEXCOORD0;
+		float4 screenVert : TEXCOORD1;
 	};
 
 	// VERTEX FUNCTION
 	FS_INPUT VS_MAIN(appdata_base input) {
 		FS_INPUT output;
 
+		float4 clipVert = mul(UNITY_MATRIX_MVP, input.vertex);
+
 		// Setting FS_MAIN input struct
-		output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
-		output.uv = TRANSFORM_TEX(input.texcoord, _MainTex); 
+		output.pos = clipVert;
+		// output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
+
+		float4 screenVert = clipVert / clipVert.w; // perspective divide
+		screenVert = 0.5 * (screenVert + 1.0); // 
+
+		output.screenVert = screenVert;
 
 		return output;
 	}
 
 	// FRAGMENT FUNCTION
 	fixed4 FS_MAIN(FS_INPUT input) : COLOR{
-		float4 screenPos = input.pos / input.pos.w;
-		screenPos.xy = -0.5*(screenPos.xy + 1.0);
-		screenPos.x /= _ScreenWidth;
-		screenPos.y /= _ScreenHeight;
+		//input.screenVert is the pixel in the range 0-1
+		float y = input.screenVert.y;  
+		//if (y < 0.2 + 0 * cos(_DistanceTravelled)) return _Color0;
+		// lerp(color1, color2, alpha) where alpha 0..1, 0 is color 1 1 is color2
+	if (y < 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5)) return float4(0, 0, 0, 1);;
 
-		if (screenPos.y < 1) return fixed4(0,0,0,1);
-		else if (screenPos.y < 0.4 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color0;
-		else if (screenPos.y < 0.6 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color1;
-		else if (screenPos.y < 0.8 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return _Color2;
-		else if (screenPos.y < 1 + 0.1*cos(screenPos.x + _DistanceTravelled*0.5)) return   _Color3;
+		if (y < 0.2 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5)) return _Color0;
+		//else if (y < 0.2 + 0.02) return lerp(_Color0, _Color1, (y - 0.2) / 0.02);
+		//second if checks if it's in the previous range plus a "margin of blur"
+		else if (y < 0.4 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5 + 0.4))	return _Color1;
+		//else if (y < 0.4 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color1, _Color2, (y - 0.4) / 0.02);
 
-		else return _Color4;
+		else if (y < 0.6 + 0.1*cos(input.screenVert.x  + _DistanceTravelled*0.5 + 0.8))	return _Color2;
+		//else if (y < 0.6 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color2, _Color3, (y - 0.6) / 0.02);
+
+		else if (y < 0.8 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5))	return _Color3;
+		//else if (y < 0.8 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color3, _Color4, (y - 0.8) / 0.02);
+
+		else if (y < 1 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5))		return   _Color4;
+		//else if (y < 1 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color4, _Color5, (y - 1.0) / 0.02);
+		
+		else return _Color5;
 		
 		//return tex2D(_MainTex, input.uv) * _Color;
 	}
-
+	
+	
 		ENDCG
 
 	}

@@ -87,14 +87,14 @@ public class ObstacleSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+        distanceTravelled -= Time.deltaTime * worldVelocity.x;
+
     }
 
     void FixedUpdate() {
         if (distanceTravelled > levels[levelIndex].distanceTravelledForNextLevel && levelIndex < levels.Length-1) {
             levelIndex++;
         }
-        distanceTravelled -= Time.deltaTime * worldVelocity.x;
         distance = (int)distanceTravelled;
         if (worldVelocityX > maxSpeed) maxSpeed = worldVelocityX;
         //Debug.Log(distanceField == null);

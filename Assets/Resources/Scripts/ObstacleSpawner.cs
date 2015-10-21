@@ -76,9 +76,9 @@ public class ObstacleSpawner : MonoBehaviour {
             //buildingWidth, buildingMaxHeight, buildingMinHeight, buildingGap
             new LevelParameter(false, 2, false, 1, 1, 1, 3, -2, -4, 3, 100),
             new LevelParameter(false, 6, true, 3, 4, 2, 3, -2, -4, 3, 500),
-            new LevelParameter(true, 4, true, 3, 3, 3, 4, 0, -4, 3, 1000),
-            new LevelParameter(true, 2, true, 4, 3, 3, 3, 0, -4, 4, 2000),
-            new LevelParameter(true, 1, true, 4, 2, 2, 4, 1, -3, 5, 3000),
+            new LevelParameter(false, 4, true, 3, 3, 3, 4, 0, -4, 3, 1000),
+            new LevelParameter(true, 4, true, 4, 3, 3, 3, 0, -4, 4, 2000),
+            new LevelParameter(true, 2, true, 4, 2, 2, 4, 1, -3, 5, 3000),
             //for debugging purposes
             new LevelParameter(true, 2, false, 1, 1, 1, 3, -2, -4, 3, 10000), 
         };
@@ -234,7 +234,7 @@ public class ObstacleSpawner : MonoBehaviour {
             shitVarName.transform.localScale = new Vector3(levels[levelIndex].buildingWidth, yScale, 1);
             obstacleObjects.Add(shitVarName);
             //spawns turret
-            if (levels[levelIndex].turretSpawning) {
+            if (levels[levelIndex].turretSpawning && enemySpawning) {
                 if (Random.Range(0, 1000) % levels[levelIndex].turretSpawnProbability == 0) {
                     GameObject turretClone = (GameObject)Instantiate(turretPrefab, new Vector3(shitVarName.transform.position.x, yTop + turretPrefab.transform.lossyScale.y / 2, 0), Quaternion.identity);
                     turretClone.GetComponent<Turret>().initialHealth = 3;

@@ -82,17 +82,22 @@ public class ScoreManager : MonoBehaviour {
     public static void GameOver() {
         if (!gameIsOver) { 
             Time.timeScale = 0;
-            GameObject gameOverPanel = Instantiate(gameOverPanelPrefab);
+            GameObject gameOverPanel;
+            if (Application.loadedLevelName == "SinglePlayerMellow") gameOverPanel = (GameObject) Instantiate((GameObject) Resources.Load("Prefab/UI/GameOverPanelMellow"));
+            else gameOverPanel = Instantiate(gameOverPanelPrefab);
             gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
-            GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
-            foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
-                if (text.gameObject.name == "Distance") text.text = (int) ObstacleSpawner.distanceTravelled + " m";
-                else if (text.gameObject.name == "Time") text.text = (int) Time.timeSinceLevelLoad + " s";
-                else if (text.gameObject.name == "MaxSpeed") text.text = (int) ObstacleSpawner.maxSpeed + " m/s";
+            if (Application.loadedLevelName != "SinglePlayerMellow") {
+                GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
+                foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
+                    if (text.gameObject.name == "Distance") text.text = (int)ObstacleSpawner.distanceTravelled + " m";
+                    else if (text.gameObject.name == "Time") text.text = (int)Time.timeSinceLevelLoad + " s";
+                    else if (text.gameObject.name == "MaxSpeed") text.text = (int)ObstacleSpawner.maxSpeed + " m/s";
+                }
+                congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
             }
-            congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
             ObstacleSpawner.worldVelocity = Vector3.zero;
+            ObstacleSpawner.distanceTravelled = 0;
             gameIsOver = true;
         }
         //GG.GetComponent<RectTransform>().

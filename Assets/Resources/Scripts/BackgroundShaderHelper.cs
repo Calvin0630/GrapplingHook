@@ -13,6 +13,5 @@ public class BackgroundShaderHelper : MonoBehaviour {
         material.SetInt("_ScreenWidth", Screen.width);
         material.SetInt("_ScreenHeight", Screen.height);
         material.SetFloat("_DistanceTravelled", ObstacleSpawner.distanceTravelled);
-        print("Width: " + Screen.width + " , Heigth: " + Screen.height);
     }
 }

@@ -13,6 +13,17 @@
 		_Color5("Color5", Color) = (0.6, 0.2, 0.8, 1)
 
 }
+
+CGINCLUDE
+///reusable stuff here
+float Curve(float x, float distance) {
+			x += distance;
+			return 0.1*cos(0.1*(x));
+		}
+
+
+		ENDCG
+
 SubShader {
 		Pass{
 		Tags{ "RenderType" = "Opaque" }
@@ -69,32 +80,35 @@ SubShader {
 	// FRAGMENT FUNCTION
 	fixed4 FS_MAIN(FS_INPUT input) : COLOR{
 		//input.screenVert is the pixel in the range 0-1
-		float y = input.screenVert.y;  
+		float y = input.screenVert.y;
+		float x = input.screenVert.x;
+		float fadeWidth = 0.02;
 		//if (y < 0.2 + 0 * cos(_DistanceTravelled)) return _Color0;
 		// lerp(color1, color2, alpha) where alpha 0..1, 0 is color 1 1 is color2
-	if (y < 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5)) return float4(0, 0, 0, 1);;
+		if (y < Curve(x, _DistanceTravelled + 0.5)) return float4(0, 0, 0, 1);;
 
-		if (y < 0.2 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5)) return _Color0;
-		//else if (y < 0.2 + 0.02) return lerp(_Color0, _Color1, (y - 0.2) / 0.02);
-		//second if checks if it's in the previous range plus a "margin of blur"
-		else if (y < 0.4 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5 + 0.4))	return _Color1;
-		//else if (y < 0.4 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color1, _Color2, (y - 0.4) / 0.02);
+			if (y < 0.2 + Curve(x, _DistanceTravelled + 8)) return _Color0;
+			//second if checks if it's in the previous range plus a "margin of blur"
+			else if (y < 0.2 + fadeWidth + Curve(x, _DistanceTravelled + 8)) return lerp(_Color0, _Color1, (y - (0.2 + Curve(x, _DistanceTravelled + 8)))/fadeWidth);
 
-		else if (y < 0.6 + 0.1*cos(input.screenVert.x  + _DistanceTravelled*0.5 + 0.8))	return _Color2;
-		//else if (y < 0.6 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color2, _Color3, (y - 0.6) / 0.02);
+			else if (y < 0.4 + Curve(x, _DistanceTravelled))	return _Color1;
+			else if (y < 0.4 + Curve(x, _DistanceTravelled) + fadeWidth) return lerp(_Color1, _Color2, (y - (0.4 + Curve(x, _DistanceTravelled))) / fadeWidth);
 
-		else if (y < 0.8 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5))	return _Color3;
-		//else if (y < 0.8 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color3, _Color4, (y - 0.8) / 0.02);
+			else if (y < 0.6 + Curve(x, _DistanceTravelled + 3))	return _Color2;
+			else if (y < 0.6 + Curve(x, _DistanceTravelled + 3) + fadeWidth) return lerp(_Color2, _Color3, (y - (0.6 + Curve(x, _DistanceTravelled + 3))) / fadeWidth);
 
-		else if (y < 1 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5))		return   _Color4;
-		//else if (y < 1 + 0.1*cos(input.screenVert.x + _DistanceTravelled*0.5) + 0.02) return lerp(_Color4, _Color5, (y - 1.0) / 0.02);
+			else if (y < 0.8 + Curve(x, _DistanceTravelled + 1))	return _Color3;
+			else if (y < 0.8 + Curve(x, _DistanceTravelled + 1) + fadeWidth) return lerp(_Color3, _Color4, (y - (0.8 + Curve(x, _DistanceTravelled + 1))) / fadeWidth);
+
+			else if (y < 1 + Curve(x, _DistanceTravelled + 7))		return   _Color4;
+			else if (y < 1 + Curve(x, _DistanceTravelled + 7) + fadeWidth) return lerp(_Color4, _Color5, (y - (1.0 + Curve(x, _DistanceTravelled + 7))) / fadeWidth);
 		
-		else return _Color5;
+			else return _Color5;
 		
-		//return tex2D(_MainTex, input.uv) * _Color;
+			//return tex2D(_MainTex, input.uv) * _Color;
 	}
 	
-	
+		
 		ENDCG
 
 	}

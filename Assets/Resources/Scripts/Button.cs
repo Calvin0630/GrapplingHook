@@ -38,11 +38,16 @@ public class Button : MonoBehaviour {
     }
 
     public void LoadTutorial() {
-        Application.LoadLevel("SinglePlayerTutorial");
+        Application.LoadLevel("TutorialGUI");
     }
     public void ExitGame() {
         Application.Quit();
     }
+
+    public void LoadMellow() {
+        Application.LoadLevel("SinglePlayerMellow");
+    }
+    
 
     public void SubmitName() {
         inField = GameObject.FindWithTag("NameText");

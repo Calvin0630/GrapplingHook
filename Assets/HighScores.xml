@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <HighScores>
-    <ScoreElement name="shit bro" distanceTravelled="2083" timeSurvived="67" highSpeed="87" />
-    <ScoreElement name="Calvin" distanceTravelled="1528" timeSurvived="34" highSpeed="71" />
-    <ScoreElement name="alvinDidThis" distanceTravelled="1337" timeSurvived="34" highSpeed="69" />
-    <ScoreElement name="" distanceTravelled="1279" timeSurvived="39" highSpeed="58" />
-    <ScoreElement name="Liam" distanceTravelled="1114" timeSurvived="50" highSpeed="78" />
-    <ScoreElement name="Eddy" distanceTravelled="1057" timeSurvived="52" highSpeed="48" />
-    <ScoreElement name="dad" distanceTravelled="283" timeSurvived="13" highSpeed="44" />
+    <ScoreElement name="" distanceTravelled="246" timeSurvived="10" highSpeed="37" />
+    <ScoreElement name="esfa" distanceTravelled="37" timeSurvived="4" highSpeed="23" />
   </HighScores>
 </HighScores>

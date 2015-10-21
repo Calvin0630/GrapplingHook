@@ -87,6 +87,7 @@ public class ScoreManager : MonoBehaviour {
             else gameOverPanel = Instantiate(gameOverPanelPrefab);
             gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
+            print(Application.loadedLevelName != "SinglePlayerMellow");
             if (Application.loadedLevelName != "SinglePlayerMellow") {
                 GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
                 foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
@@ -97,7 +98,6 @@ public class ScoreManager : MonoBehaviour {
                 congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
             }
             ObstacleSpawner.worldVelocity = Vector3.zero;
-            ObstacleSpawner.distanceTravelled = 0;
             gameIsOver = true;
         }
         //GG.GetComponent<RectTransform>().

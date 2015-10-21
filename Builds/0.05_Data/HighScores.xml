@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HighScores>
+    <ScoreElement name="CALVIN" distanceTravelled="0" timeSurvived="45" highSpeed="65" />
+    <ScoreElement name="Luis" distanceTravelled="0" timeSurvived="110" highSpeed="29" />
+  </HighScores>
+</HighScores>

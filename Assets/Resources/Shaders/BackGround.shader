@@ -82,7 +82,7 @@ SubShader {
 		//input.screenVert is the pixel in the range 0-1
 		float y = input.screenVert.y;
 		float x = input.screenVert.x;
-		float fadeWidth = 0.2;
+		float fadeWidth = 0.175;
 		//if (y < 0.2 + 0 * cos(_DistanceTravelled)) return _Color0;
 		// lerp(color1, color2, alpha) where alpha 0..1, 0 is color 1 1 is color2
 		if (y < Curve(x, _DistanceTravelled + 0.5)) return float4(0, 0, 0, 1);;

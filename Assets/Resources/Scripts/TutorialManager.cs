@@ -17,6 +17,7 @@ public class TutorialManager : MonoBehaviour {
     public static void LoadNextTutorialBox() {
         if (tutorialBoxIndex < tutorialBoxes.Length) {
             if (tutorialBoxInstance == null) Destroy(tutorialBoxInstance);
+
             tutorialBoxIndex++;
         }
         else {

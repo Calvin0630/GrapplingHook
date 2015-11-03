@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class ObstacleSpawner : MonoBehaviour {
+    public static bool worldMovingIsEnabled = true;
     //gameover detection, and moving players
-    public bool isActive;
     GameObject player1;
     GameObject player2;
     GameObject obstacle;
@@ -101,13 +101,13 @@ public class ObstacleSpawner : MonoBehaviour {
         distanceField.GetComponent<Text>().text = distance + " Metres Travelled";
         if (numOfPlayers == 1) FindWorldVelocity1Player();
         else if (numOfPlayers == 2) FindWorldVelocity2Player();
-        MoveWorld();
-        if (isActive) {
+        if (worldMovingIsEnabled) {
             //moves player1
             if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
             //moves player2 
             if (player2 != null && player2.transform.position.x > worldMovePointX) player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
             prevWorldVelocity = worldVelocity;
+            MoveWorld();
         }
         MakeRoofObjects();
         DeleteRoofObjects();
@@ -147,7 +147,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     //find world velocity
     void FindWorldVelocity1Player() {
-        if (player1.transform.position.x > worldMovePointX) {
+        if (player1.transform.position.x > worldMovePointX && worldMovingIsEnabled) {
             farthestPlayer = player1;
             worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
             worldVelocity = new Vector3(-worldVelocityX, 0, 0);

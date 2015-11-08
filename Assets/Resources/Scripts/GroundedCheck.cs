@@ -15,12 +15,14 @@ public class GroundedCheck : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Obstacle" || other.tag == "Player1" || other.tag == "Player2") {
-			player.isGrounded = true;
+            print(other.gameObject.name + "a");
+            player.isGrounded = true;
 		}
     }
 
     void OnTriggerExit(Collider other) {
         if (other.tag == "Obstacle" /*|| other.tag == "Player1" || other.tag == "Player2"*/) {
+            print(other.gameObject.name);
 			player.isGrounded = false; 
 		}
     }

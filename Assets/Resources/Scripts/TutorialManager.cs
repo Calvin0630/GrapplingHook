@@ -67,18 +67,18 @@ public class TutorialManager : MonoBehaviour {
         Vector3 framePieceScale = framePiece.transform.localScale;
         frameTemp = (GameObject)Instantiate(framePiece);
         frameTemp.transform.localScale = new Vector3(4 * cameraSize.x, 2, 2);
-        frameTemp.transform.position = new Vector3(0, cameraSize.y + frameTemp.transform.localScale.y, 0);
+        frameTemp.transform.position = new Vector3(0, cameraSize.y + frameTemp.transform.localScale.y/2, 0);
 
         frameTemp = (GameObject)Instantiate(framePiece);
         frameTemp.transform.localScale = new Vector3(4 * cameraSize.x, 2, 2);
-        frameTemp.transform.position = new Vector3(0, -(cameraSize.y + frameTemp.transform.localScale.y), 0);
+        frameTemp.transform.position = new Vector3(0, -(cameraSize.y + frameTemp.transform.localScale.y/2), 0);
 
         frameTemp = (GameObject)Instantiate(framePiece);
         frameTemp.transform.localScale = new Vector3(2, 4 * cameraSize.y + 2, 2);
-        frameTemp.transform.position = new Vector3(cameraSize.x + frameTemp.transform.localScale.x, 0, 0);
+        frameTemp.transform.position = new Vector3(cameraSize.x + frameTemp.transform.localScale.x/2, 0, 0);
 
         frameTemp = (GameObject)Instantiate(framePiece);
         frameTemp.transform.localScale = new Vector3(2, 4 * cameraSize.y + 2, 2);
-        frameTemp.transform.position = new Vector3(-(cameraSize.x + frameTemp.transform.localScale.x), 0, 0);
+        frameTemp.transform.position = new Vector3(-(cameraSize.x + frameTemp.transform.localScale.x/2), 0, 0);
     }
 }

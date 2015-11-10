@@ -82,10 +82,8 @@ public class Player : MonoBehaviour {
     void FixedUpdate() {
         projectileTimer += Time.deltaTime;
         //if the player is on the ground
-        print("isGrounded = " + isGrounded);
         if (isGrounded) {
             //moving controls
-            print(Input.GetAxis("Horizontal" + playerNum));
             rBody.AddForce(new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, 0, 0));
             // jumping controls
             if (Input.GetAxis("Jump" + playerNum) > .7f) {

@@ -30,6 +30,8 @@ public class TutorialManager : MonoBehaviour {
     public IEnumerator LoadNextTutorialBox() {
         if (tutorialBoxIndex < tutorialBoxes.Length) {
             if (tutorialBoxInstance != null) Destroy(tutorialBoxInstance.gameObject);
+            if (tutorialBoxIndex == 3)
+                Application.LoadLevel("MainScreen");
             inTransition = true;
             yield return new WaitForSeconds(boxLoadDelay);
             inTransition = false;

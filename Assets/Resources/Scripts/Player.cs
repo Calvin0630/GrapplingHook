@@ -154,6 +154,7 @@ public class Player : MonoBehaviour {
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
             rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
+            print(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position));
         }
     }
 
@@ -166,10 +167,7 @@ public class Player : MonoBehaviour {
             }
         }
     }
-
-    void OnCollisionEnter(Collision other) {
-
-    }
+    
 
     Vector3 FindFireDirJoystick() {
         return new Vector3(Input.GetAxis("RStickX"), -Input.GetAxis("RStickY"), 0).normalized;

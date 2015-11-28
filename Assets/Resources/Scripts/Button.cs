@@ -39,7 +39,8 @@ public class Button : MonoBehaviour {
     }
 
     public void LoadTutorial() {
-        Application.LoadLevel("TutorialGUI");
+        //Application.LoadLevel("TutorialGUI");
+        Application.LoadLevel("SinglePlayerTutorial");
     }
     public void ExitGame() {
         Application.Quit();

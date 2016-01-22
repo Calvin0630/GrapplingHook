@@ -154,7 +154,6 @@ public class Player : MonoBehaviour {
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
             rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
-            print(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position));
         }
     }
 

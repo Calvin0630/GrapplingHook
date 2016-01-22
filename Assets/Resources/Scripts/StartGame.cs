@@ -18,7 +18,7 @@ public class StartGame : MonoBehaviour {
         buttonManager = (GameObject)Resources.Load("Prefab/ButtonManager");
         obstacleSpawner = (GameObject)Resources.Load("Prefab/ObstacleSpawner");
         Time.timeScale = 1;
-
+        
         if (GameObject.FindWithTag("ScoreManager") == null) {
             scoreMgrTmp = Instantiate(scoreManager);
         }
@@ -37,6 +37,7 @@ public class StartGame : MonoBehaviour {
         else {
             spawnerTmp = GameObject.FindWithTag("Spawn");
         }
+        
     }
 
     void Start () {
@@ -45,6 +46,12 @@ public class StartGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if(Input.anyKey) {
+            Application.LoadLevel("MainScreen");
+        }
 	}
+
+    void OnLevelWasLoaded() {
+
+    }
 }

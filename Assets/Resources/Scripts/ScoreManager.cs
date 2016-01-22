@@ -27,7 +27,6 @@ public class ScoreManager : MonoBehaviour {
         Read();
         scoreBox = (GameObject)Resources.Load("Prefab/UI/ScoreBox");
         spawner = GameObject.FindWithTag("Spawn");
-        DontDestroyOnLoad(gameObject);
         gameIsOver = false;
         gameOverPanelPrefab = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
         Write();
@@ -87,7 +86,6 @@ public class ScoreManager : MonoBehaviour {
             else gameOverPanel = Instantiate(gameOverPanelPrefab);
             gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
-            print(Application.loadedLevelName != "SinglePlayerMellow");
             if (Application.loadedLevelName != "SinglePlayerMellow") {
                 GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
                 foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {

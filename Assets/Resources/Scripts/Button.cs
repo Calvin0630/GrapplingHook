@@ -8,7 +8,7 @@ public class Button : MonoBehaviour {
     GameObject spawner;
 
     void Start() {
-        DontDestroyOnLoad(gameObject);
+
     }
 
     void Update() {

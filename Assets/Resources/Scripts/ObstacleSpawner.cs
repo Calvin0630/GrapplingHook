@@ -172,6 +172,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     //calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {
+        print(Mathf.Pow(2, .9f * (position + 2)));
         return Mathf.Pow(2, .9f * (position + 2));
     }
 

@@ -49,8 +49,8 @@ public class ObstacleSpawner : MonoBehaviour {
         roof = (GameObject)Resources.Load("Prefab/Roof");
         obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
-        chaserPrefab = (GameObject) Resources.Load("Prefab/Chaser");
-        turretPrefab = (GameObject)Resources.Load("Prefab/Turret");
+        chaserPrefab = (GameObject) Resources.Load("Prefab/Enemies/Chaser");
+        turretPrefab = (GameObject)Resources.Load("Prefab/Enemies/Turret");
         //initiates lists
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
@@ -172,7 +172,6 @@ public class ObstacleSpawner : MonoBehaviour {
 
     //calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {
-        print(Mathf.Pow(2, .9f * (position + 2)));
         return Mathf.Pow(2, .9f * (position + 2));
     }
 

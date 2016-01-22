@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour {
     public float boxLoadDelay;
@@ -9,10 +10,15 @@ public class TutorialManager : MonoBehaviour {
     bool inTransition = false;
     GameObject framePiece;
     Vector3 cameraSize;
+    GameObject enemy;
+    GameObject idlerPrefab;
+    GameObject turretPrefab;
     // Use this for initialization
     void Start() {
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         framePiece = (GameObject)Resources.Load("Prefab/TutorialFrame");
+        idlerPrefab = (GameObject)Resources.Load("Prefab/Enemies/Idler");
+        turretPrefab = (GameObject)Resources.Load("Prefab/Enemies/Turret");
         MakeFrame();
         ObstacleSpawner.worldMovingIsEnabled = false;
         tutorialBoxIndex = 0;
@@ -30,8 +36,19 @@ public class TutorialManager : MonoBehaviour {
     public IEnumerator LoadNextTutorialBox() {
         if (tutorialBoxIndex < tutorialBoxes.Length) {
             if (tutorialBoxInstance != null) Destroy(tutorialBoxInstance.gameObject);
-            if (tutorialBoxIndex == 3)
-                Application.LoadLevel("MainScreen");
+
+            if (tutorialBoxIndex == 2) {
+                //spawn idler
+                enemy = (GameObject)Instantiate(idlerPrefab);
+                enemy.GetComponent<Idler>().initialHealth = 5;
+            }
+            else if (tutorialBoxIndex == 3) {
+                //load a turret and shit
+            }
+            else if (tutorialBoxIndex == 5) {
+                print("tutorial is over");
+                //SceneManager.LoadScene("MainScreen");
+            }
             inTransition = true;
             yield return new WaitForSeconds(boxLoadDelay);
             inTransition = false;
@@ -58,6 +75,8 @@ public class TutorialManager : MonoBehaviour {
                 return Input.GetMouseButtonUp(0);
             case 3:
                 return Input.GetKeyDown(KeyCode.Return);
+            case 4:
+                return enemy == null;
             default:
                 return false;
         }

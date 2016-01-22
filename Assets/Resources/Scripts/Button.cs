@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour {
     GameObject scoreManager;
@@ -17,37 +18,37 @@ public class Button : MonoBehaviour {
         }
     }
 	public void LoadMultiplayer() {
-		Application.LoadLevel ("FirstLevel");
+		SceneManager.LoadScene ("FirstLevel");
 	}
 
     public void LoadSinglePlayer() {
-        Application.LoadLevel("SinglePlayer");
+        SceneManager.LoadScene("SinglePlayer");
     }
 
     public void LoadMainMenu() {
-        Application.LoadLevel("MainScreen");
+        SceneManager.LoadScene("MainScreen");
     }
 
     public void LoadOptions() {
-        Application.LoadLevel("Options");
+        SceneManager.LoadScene("Options");
     }
 
     public void Replay() {
         ObstacleSpawner.distanceTravelled = 0;
-        Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene(Application.loadedLevel);
         ScoreManager.gameIsOver = false;
     }
 
     public void LoadTutorial() {
-        //Application.LoadLevel("TutorialGUI");
-        Application.LoadLevel("SinglePlayerTutorial");
+        //SceneManager.LoadScene("TutorialGUI");
+        SceneManager.LoadScene("SinglePlayerTutorial");
     }
     public void ExitGame() {
         Application.Quit();
     }
 
     public void LoadMellow() {
-        Application.LoadLevel("SinglePlayerMellow");
+        SceneManager.LoadScene("SinglePlayerMellow");
     }
     
 
@@ -55,7 +56,7 @@ public class Button : MonoBehaviour {
         inField = GameObject.FindWithTag("NameText");
         ScoreManager.highScores.AddScore(new Score( (int)ObstacleSpawner.distanceTravelled, (int) Time.timeSinceLevelLoad, (int)ObstacleSpawner.maxSpeed, inField.GetComponent<Text>().text));
         ObstacleSpawner.distanceTravelled = 0;
-        Application.LoadLevel("SinglePlayerGameOver");
+        SceneManager.LoadScene("SinglePlayerGameOver");
     }
 
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using System.Linq;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
     public static HighScores highScores;
@@ -82,11 +83,11 @@ public class ScoreManager : MonoBehaviour {
         if (!gameIsOver) { 
             Time.timeScale = 0;
             GameObject gameOverPanel;
-            if (Application.loadedLevelName == "SinglePlayerMellow") gameOverPanel = (GameObject) Instantiate((GameObject) Resources.Load("Prefab/UI/GameOverPanelMellow"));
+            if (SceneManager.GetActiveScene().name == "SinglePlayerMellow") gameOverPanel = (GameObject) Instantiate((GameObject) Resources.Load("Prefab/UI/GameOverPanelMellow"));
             else gameOverPanel = Instantiate(gameOverPanelPrefab);
             gameOverPanel.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);
             GameObject congratsText = GameObject.Find("CongradulationsText");
-            if (Application.loadedLevelName != "SinglePlayerMellow") {
+            if (SceneManager.GetActiveScene().name != "SinglePlayerMellow") {
                 GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
                 foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
                     if (text.gameObject.name == "Distance") text.text = (int)ObstacleSpawner.distanceTravelled + " m";

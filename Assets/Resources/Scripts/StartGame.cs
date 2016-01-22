@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour {
     GameObject scoreManager;
@@ -31,7 +32,7 @@ public class StartGame : MonoBehaviour {
         else {
             buttonMgrTmp = GameObject.FindWithTag("ButtonManager");
         }
-        if (GameObject.FindWithTag("Spawn") == null && Application.loadedLevelName != "MainScreen") {
+        if (GameObject.FindWithTag("Spawn") == null && SceneManager.GetActiveScene().name != "MainScreen") {
             //spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
         }
         else {
@@ -47,7 +48,7 @@ public class StartGame : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(Input.anyKey) {
-            Application.LoadLevel("MainScreen");
+            SceneManager.LoadScene("MainScreen");
         }
 	}
 

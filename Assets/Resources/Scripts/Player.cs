@@ -17,7 +17,6 @@ public class Player : MonoBehaviour {
     public bool isJumping;
     public float forceOfHookOnPlayer;
     public bool hasJetpack;
-    public bool useController;
     public float projectileDelay;
     bool projectileTriggerDown;
     float projectileTimer;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start() {
         playerNum = gameObject.name;
-        if (useController) playerNum = "Player2";
         material = gameObject.GetComponent<MeshRenderer>().material;
         playerToHook = gameObject.GetComponent<LineRenderer>();
         hook = (GameObject)Resources.Load("Prefab/Hook");
@@ -93,14 +91,14 @@ public class Player : MonoBehaviour {
 
         //hook shooting
         if (Input.GetAxis("FireHook" + playerNum) > .7f && hookInstance == null) {
-            if (hookInstance != null) Destroy(hookInstance);
-            Vector3 fireDir = Vector3.zero;
-            if (playerNum == "Player1") fireDir = FindFireDirMouse();
-            else if (playerNum == "Player2") fireDir = FindFireDirJoystick();
-
-            hookInstance = (GameObject)GameObject.Instantiate(hook, transform.position, Quaternion.identity);
-            Rigidbody hookRigidBody = hookInstance.GetComponent<Rigidbody>();
-            hookRigidBody.velocity = firePower * fireDir;
+            //shoot hook
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 72); ;
+            RaycastHit hit;
+            print(mousePos);
+            Ray ray = new Ray(mousePos, Vector3.forward);
+            if(Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
+                print(hit.point);
+            }
         }
         if (Input.GetAxis("FireHook" + playerNum) < .1f) {
             if (hookInstance != null) Destroy(hookInstance);
@@ -110,8 +108,7 @@ public class Player : MonoBehaviour {
         if (Input.GetAxis("FireShot" + playerNum) > .7f && !projectileTriggerDown) {
             projectileTimer = 0;
             Vector3 shotDir = Vector3.zero;
-            if (playerNum == "Player2" || useController) shotDir = FindFireDirJoystick();
-            else if (playerNum == "Player1") shotDir = FindFireDirMouse();
+            shotDir = FindFireDirMouse();
             //shotDir = Vector3.left;
             GameObject shot = (GameObject)Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
             shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;

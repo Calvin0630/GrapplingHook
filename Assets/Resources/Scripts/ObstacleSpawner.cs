@@ -9,8 +9,8 @@ public class ObstacleSpawner : MonoBehaviour {
     GameObject player1;
     GameObject player2;
     GameObject obstacle;
-    GameObject roof;
-    List<GameObject> roofObjects;
+    GameObject floorPrefab;
+    List<GameObject> floorObjects;
     List<GameObject> obstacleObjects;
     // is in [-1, 1]
     public float movingPointX;
@@ -46,18 +46,18 @@ public class ObstacleSpawner : MonoBehaviour {
         player2 = GameObject.Find("Player2");
         //ternary operator
         numOfPlayers = (player2 == null) ? 1 : 2;
-        roof = (GameObject)Resources.Load("Prefab/Roof");
+        floorPrefab = (GameObject)Resources.Load("Prefab/Floor");
         obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
         chaserPrefab = (GameObject) Resources.Load("Prefab/Enemies/Chaser");
         turretPrefab = (GameObject)Resources.Load("Prefab/Enemies/Turret");
         //initiates lists
-        roofObjects = new List<GameObject>();
+        floorObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
-        //finds roof objects in scene, and adds them to the array
+        //finds floor objects in scene, and adds them to the array
         tmp = GameObject.FindGameObjectsWithTag("Wall");
-        for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
-        if (roofObjects.Count > 0) roofObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
+        for (int i = 0; i < tmp.Length; i++) floorObjects.Add(tmp[i]);
+        if (floorObjects.Count > 0) floorObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
         //finds obstacle objects in scene, and adds them to the obstacleList
         tmp = GameObject.FindGameObjectsWithTag("Obstacle");
         for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
@@ -109,10 +109,10 @@ public class ObstacleSpawner : MonoBehaviour {
             prevWorldVelocity = worldVelocity;
             MoveWorld();
         }
-        MakeRoofObjects();
-        DeleteRoofObjects();
-        DeleteObstacleObjects();
         MakeFloorObjects();
+        DeleteFloorObjects();
+        DeleteObstacleObjects();
+        //MakeBuildingObjects();
     }
 
     //makes the GameOver frame
@@ -175,26 +175,26 @@ public class ObstacleSpawner : MonoBehaviour {
         return Mathf.Pow(2, .9f * (position + 2));
     }
 
-    void MakeRoofObjects() {
-        if (roofObjects.Count == 0) {
-            GameObject clone = (GameObject)Instantiate(roof, new Vector3(0, 5, 0), Quaternion.identity);
+    void MakeFloorObjects() {
+        if (floorObjects.Count == 0) {
+            GameObject clone = (GameObject)Instantiate(floorPrefab, new Vector3(0, -5, 0), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
             clone.transform.localScale = new Vector3(20, 2, 1);
-            roofObjects.Add(clone);
+            floorObjects.Add(clone);
         }
-        else if (roofObjects[roofObjects.Count - 1].transform.position.x < 3.89) {
-            //make new roof object w/ left edge @ right edge of camera 
-            GameObject clone = (GameObject)Instantiate(roof, new Vector3(18.89f, 5, 0), Quaternion.identity);
+        else if (floorObjects[floorObjects.Count - 1].transform.position.x < 3.89) {
+            //make new floor object w/ left edge @ right edge of camera 
+            GameObject clone = (GameObject)Instantiate(floorPrefab, new Vector3(18.89f, -5, 0), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
             clone.transform.localScale = new Vector3(20, 2, 1);
-            roofObjects.Add(clone);
+            floorObjects.Add(clone);
         }
     }
 
-    void DeleteRoofObjects() {
-        if (roofObjects[0].transform.position.x < -40) {
-            Destroy(roofObjects[0]);
-            roofObjects.RemoveAt(0);
+    void DeleteFloorObjects() {
+        if (floorObjects[0].transform.position.x < -40) {
+            Destroy(floorObjects[0]);
+            floorObjects.RemoveAt(0);
         }
     }
 
@@ -214,15 +214,15 @@ public class ObstacleSpawner : MonoBehaviour {
                 obstacleObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
             }
         }
-        //moves roofs
-        for (int i = 0; i < roofObjects.Count; i++) {
-            if (roofObjects[i] != null) {
-                roofObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
+        //moves floors
+        for (int i = 0; i < floorObjects.Count; i++) {
+            if (floorObjects[i] != null) {
+                floorObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
             }
         }
     }
 
-    void MakeFloorObjects() {
+    void MakeBuildingObjects() {
         if (obstacleObjects.Count == 0) {
             //Debug.Log("no Obstacles in List. Wat do?");
         }

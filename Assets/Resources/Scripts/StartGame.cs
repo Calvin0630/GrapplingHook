@@ -33,7 +33,7 @@ public class StartGame : MonoBehaviour {
             buttonMgrTmp = GameObject.FindWithTag("ButtonManager");
         }
         if (GameObject.FindWithTag("Spawn") == null && SceneManager.GetActiveScene().name != "MainScreen") {
-            //spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
+            spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
         }
         else {
             spawnerTmp = GameObject.FindWithTag("Spawn");

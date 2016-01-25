@@ -30,6 +30,7 @@ public class ScoreManager : MonoBehaviour {
         spawner = GameObject.FindWithTag("Spawn");
         gameIsOver = false;
         gameOverPanelPrefab = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
+        print(gameOverPanelPrefab == null);
         Write();
     }
 

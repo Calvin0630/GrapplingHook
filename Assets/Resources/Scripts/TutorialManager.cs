@@ -68,7 +68,7 @@ public class TutorialManager : MonoBehaviour {
 
         switch (index) {
             case 0:
-                return Input.GetButtonDown("JumpPlayer1") || Input.GetButtonDown("JumpPlayer2");
+                return Input.GetButtonDown("Jump");
             case 1:
                 return Input.GetButtonDown("HorizontalPlayer1") || Input.GetButtonDown("HorizontalPlayer2");
             case 2:

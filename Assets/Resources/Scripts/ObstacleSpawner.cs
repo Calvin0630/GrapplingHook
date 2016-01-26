@@ -59,7 +59,7 @@ public class ObstacleSpawner : MonoBehaviour {
         for (int i = 0; i < tmp.Length; i++) floorObjects.Add(tmp[i]);
         if (floorObjects.Count > 0) floorObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
         //finds obstacle objects in scene, and adds them to the obstacleList
-        tmp = GameObject.FindGameObjectsWithTag("Obstacle");
+        tmp = GameObject.FindGameObjectsWithTag("Environment");
         for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
         if(obstacleObjects.Count > 0) obstacleObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
         if (player1 != null) player1RigidBody = player1.GetComponent<Rigidbody>();

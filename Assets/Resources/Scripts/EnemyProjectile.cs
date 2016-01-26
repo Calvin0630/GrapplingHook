@@ -15,7 +15,7 @@ public class EnemyProjectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player1" || other.gameObject.tag == "Player2") {
-            if(!other.gameObject.GetComponent<Player>().HasShield())other.gameObject.GetComponent<Player>().TakeDamage(other.gameObject.tag, 1);
+            if(!other.gameObject.GetComponent<Player>().HasShield())other.gameObject.GetComponent<Player>().TakeDamage( 1);
             Destroy(gameObject);
         }
     }

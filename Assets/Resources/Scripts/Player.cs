@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-    string playerNum;
     public float movementSpeed;
     GameObject hook;
     Material material;
     public float jumpForce;
     public float firePower;
     LineRenderer playerToHook;
-    GameObject hookInstance;
+    Vector3 hookPoint;
+    bool hookIsActive;
     GameObject projectile;
     GameObject scoreManager;
     Rigidbody rBody;
@@ -34,13 +34,12 @@ public class Player : MonoBehaviour {
     int health;
     // Use this for initialization
     void Start() {
-        playerNum = gameObject.name;
         material = gameObject.GetComponent<MeshRenderer>().material;
         playerToHook = gameObject.GetComponent<LineRenderer>();
-        hook = (GameObject)Resources.Load("Prefab/Hook");
+        hookIsActive = false;
         projectile = (GameObject)Resources.Load("Prefab/FriendlyProjectile");
         shield = (GameObject)Resources.Load("Prefab/Shield");
-        healthBar = GameObject.FindGameObjectWithTag("HealthBar" + playerNum);
+        healthBar = GameObject.FindGameObjectWithTag("HealthBar");
         rBody = gameObject.GetComponent<Rigidbody>();
         isGrounded = false;
         projectileTimer = projectileDelay;
@@ -53,23 +52,17 @@ public class Player : MonoBehaviour {
     void Update() {
         //controls whether shield is active based on player input
         ShieldBar.SetValue(shieldPower / 100);
-        if (playerNum == "Player1") {
-            playerShieldInput = Input.GetButton("Shield" + playerNum);
-        }
-        else if (playerNum == "Player2") {
-            if (Input.GetButtonDown("Shield" + playerNum)) {
-                playerShieldInput = !playerShieldInput;
-            }
-        }
+
+        playerShieldInput = Input.GetButton("Shield");
 
         //hook stuff n shit
-        if (hookInstance != null) {
+        if (hookIsActive) {
             //updates line renderer
             playerToHook.SetVertexCount(2);
             playerToHook.SetPosition(0, transform.position);
-            playerToHook.SetPosition(1, hookInstance.transform.position);
+            playerToHook.SetPosition(1,hookPoint);
             // moves player towards hook if hook is attatched to wall
-            Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
+            Vector3 PlayerToHook = hookPoint - gameObject.transform.position;
         }
         else {
             playerToHook.SetVertexCount(0);
@@ -82,30 +75,31 @@ public class Player : MonoBehaviour {
         //if the player is on the ground
         if (isGrounded) {
             //moving controls
-            rBody.AddForce(new Vector3(Input.GetAxis("Horizontal" + playerNum) * movementSpeed, 0, 0));
+            rBody.AddForce(new Vector3(Input.GetAxis("Horizontal") * movementSpeed, 0, 0));
             // jumping controls
-            if (Input.GetAxis("Jump" + playerNum) > .7f) {
+            if (Input.GetAxis("Jump") > .7f) {
                 rBody.AddForce(new Vector3(0, jumpForce, 0));
             }
         }
 
         //hook shooting
-        if (Input.GetAxis("FireHook" + playerNum) > .7f && hookInstance == null) {
+        if (Input.GetButtonDown("FireHook") ) {
             //shoot hook
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 72); ;
             RaycastHit hit;
-            print(mousePos);
             Ray ray = new Ray(mousePos, Vector3.forward);
             if(Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
-                print(hit.point);
+                print("you hit a building");
+                hookPoint = hit.point;
+                hookIsActive = true;
             }
         }
-        if (Input.GetAxis("FireHook" + playerNum) < .1f) {
-            if (hookInstance != null) Destroy(hookInstance);
+        if (Input.GetButtonUp("FireHook")) {
+            hookIsActive = false;
         }
 
         //controls for shooting
-        if (Input.GetAxis("FireShot" + playerNum) > .7f && !projectileTriggerDown) {
+        if (Input.GetAxis("FireShot") > .7f && !projectileTriggerDown) {
             projectileTimer = 0;
             Vector3 shotDir = Vector3.zero;
             shotDir = FindFireDirMouse();
@@ -114,7 +108,7 @@ public class Player : MonoBehaviour {
             shot.GetComponent<Rigidbody>().velocity = firePower * .5f * shotDir;
             projectileTriggerDown = true;
         }
-        else if (Input.GetAxis("FireShot" + playerNum) < .7f) {
+        else if (Input.GetAxis("FireShot") < .7f) {
             projectileTriggerDown = false;
         }
 
@@ -147,21 +141,19 @@ public class Player : MonoBehaviour {
             Time.timeScale = 1;
         }*/
 
-        if (hookInstance != null && hookInstance.GetComponent<Hook>().hooked) {
+        if (hookIsActive) {
             // moves player towards hook if hook is attatched to wall
-            Vector3 PlayerToHook = hookInstance.transform.position - gameObject.transform.position;
-            rBody.AddForce(forceOfHookOnPlayer * (hookInstance.transform.position - gameObject.transform.position).normalized);
+            Vector3 PlayerToHook = hookPoint - gameObject.transform.position;
+            rBody.AddForce(forceOfHookOnPlayer * (hookPoint - gameObject.transform.position).normalized);
         }
     }
 
-    public void TakeDamage(string target, int damage) {
-        if (target == playerNum) {
+    public void TakeDamage( int damage) {
             health -= damage;
             healthBar.GetComponent<EnergyBar>().SetValue(100 * health / initialHealth);
             if (health <= 0) {
                 ScoreManager.GameOver();
             }
-        }
     }
     
 

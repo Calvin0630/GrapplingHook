@@ -6,5 +6,6 @@
     <ScoreElement name="Jordan" distanceTravelled="1254" timeSurvived="87" highSpeed="27" />
     <ScoreElement name="" distanceTravelled="246" timeSurvived="10" highSpeed="37" />
     <ScoreElement name="esfa" distanceTravelled="37" timeSurvived="4" highSpeed="23" />
+    <ScoreElement name="" distanceTravelled="0" timeSurvived="12" highSpeed="90" />
   </HighScores>
 </HighScores>

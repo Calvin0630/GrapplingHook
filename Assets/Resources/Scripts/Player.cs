@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
     Material material;
     public float jumpForce;
     public float firePower;
-    LineRenderer playerToHook;
+    LineRenderer playerToHookRenerer;
     Vector3 hookPoint;
     bool hookIsActive;
     GameObject projectile;
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start() {
         material = gameObject.GetComponent<MeshRenderer>().material;
-        playerToHook = gameObject.GetComponent<LineRenderer>();
+        playerToHookRenerer = gameObject.GetComponent<LineRenderer>();
         hookIsActive = false;
         projectile = (GameObject)Resources.Load("Prefab/FriendlyProjectile");
         shield = (GameObject)Resources.Load("Prefab/Shield");
@@ -54,18 +54,18 @@ public class Player : MonoBehaviour {
         ShieldBar.SetValue(shieldPower / 100);
 
         playerShieldInput = Input.GetButton("Shield");
-
         //hook stuff n shit
         if (hookIsActive) {
             //updates line renderer
-            playerToHook.SetVertexCount(2);
-            playerToHook.SetPosition(0, transform.position);
-            playerToHook.SetPosition(1,hookPoint);
+            playerToHookRenerer.SetVertexCount(2);
+            playerToHookRenerer.SetPosition(0, transform.position);
+            playerToHookRenerer.SetPosition(1,hookPoint);
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookPoint - gameObject.transform.position;
+            GetComponent<Rigidbody>().AddForce(PlayerToHook.normalized* forceOfHookOnPlayer);
         }
         else {
-            playerToHook.SetVertexCount(0);
+            playerToHookRenerer.SetVertexCount(0);
         }
 
     }
@@ -85,11 +85,10 @@ public class Player : MonoBehaviour {
         //hook shooting
         if (Input.GetButtonDown("FireHook") ) {
             //shoot hook
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 72); ;
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 76); ;
             RaycastHit hit;
             Ray ray = new Ray(mousePos, Vector3.forward);
             if(Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
-                print("you hit a building");
                 hookPoint = hit.point;
                 hookIsActive = true;
             }

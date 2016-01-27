@@ -34,7 +34,7 @@ public class Button : MonoBehaviour {
     }
 
     public void Replay() {
-        ObstacleSpawner.distanceTravelled = 0;
+        BuildingSpawner.distanceTravelled = 0;
         SceneManager.LoadScene(Application.loadedLevel);
         ScoreManager.gameIsOver = false;
     }
@@ -54,8 +54,8 @@ public class Button : MonoBehaviour {
 
     public void SubmitName() {
         inField = GameObject.FindWithTag("NameText");
-        ScoreManager.highScores.AddScore(new Score( (int)ObstacleSpawner.distanceTravelled, (int) Time.timeSinceLevelLoad, (int)ObstacleSpawner.maxSpeed, inField.GetComponent<Text>().text));
-        ObstacleSpawner.distanceTravelled = 0;
+        ScoreManager.highScores.AddScore(new Score( (int)BuildingSpawner.distanceTravelled, (int) Time.timeSinceLevelLoad, (int)BuildingSpawner.maxSpeed, inField.GetComponent<Text>().text));
+        BuildingSpawner.distanceTravelled = 0;
         SceneManager.LoadScene("SinglePlayerGameOver");
     }
 

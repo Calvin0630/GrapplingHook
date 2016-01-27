@@ -20,7 +20,7 @@ public class TutorialManager : MonoBehaviour {
         idlerPrefab = (GameObject)Resources.Load("Prefab/Enemies/Idler");
         turretPrefab = (GameObject)Resources.Load("Prefab/Enemies/Turret");
         MakeFrame();
-        ObstacleSpawner.worldMovingIsEnabled = false;
+        BuildingSpawner.worldMovingIsEnabled = false;
         tutorialBoxIndex = 0;
         tutorialBoxInstance = Instantiate(tutorialBoxes[tutorialBoxIndex]);
         tutorialBoxInstance.GetComponent<RectTransform>().SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>(), false);

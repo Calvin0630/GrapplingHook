@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class TutorialObstacleSpawner : MonoBehaviour {
+public class TutorialBuildingSpawner : MonoBehaviour {
     public static bool worldMovingIsEnabled = true;
     //gameover detection, and moving players
     GameObject player1;
     GameObject player2;
-    GameObject obstacle;
+    GameObject Building;
     GameObject roof;
     List<GameObject> roofObjects;
-    List<GameObject> obstacleObjects;
+    List<GameObject> BuildingObjects;
     // is in [-1, 1]
     public float movingPointX;
     //top left corner of world screen
@@ -47,21 +47,21 @@ public class TutorialObstacleSpawner : MonoBehaviour {
         //ternary operator
         numOfPlayers = (player2 == null) ? 1 : 2;
         roof = (GameObject)Resources.Load("Prefab/Roof");
-        obstacle = (GameObject)Resources.Load("Prefab/Obstacle");
+        Building = (GameObject)Resources.Load("Prefab/Building");
         FramePiece = (GameObject)Resources.Load("Prefab/TutorialFrame");
         chaserPrefab = (GameObject)Resources.Load("Prefab/Chaser");
         turretPrefab = (GameObject)Resources.Load("Prefab/Turret");
         //initiates lists
         roofObjects = new List<GameObject>();
-        obstacleObjects = new List<GameObject>();
+        BuildingObjects = new List<GameObject>();
         //finds roof objects in scene, and adds them to the array
         tmp = GameObject.FindGameObjectsWithTag("Wall");
         for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
         if (roofObjects.Count > 0) roofObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
-        //finds obstacle objects in scene, and adds them to the obstacleList
-        tmp = GameObject.FindGameObjectsWithTag("Obstacle");
-        for (int i = 0; i < tmp.Length; i++) obstacleObjects.Add(tmp[i]);
-        if (obstacleObjects.Count > 0) obstacleObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
+        //finds Building objects in scene, and adds them to the BuildingList
+        tmp = GameObject.FindGameObjectsWithTag("Building");
+        for (int i = 0; i < tmp.Length; i++) BuildingObjects.Add(tmp[i]);
+        if (BuildingObjects.Count > 0) BuildingObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
         if (player1 != null) player1RigidBody = player1.GetComponent<Rigidbody>();
         if (player2 != null) player2RigidBody = player2.GetComponent<Rigidbody>();
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
@@ -178,20 +178,20 @@ public class TutorialObstacleSpawner : MonoBehaviour {
         }
     }
 
-    void DeleteObstacleObjects() {
-        if (obstacleObjects.Count > 0) {
-            if (obstacleObjects[0].transform.position.x + obstacleObjects[0].transform.localScale.x / 2 < -cameraSize.x) {
-                Destroy(obstacleObjects[0]);
-                obstacleObjects.RemoveAt(0);
+    void DeleteBuildingObjects() {
+        if (BuildingObjects.Count > 0) {
+            if (BuildingObjects[0].transform.position.x + BuildingObjects[0].transform.localScale.x / 2 < -cameraSize.x) {
+                Destroy(BuildingObjects[0]);
+                BuildingObjects.RemoveAt(0);
             }
         }
     }
 
     void MoveWorld() {
-        //moves obstacles
-        for (int i = 0; i < obstacleObjects.Count; i++) {
-            if (obstacleObjects[i] != null) {
-                obstacleObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
+        //moves Buildings
+        for (int i = 0; i < BuildingObjects.Count; i++) {
+            if (BuildingObjects[i] != null) {
+                BuildingObjects[i].GetComponent<Rigidbody>().velocity = worldVelocity;
             }
         }
         //moves roofs
@@ -203,16 +203,16 @@ public class TutorialObstacleSpawner : MonoBehaviour {
     }
 
     void MakeFloorObjects() {
-        if (obstacleObjects.Count == 0) {
-            //Debug.Log("no Obstacles in List. Wat do?");
+        if (BuildingObjects.Count == 0) {
+            //Debug.Log("no Buildings in List. Wat do?");
         }
-        else if (obstacleObjects[obstacleObjects.Count - 1].transform.position.x + obstacleObjects[obstacleObjects.Count - 1].transform.localScale.x / 2 < cameraSize.x) {
-            //spawns obstacle
+        else if (BuildingObjects[BuildingObjects.Count - 1].transform.position.x + BuildingObjects[BuildingObjects.Count - 1].transform.localScale.x / 2 < cameraSize.x) {
+            //spawns Building
             float yTop = Random.Range(levels[levelIndex].buildingMinHeight, levels[levelIndex].buildingMaxHeight);
             float yScale = yTop + 2 * cameraSize.y;
-            GameObject shitVarName = (GameObject)Instantiate(obstacle, new Vector3(cameraSize.x + levels[levelIndex].buildingGap, yTop - yScale / 2, 0), Quaternion.identity);
+            GameObject shitVarName = (GameObject)Instantiate(Building, new Vector3(cameraSize.x + levels[levelIndex].buildingGap, yTop - yScale / 2, 0), Quaternion.identity);
             shitVarName.transform.localScale = new Vector3(levels[levelIndex].buildingWidth, yScale, 1);
-            obstacleObjects.Add(shitVarName);
+            BuildingObjects.Add(shitVarName);
             //spawns turret
             if (levels[levelIndex].turretSpawning && enemySpawning) {
                 if (Random.Range(0, 1000) % levels[levelIndex].turretSpawnProbability == 0) {

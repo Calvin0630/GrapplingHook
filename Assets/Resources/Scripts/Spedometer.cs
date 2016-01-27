@@ -25,11 +25,11 @@ public class Spedometer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (ObstacleSpawner.worldVelocityX > maxSpeed) playerSpeed = 75;
-        else playerSpeed = ObstacleSpawner.worldVelocityX;
+        if (BuildingSpawner.worldVelocityX > maxSpeed) playerSpeed = 75;
+        else playerSpeed = BuildingSpawner.worldVelocityX;
         image.fillAmount = playerSpeed / maxSpeed ;
         print(playerSpeed / maxSpeed);
-        speedText.text = ((int) ObstacleSpawner.worldVelocityX) + " m/s";
+        speedText.text = ((int) BuildingSpawner.worldVelocityX) + " m/s";
         
 	}
 }

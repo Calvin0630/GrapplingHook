@@ -33,7 +33,7 @@ public class Idler : Enemy {
         float enemyToPlayerAngle = Vector3.Angle(player.transform.position - transform.position, new Vector3(10, 0, 0));
         if (enemyToPlayer.y < 0) enemyToPlayerAngle *= -1;
         transform.localEulerAngles = new Vector3(0, 0, enemyToPlayerAngle);
-        worldVelocityX = ObstacleSpawner.worldVelocityX;
+        worldVelocityX = BuildingSpawner.worldVelocityX;
         enemyToDestination = (player.transform.position - transform.position).normalized * moveSpeed;
         //Debug.Log(enemyToDestination);
         float edgeOfCameraToPlayer = player.transform.position.x + cameraSize.x;

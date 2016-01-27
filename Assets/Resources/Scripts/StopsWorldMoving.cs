@@ -12,11 +12,11 @@ public class StopsWorldMoving : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        ObstacleSpawner.worldMovingIsEnabled = false;
+        BuildingSpawner.worldMovingIsEnabled = false;
 	}
 	
     void OnDestroy() {
-        ObstacleSpawner.worldMovingIsEnabled = true;
+        BuildingSpawner.worldMovingIsEnabled = true;
     }
 
 	// Update is called once per frame

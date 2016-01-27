@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartGame : MonoBehaviour {
     GameObject scoreManager;
     GameObject buttonManager;
-    GameObject obstacleSpawner;
+    GameObject BuildingSpawner;
     GameObject scoreMgrTmp;
     GameObject buttonMgrTmp;
     GameObject spawnerTmp;
@@ -17,7 +17,7 @@ public class StartGame : MonoBehaviour {
     void Awake() {
         scoreManager = (GameObject)Resources.Load("Prefab/ScoreManager");
         buttonManager = (GameObject)Resources.Load("Prefab/ButtonManager");
-        obstacleSpawner = (GameObject)Resources.Load("Prefab/ObstacleSpawner");
+        BuildingSpawner = (GameObject)Resources.Load("Prefab/BuildingSpawner");
         Time.timeScale = 1;
         
         if (GameObject.FindWithTag("ScoreManager") == null) {
@@ -33,7 +33,7 @@ public class StartGame : MonoBehaviour {
             buttonMgrTmp = GameObject.FindWithTag("ButtonManager");
         }
         if (GameObject.FindWithTag("Spawn") == null && SceneManager.GetActiveScene().name != "MainScreen") {
-            spawnerTmp = (GameObject)Instantiate(obstacleSpawner);
+            spawnerTmp = (GameObject)Instantiate(BuildingSpawner);
         }
         else {
             spawnerTmp = GameObject.FindWithTag("Spawn");

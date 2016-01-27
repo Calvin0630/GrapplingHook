@@ -90,13 +90,13 @@ public class ScoreManager : MonoBehaviour {
             if (SceneManager.GetActiveScene().name != "SinglePlayerMellow") {
                 GameObject scoreInfo = GameObject.FindWithTag("ScoreInfo");
                 foreach (Text text in scoreInfo.GetComponentsInChildren<Text>()) {
-                    if (text.gameObject.name == "Distance") text.text = (int)ObstacleSpawner.distanceTravelled + " m";
+                    if (text.gameObject.name == "Distance") text.text = (int)BuildingSpawner.distanceTravelled + " m";
                     else if (text.gameObject.name == "Time") text.text = (int)Time.timeSinceLevelLoad + " s";
-                    else if (text.gameObject.name == "MaxSpeed") text.text = (int)ObstacleSpawner.maxSpeed + " m/s";
+                    else if (text.gameObject.name == "MaxSpeed") text.text = (int)BuildingSpawner.maxSpeed + " m/s";
                 }
-                congratsText.GetComponent<Text>().text = "You made it " + (int)ObstacleSpawner.distanceTravelled + " metres!! GG";
+                congratsText.GetComponent<Text>().text = "You made it " + (int)BuildingSpawner.distanceTravelled + " metres!! GG";
             }
-            ObstacleSpawner.worldVelocity = Vector3.zero;
+            BuildingSpawner.worldVelocity = Vector3.zero;
             gameIsOver = true;
         }
         //GG.GetComponent<RectTransform>().

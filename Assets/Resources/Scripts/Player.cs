@@ -59,10 +59,10 @@ public class Player : MonoBehaviour {
             //updates line renderer
             playerToHookRenerer.SetVertexCount(2);
             playerToHookRenerer.SetPosition(0, transform.position);
-            playerToHookRenerer.SetPosition(1,hookPoint);
+            playerToHookRenerer.SetPosition(1, hookPoint);
             // moves player towards hook if hook is attatched to wall
             Vector3 PlayerToHook = hookPoint - gameObject.transform.position;
-            GetComponent<Rigidbody>().AddForce(PlayerToHook.normalized* forceOfHookOnPlayer);
+            GetComponent<Rigidbody>().AddForce(PlayerToHook.normalized * forceOfHookOnPlayer);
         }
         else {
             playerToHookRenerer.SetVertexCount(0);
@@ -83,17 +83,21 @@ public class Player : MonoBehaviour {
         }
 
         //hook shooting
-        if (Input.GetButtonDown("FireHook") ) {
+        print(Input.GetButton("FireHook"));
+        if (Input.GetButton("FireHook") && !hookIsActive) {
             //shoot hook
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 76); ;
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 68); ;
             RaycastHit hit;
+            print("mousePos: " + mousePos);
             Ray ray = new Ray(mousePos, Vector3.forward);
-            if(Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
+            Debug.DrawRay(ray.origin, ray.origin + 10 * Vector3.forward);
+            if (Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
                 hookPoint = hit.point;
                 hookIsActive = true;
+
             }
         }
-        if (Input.GetButtonUp("FireHook")) {
+        if (!Input.GetButton("FireHook")) {
             hookIsActive = false;
         }
 
@@ -112,8 +116,6 @@ public class Player : MonoBehaviour {
         }
 
         //controls for shield
-        //print(0.019f);
-        //print(playerIsUsingShield);
         if (playerShieldInput && shieldPower >= 10 && shieldInstance == null) {
             //creates the shield
             Time.timeScale = .2f;
@@ -147,14 +149,14 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void TakeDamage( int damage) {
-            health -= damage;
-            healthBar.GetComponent<EnergyBar>().SetValue(100 * health / initialHealth);
-            if (health <= 0) {
-                ScoreManager.GameOver();
-            }
+    public void TakeDamage(int damage) {
+        health -= damage;
+        healthBar.GetComponent<EnergyBar>().SetValue(100 * health / initialHealth);
+        if (health <= 0) {
+            ScoreManager.GameOver();
+        }
     }
-    
+
 
     Vector3 FindFireDirJoystick() {
         return new Vector3(Input.GetAxis("RStickX"), -Input.GetAxis("RStickY"), 0).normalized;

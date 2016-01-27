@@ -21,7 +21,7 @@ public class Hook : MonoBehaviour {
         }
 	}
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Wall" || other.gameObject.tag == "Obstacle") {
+        if (other.gameObject.tag == "Wall" || other.gameObject.tag == "Building") {
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             gameObject.transform.parent = other.gameObject.transform;
         }

@@ -27,7 +27,7 @@ public class Trail : MonoBehaviour {
 
     void FixedUpdate() {
         for (int i = 0; i < trailPoints.Count; i++) {
-            trailPoints[i] = trailPoints[i] + (ObstacleSpawner.worldVelocity - transform.parent.gameObject.GetComponent<Rigidbody>().velocity) * Time.deltaTime;
+            trailPoints[i] = trailPoints[i] + (BuildingSpawner.worldVelocity - transform.parent.gameObject.GetComponent<Rigidbody>().velocity) * Time.deltaTime;
         }
         while (trailPoints.Count > length) {
             trailPoints.RemoveAt(0);

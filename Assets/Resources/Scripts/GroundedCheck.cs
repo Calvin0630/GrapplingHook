@@ -14,19 +14,19 @@ public class GroundedCheck : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.tag == "Environment" ) {
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Floor") {
             player.isGrounded = true;
         }
     }
 
     void OnTriggerStay(Collider other) {
-        if (other.tag == "Environment") {
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Floor") {
             player.isGrounded = true;
         }
     }
 
     void OnTriggerExit(Collider other) {
-        if (other.tag == "Environment" /*|| other.tag == "Player1" || other.tag == "Player2"*/) {
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Floor" /*|| other.tag == "Player1" || other.tag == "Player2"*/) {
 			player.isGrounded = false;
 		}
     }

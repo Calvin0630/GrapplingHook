@@ -83,22 +83,24 @@ public class Player : MonoBehaviour {
         }
 
         //hook shooting
-        print(Input.GetButton("FireHook"));
         if (Input.GetButton("FireHook") && !hookIsActive) {
             //shoot hook
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 68); ;
             RaycastHit hit;
-            print("mousePos: " + mousePos);
             Ray ray = new Ray(mousePos, Vector3.forward);
             Debug.DrawRay(ray.origin, ray.origin + 10 * Vector3.forward);
             if (Physics.Raycast(ray, out hit, LayerMask.NameToLayer("Environment"))) {
                 hookPoint = hit.point;
                 hookIsActive = true;
-
             }
         }
         if (!Input.GetButton("FireHook")) {
             hookIsActive = false;
+        }
+        //updates the hook position with the world velocity
+        if(hookIsActive) {
+            print(BuildingSpawner.worldVelocityX);
+            hookPoint -= new Vector3(-BuildingSpawner.worldVelocity.x, 0, 0) * Time.deltaTime;
         }
 
         //controls for shooting

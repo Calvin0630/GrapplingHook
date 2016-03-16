@@ -20,19 +20,7 @@ Platform assembly: C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_D
 Loading C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.268 seconds
+- Completed reload, in  0.210 seconds
 desktop: 1366x768 40Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-<RI> Initialized touch support.
-Platform assembly: C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\System.dll (this message is harmless)
-Platform assembly: C:\Users\calvi\Documents\GitHub\GrapplingHook\Builds\0.08.1_Data\Managed\System.Xml.dll (this message is harmless)
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 2b7c -> priority: 1 
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 5.584540 ms
-
-Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 386.
-Total: 0.756273 ms (FindLiveObjects: 0.037813 ms CreateObjectMapping: 0.036733 ms MarkObjects: 0.659578 ms  DeleteObjects: 0.020527 ms)
-

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 public class BuildingSpawner : MonoBehaviour {
     public static bool worldMovingIsEnabled = true;
     //gameover detection, and moving players
-    GameObject player1;
-    GameObject player2;
+    GameObject player;
     GameObject Building;
     GameObject floorPrefab;
     List<GameObject> floorObjects;
@@ -21,8 +21,7 @@ public class BuildingSpawner : MonoBehaviour {
     GameObject farthestPlayer;
     public static float worldVelocityX;
     public static float maxSpeed = 0;
-    Rigidbody player1RigidBody;
-    Rigidbody player2RigidBody;
+    Rigidbody playerRigidBody;
     Vector3 prevWorldVelocity;
     public static Vector3 worldVelocity;
     GameObject[] tmp;
@@ -42,10 +41,7 @@ public class BuildingSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        player1 = GameObject.Find("Player1");
-        player2 = GameObject.Find("Player2");
-        //ternary operator
-        numOfPlayers = (player2 == null) ? 1 : 2;
+        player = GameObject.Find("Player1");
         floorPrefab = (GameObject)Resources.Load("Prefab/Floor");
         Building = (GameObject)Resources.Load("Prefab/Building");
         FramePiece = (GameObject)Resources.Load("Prefab/GameOverDetector");
@@ -62,8 +58,7 @@ public class BuildingSpawner : MonoBehaviour {
         tmp = GameObject.FindGameObjectsWithTag("Building");
         for (int i = 0; i < tmp.Length; i++) BuildingObjects.Add(tmp[i]);
         if (BuildingObjects.Count > 0) BuildingObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
-        if (player1 != null) player1RigidBody = player1.GetComponent<Rigidbody>();
-        if (player2 != null) player2RigidBody = player2.GetComponent<Rigidbody>();
+        if (player != null) playerRigidBody = player.GetComponent<Rigidbody>();
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         cameraWidth = cameraSize.x;
         worldMovePointX = movingPointX * cameraWidth;
@@ -96,16 +91,14 @@ public class BuildingSpawner : MonoBehaviour {
             levelIndex++;
         }
         distance = (int)distanceTravelled;
+        //calculates maxSpeed for score
         if (worldVelocityX > maxSpeed) maxSpeed = worldVelocityX;
-        //Debug.Log(distanceField == null);
         distanceField.GetComponent<Text>().text = distance + " Metres Travelled";
-        if (numOfPlayers == 1) FindWorldVelocity1Player();
-        else if (numOfPlayers == 2) FindWorldVelocity2Player();
+        FindWorldVelocity();
         if (worldMovingIsEnabled) {
-            //moves player1
-            if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
-            //moves player2 
-            if (player2 != null && player2.transform.position.x > worldMovePointX) player2RigidBody.velocity = player2RigidBody.velocity + worldVelocity - prevWorldVelocity;
+            //moves player
+            playerRigidBody.velocity = playerRigidBody.velocity + worldVelocity - prevWorldVelocity;
+
             prevWorldVelocity = worldVelocity;
             MoveWorld();
         }
@@ -131,13 +124,6 @@ public class BuildingSpawner : MonoBehaviour {
         frameTemp.GetComponent<GameOverDetector>().isActive = GameOverDetection;
     }
 
-    GameObject FindFarthestPlayer2Player() {
-        if (player2 != null && player1.transform.position.x > player2.transform.position.x) {
-            return player1;
-        }
-        else return player2;
-    }
-
     void OnLevelWasLoaded(int level) {
         if (level == 2) {
             levelIndex = 0;
@@ -146,23 +132,9 @@ public class BuildingSpawner : MonoBehaviour {
     }
 
     //find world velocity
-    void FindWorldVelocity1Player() {
-        if (player1.transform.position.x > worldMovePointX && worldMovingIsEnabled) {
-            farthestPlayer = player1;
-            worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
-            worldVelocity = new Vector3(-worldVelocityX, 0, 0);
-            //Debug.Log (worldObjects.Length);
-        }
-        else {
-            worldVelocity = Vector3.zero;
-        }
-    }
-
-    void FindWorldVelocity2Player() {
-        if (player2 != null && (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX)) {
-            farthestPlayer = FindFarthestPlayer2Player();
-            worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
-            worldVelocity = new Vector3(-worldVelocityX, 0, 0);
+    void FindWorldVelocity() {
+        if ( worldMovingIsEnabled) {
+            worldVelocity = CalculateWorldVelocity(player.transform.position);
             //Debug.Log (worldObjects.Length);
         }
         else {
@@ -171,30 +143,53 @@ public class BuildingSpawner : MonoBehaviour {
     }
 
     //calculates world velocity given the farthest players position
-    float CalculateWorldVelocity(float position) {
-        return Mathf.Pow(2, .9f * (position + 2));
+    Vector3 CalculateWorldVelocity(Vector3 playerPos) {
+        Vector3 center = new Vector3(0,-5,0);
+        float distanceFromCenter = (center-playerPos).magnitude;
+        return (center-playerPos).normalized*Mathf.Pow(2,distanceFromCenter);
     }
 
     void MakeFloorObjects() {
+
+        //if there are no floor objects in scene
         if (floorObjects.Count == 0) {
+            //create floor objects in middle of scene
             GameObject clone = (GameObject)Instantiate(floorPrefab, new Vector3(0, -5, 0), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
             clone.transform.localScale = new Vector3(20, 2, 1);
             floorObjects.Add(clone);
         }
-        else if (floorObjects[floorObjects.Count - 1].transform.position.x < 3.89) {
-            //make new floor object w/ left edge @ right edge of camera 
+        //checks position of rightmost object
+        else if (floorObjects[floorObjects.Count - 1].transform.position.x < 4) {
+            //make new floor object @ right edge of camera 
             GameObject clone = (GameObject)Instantiate(floorPrefab, new Vector3(18.89f, -5, 0), Quaternion.identity);
             clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
             clone.transform.localScale = new Vector3(20, 2, 1);
+            //adds object to end of list
             floorObjects.Add(clone);
+        }
+
+        //checks position of leftmost object
+        else if (floorObjects[0].transform.position.x > -4) {
+            //make new floor object @ left edge of camera
+            GameObject clone = (GameObject)Instantiate(floorPrefab, new Vector3(-18.89f, -5, 0), Quaternion.identity);
+            clone.GetComponent<Rigidbody>().velocity = new Vector3(-worldVelocityX, 0, 0);
+            clone.transform.localScale = new Vector3(20, 2, 1);
+            //adds object to start of list
+            floorObjects.Insert(0, clone);
         }
     }
 
     void DeleteFloorObjects() {
-        if (floorObjects[0].transform.position.x < -40) {
+        //checks leftmost object
+        if (floorObjects[0].transform.position.x < -30) {
             Destroy(floorObjects[0]);
             floorObjects.RemoveAt(0);
+        }
+        //checks rightmost object
+        if (floorObjects[floorObjects.Count-1].transform.position.x > 30) {
+            Destroy(floorObjects[floorObjects.Count-1]);
+            floorObjects.RemoveAt(floorObjects.Count-1);
         }
     }
 

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HighScores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <HighScores />
+  <HighScores>
+    <ScoreElement name="Calvin" distanceTravelled="1269" timeSurvived="47" highSpeed="45" />
+    <ScoreElement name="ayyyyy" distanceTravelled="884" timeSurvived="31" highSpeed="47" />
+  </HighScores>
 </HighScores>

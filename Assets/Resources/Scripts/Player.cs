@@ -99,7 +99,6 @@ public class Player : MonoBehaviour {
         }
         //updates the hook position with the world velocity
         if(hookIsActive) {
-            print(BuildingSpawner.worldVelocityX);
             hookPoint -= new Vector3(-BuildingSpawner.worldVelocity.x, 0, 0) * Time.deltaTime;
         }
 

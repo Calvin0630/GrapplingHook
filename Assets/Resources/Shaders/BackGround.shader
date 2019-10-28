@@ -1,4 +1,6 @@
-﻿Shader "Custom/Base" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Base" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("Texture", 2D) = "white" {}
@@ -63,7 +65,7 @@ SubShader {
 	FS_INPUT VS_MAIN(appdata_base input) {
 		FS_INPUT output;
 
-		float4 clipVert = mul(UNITY_MATRIX_MVP, input.vertex);
+		float4 clipVert = UnityObjectToClipPos(input.vertex);
 
 		// Setting FS_MAIN input struct
 		output.pos = clipVert;

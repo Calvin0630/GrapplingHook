@@ -32,6 +32,9 @@ public class Button : MonoBehaviour {
     public void LoadOptions() {
         SceneManager.LoadScene("Options");
     }
+    public void LoadControls() {
+        SceneManager.LoadScene("Controls");
+    }
 
     public void Replay() {
         ObstacleSpawner.distanceTravelled = 0;

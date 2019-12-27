@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<HighScores xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <HighScores>
+    <ScoreElement name="Calvin" distanceTravelled="1705" timeSurvived="59" highSpeed="60" />
+    <ScoreElement name="bush_did_911" distanceTravelled="1492" timeSurvived="53" highSpeed="51" />
+    <ScoreElement name="Jordan" distanceTravelled="1254" timeSurvived="87" highSpeed="27" />
+    <ScoreElement name="ss" distanceTravelled="777" timeSurvived="53" highSpeed="33" />
+    <ScoreElement name="zzz" distanceTravelled="428" timeSurvived="10" highSpeed="31" />
+    <ScoreElement name="UwU" distanceTravelled="298" timeSurvived="20" highSpeed="31" />
+    <ScoreElement name="" distanceTravelled="246" timeSurvived="10" highSpeed="37" />
+    <ScoreElement name="" distanceTravelled="60" timeSurvived="8" highSpeed="18" />
+    <ScoreElement name="esfa" distanceTravelled="37" timeSurvived="4" highSpeed="23" />
+  </HighScores>
+</HighScores>

@@ -22,7 +22,13 @@ public class ScoreManager : MonoBehaviour {
     void Awake() {
         highScorePath = System.IO.Path.Combine(Application.dataPath, "HighScores.xml");
         if (!File.Exists(ScoreManager.highScorePath)) {
-            using (StreamWriter file = new StreamWriter(File.Create(ScoreManager.highScorePath))) ;
+            using (StreamWriter file = new StreamWriter(File.Create(ScoreManager.highScorePath))) {
+                Debug.Log("making new XML file.");
+                string fileContents = "<?xml version = \"1.0\" ?>\n<HighScores xmlns:xsd = \"http://www.w3.org/2001/XMLSchema\" xmlns:xsi = \"http://www.w3.org/2001/XMLSchema-instance\">\n\t<HighScores>\n\t\t<ScoreElement name=\"bush_did_911\" distanceTravelled=\"420\" timeSurvived=\"69\" highSpeed=\"42\"/>\n\t</HighScores>\n</HighScores>";
+                //string fileContents = "<? xml version = \"1.0\" ?>\n< HighScores xmlns:xsd = \"http://www.w3.org/2001/XMLSchema\" xmlns: xsi = \"http://www.w3.org/2001/XMLSchema-instance\" >\n\n</ HighScores >";
+                file.Write(fileContents);
+                //File.AppendAllText(highScorePath, fileContents);
+            }
         }
         highScores = new HighScores();
         Read();
@@ -30,7 +36,6 @@ public class ScoreManager : MonoBehaviour {
         spawner = GameObject.FindWithTag("Spawn");
         gameIsOver = false;
         gameOverPanelPrefab = (GameObject)Resources.Load("Prefab/UI/GameOverPanel");
-        print(gameOverPanelPrefab == null);
         Write();
     }
 

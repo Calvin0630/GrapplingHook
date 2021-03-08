@@ -68,7 +68,7 @@ public class ObstacleSpawner : MonoBehaviour {
         cameraSize = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         cameraWidth = cameraSize.x;
         worldMovePointX = movingPointX * cameraWidth;
-        MakeFrame(GameOverDetection);
+        MakeFrame();
         distanceField = GameObject.FindWithTag("DistanceText");
         //for debugging
         levelIndex = 0;
@@ -119,19 +119,17 @@ public class ObstacleSpawner : MonoBehaviour {
     }
 
     //makes the GameOver frame
-    void MakeFrame(bool GameOverDetection) {
+    //jesus christ learn how to explain ur code
+    //The 
+    void MakeFrame() {
         frameTemp = (GameObject)Instantiate(FramePiece, new Vector3(0, 2 * cameraSize.y, 0), Quaternion.identity);
         frameTemp.transform.localScale = new Vector3(4 * cameraSize.x, 2, 2);
-        frameTemp.GetComponent<GameOverDetector>().isActive = GameOverDetection;
         frameTemp = (GameObject)Instantiate(FramePiece, new Vector3(0, -2 * cameraSize.y, 0), Quaternion.identity);
         frameTemp.transform.localScale = new Vector3(4 * cameraSize.x, 2, 2);
-        frameTemp.GetComponent<GameOverDetector>().isActive = GameOverDetection;
         frameTemp = (GameObject)Instantiate(FramePiece, new Vector3(2 * cameraSize.x, 0, 0), Quaternion.identity);
         frameTemp.transform.localScale = new Vector3(2, 4 * cameraSize.y + 2, 2);
-        frameTemp.GetComponent<GameOverDetector>().isActive = GameOverDetection;
         frameTemp = (GameObject)Instantiate(FramePiece, new Vector3(-2 * cameraSize.x, 0, 0), Quaternion.identity);
         frameTemp.transform.localScale = new Vector3(2, 4 * cameraSize.y + 2, 2);
-        frameTemp.GetComponent<GameOverDetector>().isActive = GameOverDetection;
     }
 
     GameObject FindFarthestPlayer2Player() {

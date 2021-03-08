@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <HighScores xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <HighScores>
-    <ScoreElement name="bush_did_911" distanceTravelled="420" timeSurvived="69" highSpeed="42" />
-    <ScoreElement name="UwU" distanceTravelled="158" timeSurvived="8" highSpeed="37" />
+    <ScoreElement name="eee" distanceTravelled="1224" timeSurvived="56" highSpeed="37" />
   </HighScores>
 </HighScores>

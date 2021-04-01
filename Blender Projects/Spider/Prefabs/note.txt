@@ -1,0 +1,1 @@
+I made this folder to put sub parts of the spider. ie leg segments in fbx format

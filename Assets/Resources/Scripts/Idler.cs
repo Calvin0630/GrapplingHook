@@ -47,7 +47,7 @@ public class Idler : Enemy {
 
     }
 
-    void OnCollisionEnter(Collision other) {
+    new void OnCollisionEnter(Collision other) {
         //applies damage
         base.OnCollisionEnter(other);
         //convoluted code because unity doesnt know how children colliders work

@@ -25,7 +25,6 @@ public class ObstacleSpawner : MonoBehaviour {
     Rigidbody player2RigidBody;
     Vector3 prevWorldVelocity;
     public static Vector3 worldVelocity;
-    GameObject[] tmp;
     public bool GameOverDetection;
     GameObject FramePiece;
     GameObject frameTemp;
@@ -56,6 +55,7 @@ public class ObstacleSpawner : MonoBehaviour {
         roofObjects = new List<GameObject>();
         obstacleObjects = new List<GameObject>();
         //finds roof objects in scene, and adds them to the array
+        GameObject[] tmp;
         tmp = GameObject.FindGameObjectsWithTag("Wall");
         for (int i = 0; i < tmp.Length; i++) roofObjects.Add(tmp[i]);
         if (roofObjects.Count > 0) roofObjects.Sort((p1, p2) => p1.transform.position.x.CompareTo(p2.transform.position.x));
@@ -100,10 +100,9 @@ public class ObstacleSpawner : MonoBehaviour {
         }
         distance = (int)distanceTravelled;
         if (worldVelocityX > maxSpeed) maxSpeed = worldVelocityX;
-        //Debug.Log(distanceField == null);
+        //Debug.Log(maxSpeed);
         distanceField.GetComponent<Text>().text = distance + " Metres Travelled";
-        if (numOfPlayers == 1) FindWorldVelocity1Player();
-        else if (numOfPlayers == 2) FindWorldVelocity2Player();
+        FindWorldVelocity1Player();
         if (worldMovingIsEnabled) {
             //moves player1
             if (player1.transform.position.x > worldMovePointX) player1RigidBody.velocity = player1RigidBody.velocity + worldVelocity - prevWorldVelocity;
@@ -120,7 +119,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     //makes the GameOver frame
     //jesus christ learn how to explain ur code
-    //The 
+    //The gameover frame is a rectangle of colliders outside the screen that detect gameovers
     void MakeFrame() {
         frameTemp = (GameObject)Instantiate(FramePiece, new Vector3(0, 2 * cameraSize.y, 0), Quaternion.identity);
         frameTemp.transform.localScale = new Vector3(4 * cameraSize.x, 2, 2);
@@ -159,17 +158,7 @@ public class ObstacleSpawner : MonoBehaviour {
         }
     }
 
-    void FindWorldVelocity2Player() {
-        if (player2 != null && (player1.transform.position.x > worldMovePointX || player2.transform.position.x > worldMovePointX)) {
-            farthestPlayer = FindFarthestPlayer2Player();
-            worldVelocityX = CalculateWorldVelocity(farthestPlayer.transform.position.x);
-            worldVelocity = new Vector3(-worldVelocityX, 0, 0);
-            //Debug.Log (worldObjects.Length);
-        }
-        else {
-            worldVelocity = Vector3.zero;
-        }
-    }
+
 
     //calculates world velocity given the farthest players position
     float CalculateWorldVelocity(float position) {

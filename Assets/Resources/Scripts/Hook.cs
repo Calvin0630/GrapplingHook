@@ -12,8 +12,15 @@ public class Hook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         if (gameObject.transform.parent != null) {
-            rBody.velocity = gameObject.transform.parent.gameObject.GetComponent<Rigidbody>().velocity;
+            Rigidbody otherRigidbody = gameObject.transform.parent.gameObject.GetComponent<Rigidbody>();
+            if (otherRigidbody==null) {
+                //rBody.velocity = Vector3.zero;
+            }
+            else {
+                //rBody.velocity = otherRigidbody.velocity;
+            }
             hooked = true;
         }
         else {
